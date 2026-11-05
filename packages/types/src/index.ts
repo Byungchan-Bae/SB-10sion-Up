@@ -173,6 +173,11 @@ export type MapPin = {
   photo: [number, number, number, number];
   /** 이름표 [left, top, w, h] */
   label: [number, number, number, number];
+  /**
+   * 잠긴 장소의 회색 이름표 [left, top, w, h] (Figma 프레임 5, 136:2806).
+   * 지도 그림에 크림색 이름표가 그려져 있어서, 잠겼을 땐 그 이름표(번진 테두리 포함)를 사방 2px 여유로 다 덮게 크게 그린다. 없으면 label
+   */
+  lockedLabel?: [number, number, number, number];
   /** 이름 글자 [left, top, w], 글자 크기 */
   text: [number, number, number];
   fontSize: number;

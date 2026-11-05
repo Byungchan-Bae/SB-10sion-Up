@@ -81,11 +81,19 @@
 .pinLocked .name {
   color: #5c5c5c;
 }
+/* Figma 프레임 5: 잠긴 사진은 어두운 회색으로 거의 덮고 자물쇠만 또렷하게 */
 .pinLocked .photo img:first-child {
   filter: grayscale(1) brightness(0.62);
 }
+.pinLocked .photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(96 96 96 / 0.72);
+}
 .photo .lock {
   position: absolute;
+  z-index: 1;
   left: 50%;
   top: 50%;
   width: 24px;
