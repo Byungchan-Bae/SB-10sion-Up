@@ -1,11 +1,11 @@
-import { neon } from "@neondatabase/serverless";
+import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 import type { ApiError, EpisodeProgress, ProgressResponse, SyncProgressRequest } from "@sb/types";
 import { getEpisode, type Episode } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
 
 /** 문제 2 한 줄 기록 최대 길이 (화면과 같음) */
 const MAX_NOTE = 30;
 
-type Sql = ReturnType<typeof neon>;
+type Sql = NeonQueryFunction<false, false>;
 type Row = Record<string, unknown>;
 
 function error(status: number, message: string) {
