@@ -1,13 +1,5 @@
 // 프론트(apps/web/src)와 백엔드(apps/web/api)가 함께 쓰는 타입
 
-export interface Participant {
-  id: string;
-  name: string;
-  team: string;
-  role: string;
-  interests: string[];
-}
-
 export interface HealthResponse {
   ok: boolean;
   time: string;
@@ -127,3 +119,130 @@ export interface RankingResponse {
   /** 내 순위. 상위 목록 밖이어도 들어 있고, 완주 전이거나 등록 전이면 null */
   me: RankingEntry | null;
 }
+
+// ---- 에피소드 데이터 (apps/web/src/data/episodes.ts, GET /api/episodes) ----
+
+/** [left, top, width, height] — Stage(390 × 844) 좌표 */
+export type Rect = [number, number, number, number];
+
+/**
+ * 장소 문제 2개 (Figma 문제 7 · 문제 8 프레임).
+ * 1번은 객관식, 2번은 그 장소에서 느낀 분위기를 한 줄로 적는 서술형.
+ */
+export type Quiz = {
+  /** Q1 질문 (줄바꿈은 \n) */
+  question: string;
+  options: string[];
+  // 정답은 여기에 두지 않는다 → apps/web/server/answers.ts (서버 /api/quiz에서 확인)
+  /** 연두색 힌트 카드 글 — 화면에는 글자가 들어간 그림(hint-<장소 id>.png)을 쓰고, 이 글은 대체 텍스트 */
+  hint: string;
+  /** 힌트 그림 자리 */
+  hintImage: Rect;
+  /** 힌트 카드 옆 마스코트 [left, top] */
+  mascot: [number, number];
+  /** Q2 질문 (줄바꿈은 \n) */
+  reflection: string;
+};
+
+/** 단서 발견 화면 (Figma 136:4524 · 4538 · 4553 · 4568) */
+export type Clue = {
+  /** 편지 조각에 적힌 단서 글자 */
+  word: string;
+  /** 편지 조각 그림 (clue-<장소 id>.png) 자리 */
+  image: Rect;
+  /** "<foundAt>에서 단서를 찾았어요!" */
+  foundAt: string;
+  /** foundAt 위 작은 글씨 (긴 장소 이름) */
+  subLabel?: string;
+  /** 원형 장소 사진(pinPhoto) 자리 */
+  thumb: Rect;
+};
+
+/**
+ * 탐험 지도 위 장소 핀. Figma 프레임 8(136:2839)의 Component 11/13/15/17 값.
+ * x, y는 지도 이미지(390 × 677) 기준 %, 나머지는 핀 안쪽 px.
+ */
+export type MapPin = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  /** 사진 뒤 크림색 원 [w, h] */
+  ring: [number, number];
+  /** 원형 사진 [left, top, w, h] */
+  photo: [number, number, number, number];
+  /** 이름표 [left, top, w, h] */
+  label: [number, number, number, number];
+  /** 이름 글자 [left, top, w], 글자 크기 */
+  text: [number, number, number];
+  fontSize: number;
+};
+
+export type Place = {
+  id: string;
+  /** 지도/인증 화면 이름 */
+  name: string;
+  /** 지도 핀 이름 (줄바꿈은 \n) */
+  pinLabel: string;
+  address: string;
+  /** 도착 인증용 좌표 */
+  lat: number;
+  lng: number;
+  /** 도착으로 인정하는 반경(m) */
+  radius: number;
+  /** 인증 · 역사 화면 위쪽 사진 (354 × 194) */
+  photo: string;
+  /** 지도 핀 원형 사진 */
+  pinPhoto: string;
+  pin: MapPin;
+  /** "첫번째", "두번째" … (버튼 "첫번째 단서 찾기") */
+  ordinal: string;
+  story: {
+    /** 줄바꿈은 \n */
+    title: string;
+    body: string;
+    /** 마스코트 말풍선 */
+    tip: string;
+  };
+  quiz: Quiz;
+  clue: Clue;
+};
+
+export type Episode = {
+  id: string;
+  /** "EP.01" */
+  badge: string;
+  title: string;
+  /** 홈 카드 말풍선 (줄바꿈은 \n) */
+  teaser: string;
+  /** 홈 카드 이미지 (public/assets/) */
+  cardImage: string;
+  /** 상세 화면 위쪽 사진 */
+  photo: string;
+  /** 상세 화면 사진 위 마스코트 */
+  mascots: string;
+  /** 상세 화면 인용문. {{ }} 안은 주황 강조 (줄바꿈은 \n) */
+  hook: string;
+  /** 상세 화면 설명. {{ }} 안은 주황 강조 */
+  summary: string;
+  /** 시작하기 다음의 "의문의 편지" 화면 */
+  intro: {
+    title: string;
+    lead: string;
+    body: string;
+    mission: string;
+  };
+  /** 단서를 다 모으면 나오는 "밝혀진 비밀" (Figma 136:4582). {{ }} 안은 주황 강조 */
+  secret: {
+    lead: string;
+    headline: string;
+    body: string;
+    closing: string;
+  };
+  /** 에피소드를 끝내면 받는 포인트 (수집 완료 136:4504) */
+  points: number;
+  startPlace: string;
+  distance: string;
+  duration: string;
+  places: Place[];
+};
