@@ -79,4 +79,4 @@
 - 밝혀진 비밀 문구의 Figma 오타 "미해의", "메세지"는 "미래의", "메시지"로 고침. 편지 속 손글씨 문장은 그림이라 alt로만 넣음.
 - 포인트는 완료 때 서버 `episode_progress.points`에 저장됨 (에피소드당 100점 고정).
 - 로컬 테스트 시 닉네임 초기화: 브라우저 콘솔에서 `localStorage.clear()`. 사용자 token도 같이 지워져서 닉네임을 다시 등록하면 새 사용자로 시작함 (서버의 이전 기록은 남아 있음).
-- `feat/progress-api`는 이 개발 환경에서 npm에 접속이 안 돼 `pnpm build`를 못 돌림 (바뀐 파일만 타입체크 통과). 머지 전에 로컬에서 `pnpm build` 확인 필요.
+- `feat/progress-api`는 `pnpm build` 통과 확인함. 실제 DB 저장은 아직 확인 안 함 (머지 전에 Vercel 미리보기에서 확인 필요).

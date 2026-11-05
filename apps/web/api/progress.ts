@@ -4,6 +4,7 @@ import { getEpisode, type Episode } from "../src/data/episodes.js"; // Node ESM�
 
 /** 문제 2 한 줄 기록 최대 길이 (화면과 같음) */
 const MAX_NOTE = 30;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 type Sql = NeonQueryFunction<false, false>;
 type Row = Record<string, unknown>;
@@ -21,13 +22,10 @@ async function sha256(text: string) {
 /** 닉네임 등록 때 받은 token이 이 userId의 것인지 확인 */
 async function isUser(sql: Sql, userId: unknown, request: Request) {
   const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
-  if (typeof userId !== "string" || !token) return false;
-  try {
-    const rows = (await sql`SELECT id FROM users WHERE id = ${userId}::uuid AND token_hash = ${await sha256(token)}`) as Row[];
-    return rows.length > 0;
-  } catch {
-    return false; // uuid 형식이 아닌 경우 등
-  }
+  if (typeof userId !== "string" || !UUID.test(userId) || !token) return false;
+  // DB 오류는 여기서 삼키지 않는다. 401로 바꾸면 장애가 "닉네임 미등록"처럼 보인다.
+  const rows = (await sql`SELECT id FROM users WHERE id = ${userId}::uuid AND token_hash = ${await sha256(token)}`) as Row[];
+  return rows.length > 0;
 }
 
 // 테이블이 없으면 만든다 (마이그레이션 도구를 붙이기 전까지 임시)
