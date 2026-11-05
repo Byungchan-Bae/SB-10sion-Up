@@ -51,7 +51,13 @@ export function Stage({
   };
 
   return (
-    <div ref={ref} className={styles.root} style={rootStyle}>
+    <div
+      ref={ref}
+      className={styles.root}
+      style={rootStyle}
+      // MobileFrame이 PC에서 앱 폭을 무대 폭에 맞출 때 쓰는 표시 (MobileFrame.module.css)
+      data-stage={scrollHeight ? "scroll" : footer ? "tab" : "full"}
+    >
       <div
         className={styles.stage}
         style={{

@@ -17,4 +17,17 @@
 
 @media (min-width: 431px) {
   .frame { box-shadow: 0 0 40px rgb(0 0 0 / 0.08); }
+
+  /*
+   * PC에서 창 높이가 짧으면 Stage(390 × 844)는 높이에 맞춰 줄어드는데 앱 틀은 430px 그대로라
+   * 배경과 탭바만 내용보다 넓어 보였다. 앱 틀 폭을 줄어든 무대 폭에 맞춘다.
+   * 휴대폰(430px 이하)은 그대로 두어 배경이 화면 전체를 덮게 한다.
+   */
+  .frame:has(> [data-stage="full"]) {
+    max-width: min(var(--app-max-width), calc(100dvh * 390 / 844));
+  }
+  /* 탭바 화면: 무대는 위쪽 390 × 764, 탭바 80px */
+  .frame:has(> [data-stage="tab"]) {
+    max-width: min(var(--app-max-width), calc((100dvh - 80px) * 390 / 764));
+  }
 }
