@@ -161,15 +161,16 @@ export const EPISODES: Episode[] = [
     distance: "약 3.2km",
     duration: "1시간 30분",
     // 순서: 성북동 A 인문산책 코스 (https://www.sb.go.kr/tour/contents.do?key=6582)
-    // TODO: lat/lng는 대략값. 카카오맵/네이버지도에서 확인해서 고칠 것 (시연은 ?demo=1로 위치 확인 생략)
+    // 좌표 출처 (2026-11-05 확인): 길상사 · 수연산방은 OpenStreetMap, 심우장 · 수도회 구 본원은 한국어 위키백과 문화유산 좌표.
+    // 시연은 ?demo=1로 위치 확인 생략
     places: [
       {
         id: "gilsangsa",
         name: "길상사",
         pinLabel: "길상사",
         address: "서울 성북구 선잠로5길 68", // Figma 시안은 "성북로 131"
-        lat: 37.5992,
-        lng: 126.9944,
+        lat: 37.59888,
+        lng: 126.99389,
         radius: ARRIVAL_RADIUS,
         photo: "place-gilsangsa.jpg",
         pinPhoto: "pin-gilsangsa.png",
@@ -199,9 +200,10 @@ export const EPISODES: Episode[] = [
         id: "martyrs",
         name: "한국순교복자성직수도회 구 본원",
         pinLabel: "한국순교복자성직\n수도회 구 본원",
-        address: "서울 성북구 성북동", // TODO: 정확한 주소 확인
-        lat: 37.5946,
-        lng: 126.9958,
+        // 도로명 번지는 공개 자료에서 못 찾음. 일반 공개 안 하는 곳이라 성북로 "동방대학원대학교" 정류장 근처로 안내
+        address: "서울 성북구 성북로 (성북동)",
+        lat: 37.59417,
+        lng: 126.99306,
         radius: ARRIVAL_RADIUS,
         photo: "place-martyrs.jpg",
         pinPhoto: "pin-martyrs.png",
@@ -236,9 +238,9 @@ export const EPISODES: Episode[] = [
         id: "suyeonsanbang",
         name: "이태준가옥(수연산방)",
         pinLabel: "이태준 가옥\n(수연산방)",
-        address: "서울 성북구 성북동", // TODO: 정확한 주소 확인
-        lat: 37.5951,
-        lng: 126.9968,
+        address: "서울 성북구 성북로26길 8",
+        lat: 37.59498,
+        lng: 126.99497,
         radius: ARRIVAL_RADIUS,
         photo: "place-suyeonsanbang.jpg",
         pinPhoto: "pin-suyeonsanbang.png",
@@ -273,9 +275,9 @@ export const EPISODES: Episode[] = [
         id: "simujang",
         name: "심우장",
         pinLabel: "심우장",
-        address: "서울 성북구 성북동", // TODO: 정확한 주소 확인
-        lat: 37.5973,
-        lng: 127.0013,
+        address: "서울 성북구 성북로29길 24",
+        lat: 37.59361,
+        lng: 126.99167,
         radius: ARRIVAL_RADIUS,
         photo: "place-simujang.jpg",
         pinPhoto: "pin-simujang.png",
