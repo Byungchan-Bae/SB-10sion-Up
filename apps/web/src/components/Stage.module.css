@@ -14,6 +14,45 @@
   transform-origin: 50% 100%;
 }
 
+/* ---- 탭 화면 (footer 있음): 본문은 화면 폭에 맞추고 세로 스크롤, 탭바는 아래 고정 ---- */
+.root[data-stage="tab"] {
+  height: 100dvh; /* 주소창 · 툴바를 뺀 실제 보이는 높이. 스크롤은 안쪽 .scroller에서 */
+}
+.scroller {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  /* PC · 일부 안드로이드의 스크롤바가 폭을 차지해 무대 오른쪽을 가리지 않게 숨긴다 (터치 스크롤은 그대로) */
+  scrollbar-width: none;
+}
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+.page {
+  position: relative;
+  flex: none;
+  margin-top: auto; /* 화면이 길면 무대를 탭바 바로 위로 */
+}
+.tabSpacer {
+  flex: none;
+}
+
+/* 하단 안전 영역(아이폰 홈 인디케이터) 높이를 Stage.tsx가 재는 용도. 화면에는 안 보임 */
+.safeProbe {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: env(safe-area-inset-bottom, 0px);
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* 무대 안 공통: Figma 좌표로 배치 */
 .stage > * {
   position: absolute;
