@@ -1,3 +1,4 @@
+/* Figma 136:2302 스플래시 (390 × 844) */
 .splash {
   position: relative;
   flex: 1;
@@ -8,31 +9,27 @@
   padding: 0;
   cursor: pointer;
   text-align: center;
-  /* 하늘 + 한옥 골목 + 남산타워 일러스트. 파일이 없으면 그라데이션만 보임 */
-  background:
-    url("/assets/splash-bg.png") center bottom / cover no-repeat,
-    linear-gradient(180deg, #8ec9f2 0%, #bfe2f7 45%, #f3e3c8 75%, #e8cfa6 100%);
+  background: #fcfcfc url("/assets/splash-bg.jpg") center top / cover no-repeat;
 }
 
 .logo {
-  width: 240px;
-  height: 180px;
-  margin-top: clamp(80px, 17dvh, 150px);
+  width: 272px;
+  height: 220px;
+  margin-top: clamp(64px, 12.5dvh, 106px);
 }
 
 .tagline {
-  margin: 20px 0 0;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: -0.3px;
-  color: var(--color-title);
+  margin: -5px 0 0; /* Figma: 로고 하단 326 → 문구 321 */
+  font-size: 20px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-black);
 }
 
 .mascots {
   position: absolute;
-  left: 28px;
-  bottom: calc(16px + env(safe-area-inset-bottom));
-  width: 260px;
-  height: 200px;
+  left: calc(50% - 149px); /* Figma left 46 */
+  bottom: calc(clamp(12px, 4.3dvh, 36px) + env(safe-area-inset-bottom));
+  width: 290px;
+  height: 283px;
 }

@@ -1,60 +1,75 @@
+/* Figma 136:2349 닉네임 (390 × 844) */
 .page {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: clamp(64px, 12dvh, 104px) 36px calc(clamp(24px, 7dvh, 56px) + env(safe-area-inset-bottom));
+  padding: clamp(48px, 9.8dvh, 83px) 37px calc(clamp(20px, 6.8dvh, 57px) + env(safe-area-inset-bottom));
   text-align: center;
-  /* 크림 배경 + 한옥 일러스트. 파일이 없으면 그라데이션만 보임 */
-  background:
-    url("/assets/nickname-bg.png") center bottom / cover no-repeat,
-    linear-gradient(180deg, #fdf3e4 0%, #fbe7cb 55%, #f5dcb8 100%);
+  /* 따뜻한 한옥 정원 풍경: top 267부터 화면 끝까지 */
+  background: var(--color-cream) url("/assets/nickname-bg.jpg") center bottom / 100% auto no-repeat;
 }
 
+/* 로고 + 마스코트 369 × 241 */
 .logo {
-  width: 300px;
-  height: 170px;
+  width: 369px;
+  max-width: calc(100% + 64px); /* 좌우 여백(37px)보다 넓게 */
+  height: 241px;
+  flex-shrink: 0;
 }
 
 .tagline {
-  margin: 22px 0 0;
-  font-size: 20px;
+  margin: 0;
+  font-size: 24px;
   font-weight: 800;
-  line-height: 1.45;
-  letter-spacing: -0.4px;
-  color: var(--color-title);
+  line-height: normal;
+  color: var(--color-brown);
 }
 
 .spacer {
   flex: 1;
-  min-height: 120px;
+  min-height: 48px;
+}
+
+/* 라벨 ~ 입력창 간격 17 */
+.field {
+  width: 100%;
+  max-width: var(--button-width);
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
 }
 
 .label {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  color: var(--color-title);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-black);
 }
 
 .input {
   width: 100%;
-  height: 52px;
-  margin-top: 14px;
-  padding: 0 16px;
-  border: 1px solid var(--color-border);
+  padding: 12px 12px 12px 16px;
+  border: 1px solid var(--color-gray-lightest);
   border-radius: var(--radius-input);
   background: #fff;
-  font-size: 16px; /* 16px 미만이면 iOS가 확대함 */
+  box-shadow: var(--shadow-input);
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-black);
   outline: none;
 }
 .input:focus {
   border-color: var(--color-primary);
 }
 .input::placeholder {
-  color: #9b8b7c;
+  color: var(--color-placeholder);
 }
 
+/* 입력창 하단 → 버튼 top 726 */
 .submit {
-  margin-top: 20px;
+  margin-top: 19px;
 }

@@ -32,19 +32,21 @@ export default function Nickname() {
 
         <div className={styles.spacer} />
 
-        <label htmlFor="nickname" className={styles.label}>
-          닉네임을 입력해주세요
-        </label>
-        <input
-          id="nickname"
-          className={styles.input}
-          value={name}
-          onChange={(e) => setName(e.target.value.slice(0, MAX_LENGTH))}
-          placeholder="홍길동"
-          autoComplete="nickname"
-          enterKeyHint="done"
-          maxLength={MAX_LENGTH}
-        />
+        <div className={styles.field}>
+          <label htmlFor="nickname" className={styles.label}>
+            닉네임을 입력해주세요
+          </label>
+          <input
+            id="nickname"
+            className={styles.input}
+            value={name}
+            onChange={(e) => setName(e.target.value.slice(0, MAX_LENGTH))}
+            placeholder="홍길동"
+            autoComplete="nickname"
+            enterKeyHint="done"
+            maxLength={MAX_LENGTH}
+          />
+        </div>
         <PrimaryButton type="submit" disabled={!valid} className={styles.submit}>
           시작하기
         </PrimaryButton>

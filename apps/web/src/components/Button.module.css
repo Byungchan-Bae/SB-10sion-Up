@@ -1,25 +1,30 @@
+/* Figma "버튼" 컴포넌트: 316 × 61, padding 16 20, radius 15, 23px ExtraBold */
 .button {
   width: 100%;
-  height: var(--button-height);
+  max-width: var(--button-width);
+  padding: 16px 20px;
   border-radius: var(--radius-button);
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
+  font-family: var(--font-sans);
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 29px; /* Figma 버튼 높이 61 = 16 + 29 + 16 */
   cursor: pointer;
   transition: transform 0.08s ease, background-color 0.15s ease;
 }
-.button:active:not(:disabled) { transform: translateY(1px); }
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
 
 .primary {
   border: none;
   background: var(--color-primary);
   color: #fff;
-  box-shadow: var(--shadow-button);
 }
-.primary:active:not(:disabled) { background: var(--color-primary-pressed); }
+.primary:active:not(:disabled) {
+  background: var(--color-primary-pressed);
+}
 .primary:disabled {
   background: var(--color-primary-disabled);
-  box-shadow: none;
   cursor: default;
 }
 

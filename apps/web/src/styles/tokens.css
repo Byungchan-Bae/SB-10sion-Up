@@ -1,33 +1,38 @@
-/* 디자인 토큰: docs/design 이미지에서 추출한 값. Figma 실제 값을 알면 여기만 바꾸면 된다. */
+/*
+ * 디자인 토큰: Figma "SB 해커톤" 파일(최종 섹션)의 실제 값.
+ * 화면 기준 390 × 844.
+ */
 :root {
-  --color-primary: #f9a23b;
-  --color-primary-pressed: #e88d22;
-  --color-primary-disabled: #f6cf9f;
-  --color-primary-soft: #fff1dc;
-  --color-green-soft: #e9f7ea;
-  --color-blue-soft: #e8f3fc;
+  /* 색 (Figma 스타일 이름 주석) */
+  --color-primary: #ffa23e; /* 기본-모드/오렌지 · 버튼 */
+  --color-primary-pressed: #f08f26;
+  --color-primary-disabled: #ffd3a3;
+  --color-main: #fd6f03; /* 메인 · 큰 제목 */
+  --color-brown: #692c00; /* 692C00 · 부제, 설명 */
+  --color-black: #181818; /* 기본-모드/블랙 */
+  --color-gray-lightest: #f6f6f6; /* 기본-모드/가장-옅은-그레이 */
+  --color-placeholder: #a9a9a9;
+
+  --color-soft-orange: #fef4e2;
+  --color-soft-green: #e2feec;
+  --color-soft-blue: #e2f6fe;
+  --color-card-border: #f8ead6;
+  --color-cream: #fdefde; /* 닉네임 화면 배경 */
 
   --color-bg: #ffffff;
-  --color-cream: #fff8ee;
-  --color-paper: #f6e6c8;
-  --color-sepia: #e9c99a;
   --color-outside: #efe7da; /* PC에서 앱 바깥 배경 */
 
-  --color-title: #5a3412;
-  --color-text: #3b2a1a;
-  --color-text-sub: #8a7360;
-  --color-border: #ecdcc6;
+  /* 모양 */
+  --radius-button: 15px;
+  --radius-input: 15px;
+  --radius-card: 20px;
+  --radius-box: 10px;
+  --shadow-input: 0 4px 5.35px rgb(185 185 185 / 0.28);
 
-  --radius-button: 12px;
-  --radius-card: 16px;
-  --radius-input: 12px;
-
-  --shadow-card: 0 4px 16px rgb(90 52 18 / 0.1);
-  --shadow-button: 0 3px 0 rgb(214 120 20 / 0.25);
-
-  --gutter: 24px;
-  --button-height: 56px;
+  /* 크기 */
   --app-max-width: 430px;
+  --button-width: 316px;
 
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  /* 글꼴: 나눔휴먼 (Regular 400 / ExtraBold 800 / Heavy 900) */
+  --font-sans: "NanumHuman", "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }

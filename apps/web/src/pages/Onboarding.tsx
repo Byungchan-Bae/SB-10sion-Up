@@ -41,6 +41,7 @@ export default function Onboarding() {
 
   return (
     <MobileFrame>
+      <Asset name="onboarding-bottom.png" alt="" className={styles.landscape} fit="cover" />
       <Asset name="leaves-corner.png" alt="" className={styles.leaves} />
 
       <div
@@ -62,7 +63,7 @@ export default function Onboarding() {
             <section key={s.title} className={styles.slide} aria-hidden={i !== index}>
               <h1 className={styles.title}>{s.title}</h1>
               <p className={styles.subtitle}>{s.subtitle}</p>
-              <Asset name={s.image} alt={`${s.title} 성북 트레저를 즐기는 모습`} className={styles.photo} fit="cover" />
+              <Asset name={s.image} alt={`${s.title} 성북 트레저를 즐기는 모습`} className={styles.photo} />
               <div className={styles.dots} aria-hidden="true">
                 {SLIDES.map((_, d) => (
                   <span key={d} className={d === i ? styles.dotActive : styles.dot} />

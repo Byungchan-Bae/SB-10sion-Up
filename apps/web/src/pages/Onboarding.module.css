@@ -1,14 +1,28 @@
+/* Figma 136:2309 / 136:2319 / 136:2333 온보딩 (390 × 844) */
+
+/* 아래쪽 구름 + 한옥 풍경 (390 × 439, top 405) — 카드, 설명 뒤에 깔림 */
+.landscape {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 439px;
+  pointer-events: none;
+}
+
+/* 왼쪽 위 나뭇가지 (217 × 118) */
 .leaves {
   position: absolute;
   top: 0;
   left: 0;
-  width: 220px;
-  height: 130px;
+  width: 217px;
+  height: 118px;
   z-index: 2;
   pointer-events: none;
 }
 
 .viewport {
+  position: relative;
   flex: 1;
   display: flex;
   overflow: hidden;
@@ -27,49 +41,48 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: clamp(96px, 16dvh, 136px) 28px 0;
+  padding: clamp(84px, 14.3dvh, 121px) 21px 0;
   text-align: center;
 }
 
 .title {
   margin: 0;
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: var(--color-primary);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 38px;
+  color: var(--color-main);
 }
 
 .subtitle {
-  margin: 14px 0 0;
+  margin: 24px 0 0;
   white-space: pre-line;
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: -0.3px;
-  color: var(--color-title);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 26px;
+  color: var(--color-brown);
 }
 
+/* 사진 카드 337 × 211 (테두리, 둥근 모서리 포함 이미지) */
 .photo {
-  width: 100%;
-  max-width: 340px;
-  aspect-ratio: 340 / 214;
+  width: 337px;
+  max-width: 100%;
   height: auto;
-  margin-top: 20px;
-  border-radius: 14px;
-  box-shadow: var(--shadow-card);
+  aspect-ratio: 337 / 211;
+  margin-top: 16px;
 }
 
+/* 페이지 점: 22.5 × 5 */
 .dots {
   display: flex;
-  gap: 4px;
-  margin-top: 34px;
+  gap: 3.8px;
+  margin-top: 28px;
 }
 .dot,
 .dotActive {
-  width: 5px;
-  height: 5px;
+  width: 4.94px;
+  height: 4.94px;
   border-radius: 50%;
-  background: #d9d2c8;
+  background: #d9d9d9;
 }
 .dotActive {
   background: var(--color-primary);
@@ -78,33 +91,39 @@
 .spacer {
   flex: 1;
   min-height: 16px;
+  max-height: 74px;
 }
 
+/* 설명 박스 348 × 72, radius 10, 17px ExtraBold */
 .description {
-  width: 100%;
+  width: 348px;
+  max-width: 100%;
+  height: 72px;
   margin: 0;
-  padding: 16px 12px;
-  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-box);
   white-space: pre-line;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.55;
-  letter-spacing: -0.3px;
-  color: var(--color-title);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-brown);
 }
 .orange {
-  background: var(--color-primary-soft);
+  background: var(--color-soft-orange);
 }
 .green {
-  background: var(--color-green-soft);
+  background: var(--color-soft-green);
 }
 .blue {
-  background: var(--color-blue-soft);
+  background: var(--color-soft-blue);
 }
 
-/* 하단: 한옥 담장 + 풀 장식 위에 버튼 */
+/* 버튼: top 725, 화면 아래에서 58px */
 .bottom {
   position: relative;
-  padding: 40px 36px calc(clamp(24px, 7dvh, 60px) + env(safe-area-inset-bottom));
-  background: url("/assets/onboarding-bottom.png") center bottom / 100% auto no-repeat;
+  display: flex;
+  justify-content: center;
+  padding: 24px 37px calc(clamp(20px, 6.9dvh, 58px) + env(safe-area-inset-bottom));
 }
