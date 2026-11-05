@@ -5,8 +5,9 @@ import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
-import { distanceMeters, formatDistance, getCurrentPosition, type PositionError } from "../lib/geo";
-import { getProgress, isPlaceOpen, markVerified } from "../lib/progress";
+import { formatDistance, getCurrentPosition, type PositionError } from "../lib/geo";
+import { checkIn } from "../lib/api";
+import { applyServerProgress, getProgress, isPlaceOpen } from "../lib/progress";
 import { PlaceHero, PLACE_BACKGROUND } from "./PlaceHero";
 import styles from "./PlaceCheckIn.module.css";
 
@@ -30,29 +31,34 @@ export default function PlaceCheckIn() {
   const { episode, place, index } = found;
   if (!isPlaceOpen(episode, index, getProgress(episode.id))) return <Navigate to="/map" replace />;
 
-  const pass = () => {
-    markVerified(episode.id, place.id);
-    navigate(`/place/${place.id}/story${search.get("demo") === "1" ? "?demo=1" : ""}`, { replace: true });
-  };
+  const demo = search.get("demo") === "1";
 
   const verify = async () => {
     setError(null);
     setChecking(true);
-    // 개발 · 시연용: ?demo=1 이면 위치 확인 생략
-    if (search.get("demo") === "1") {
-      setTimeout(pass, 900);
-      return;
-    }
-    try {
-      const pos = await getCurrentPosition();
-      const d = distanceMeters(pos.coords.latitude, pos.coords.longitude, place.lat, place.lng);
-      if (d <= place.radius) {
-        pass();
+    // 1) 현재 위치 받기 — 개발 · 시연용 ?demo=1 이면 생략
+    let where: { lat: number; lng: number } | "demo" = "demo";
+    if (!demo) {
+      try {
+        const pos = await getCurrentPosition();
+        where = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      } catch (e) {
+        setError(ERROR_TEXT[e as PositionError] ?? ERROR_TEXT.unavailable);
+        setChecking(false);
         return;
       }
-      setError(`${place.name}까지 ${formatDistance(d)} 남았어요. ${place.radius}m 안으로 와주세요!`);
+    }
+    // 2) 서버가 거리를 계산하고 반경 안이면 인증을 기록한다
+    try {
+      const res = await checkIn(place.id, where);
+      applyServerProgress(res.episodeId, res.progress);
+      if (res.ok) {
+        navigate(`/place/${place.id}/story${demo ? "?demo=1" : ""}`, { replace: true });
+        return;
+      }
+      setError(`${place.name}까지 ${formatDistance(res.distance ?? 0)} 남았어요. ${res.radius}m 안으로 와주세요!`);
     } catch (e) {
-      setError(ERROR_TEXT[e as PositionError] ?? ERROR_TEXT.unavailable);
+      setError(e instanceof Error ? e.message : "인증하지 못했어요. 다시 시도해주세요");
     }
     setChecking(false);
   };

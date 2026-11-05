@@ -1,10 +1,12 @@
 // 에피소드 진행 상태.
-// 화면은 이 기기(localStorage)에 바로 저장된 값을 쓰고, 뒤에서 서버(/api/progress)와 맞춘다.
-// 현장은 통신이 약할 수 있어서 서버 저장이 실패해도 화면은 멈추지 않고, 다음 변경이나 재접속 때 다시 보낸다.
+// 화면은 이 기기(localStorage)에 저장된 값을 바로 쓰고, 서버(DB)와 맞춘다.
+//  - 장소 인증 · 단서 · 한 줄 기록: 서버(/api/checkin, /api/quiz)가 확인하고 기록한 결과만 받아 온다 (applyServerProgress)
+//  - 완료: 기기에 먼저 남기고 뒤에서 /api/complete로 보낸다. 실패하면 다음 변경이나 온라인 복귀 때 다시 보냄
+//  - 시작 시각: 지도 타이머용으로 기기에만 남긴다. 서버는 첫 인증 때 자기 시각을 기록한다
 import { useSyncExternalStore } from "react";
 import type { EpisodeProgress } from "@sb/types";
-import type { Episode } from "../data/episodes";
-import { syncProgress } from "./api";
+import { getEpisode, type Episode } from "../data/episodes";
+import { completeOnServer, fetchProgress } from "./api";
 import { getUser } from "./storage";
 
 export type { EpisodeProgress };
@@ -49,20 +51,15 @@ function update(episodeId: string, fn: (p: EpisodeProgress) => EpisodeProgress) 
   write({ ...state, [episodeId]: fn(state[episodeId] ?? EMPTY) }, episodeId);
 }
 
-const addUnique = (list: string[], id: string) => (list.includes(id) ? list : [...list, id]);
-
 export const startEpisode = (episodeId: string) =>
   update(episodeId, (p) => (p.startedAt ? p : { ...p, startedAt: Date.now() }));
 
-export const markVerified = (episodeId: string, placeId: string) =>
-  update(episodeId, (p) => ({ ...p, startedAt: p.startedAt ?? Date.now(), verified: addUnique(p.verified, placeId) }));
-
-export const markClueFound = (episodeId: string, placeId: string) =>
-  update(episodeId, (p) => ({ ...p, clues: addUnique(p.clues, placeId) }));
-
-/** 문제 2의 한 줄 기록을 저장하고 단서를 찾은 것으로 처리 */
-export const completeQuiz = (episodeId: string, placeId: string, note: string) =>
-  update(episodeId, (p) => ({ ...p, clues: addUnique(p.clues, placeId), notes: { ...p.notes, [placeId]: note } }));
+/** 서버(/api/checkin, /api/quiz)가 돌려준 진행 상태를 이 기기에 반영한다 */
+export function applyServerProgress(episodeId: string, server: EpisodeProgress) {
+  fresh.add(episodeId);
+  const state = read();
+  write({ ...state, [episodeId]: merge(state[episodeId] ?? EMPTY, server) });
+}
 
 /** 단서를 모두 모았는지 */
 export const hasAllClues = (episode: Episode, progress: EpisodeProgress) =>
@@ -90,15 +87,19 @@ export function useProgress(episodeId: string): EpisodeProgress {
 
 // ---- 서버와 맞추기 ----
 
-/** 두 기록을 합친다. 한 번 한 일은 지워지지 않고, 시작은 더 이른 쪽 */
-function merge(local: EpisodeProgress, server: EpisodeProgress): EpisodeProgress {
+/**
+ * 서버 응답을 이 기기 기록과 합친다. 시작은 더 이른 쪽, 완료는 서버 값이 있으면 서버 값.
+ * replace면 인증 · 단서 · 기록을 서버 것으로 바꾼다 (처음 열 때: 서버 확인 전에 기기에만 남은 옛 기록 정리).
+ * 아니면 합집합 — 응답이 늦게 도착해도 방금 반영한 인증이 사라지지 않게.
+ */
+function merge(local: EpisodeProgress, server: EpisodeProgress, replace = false): EpisodeProgress {
   const union = (a: string[], b: string[]) => [...a, ...b.filter((id) => !a.includes(id))];
   const starts = [local.startedAt, server.startedAt].filter((t): t is number => t !== undefined);
   return {
     startedAt: starts.length ? Math.min(...starts) : undefined,
-    verified: union(local.verified, server.verified),
-    clues: union(local.clues, server.clues),
-    notes: { ...server.notes, ...local.notes },
+    verified: replace ? server.verified : union(server.verified, local.verified),
+    clues: replace ? server.clues : union(server.clues, local.clues),
+    notes: replace ? { ...server.notes } : { ...local.notes, ...server.notes },
     completedAt: server.completedAt ?? local.completedAt,
     points: server.points ?? local.points,
   };
@@ -106,6 +107,9 @@ function merge(local: EpisodeProgress, server: EpisodeProgress): EpisodeProgress
 
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
 const pulled = new Set<string>();
+
+/** 서버에서 한 번이라도 받아 온 에피소드 */
+const fresh = new Set<string>();
 
 /** 변경을 잠깐 모았다가 한 번에 보낸다 */
 function scheduleSync(episodeId: string, delay = 300) {
@@ -117,16 +121,23 @@ function scheduleSync(episodeId: string, delay = 300) {
 async function syncNow(episodeId: string) {
   timers.delete(episodeId);
   try {
-    const res = await syncProgress(episodeId, getProgress(episodeId));
+    let { progress: server } = await fetchProgress(episodeId);
+    // 기기에서 끝냈는데 서버에 아직 없으면 완료를 보낸다 (단서가 서버에 다 있을 때만 받아 준다)
+    const episode = getEpisode(episodeId);
+    if (read()[episodeId]?.completedAt && !server.completedAt && episode && hasAllClues(episode, server)) {
+      ({ progress: server } = await completeOnServer(episodeId));
+    }
     const state = read();
-    // 보내는 사이에 바뀐 것도 살리도록 지금 값과 합친다 (다시 보내지는 않음)
-    write({ ...state, [episodeId]: merge(state[episodeId] ?? EMPTY, res.progress) });
+    const first = !fresh.has(episodeId);
+    fresh.add(episodeId);
+    // 다시 보내지는 않음 (write에 episodeId를 안 넘김)
+    write({ ...state, [episodeId]: merge(state[episodeId] ?? EMPTY, server, first) });
   } catch {
     /* 오프라인 등 — 다음 변경이나 온라인 복귀 때 다시 보냄 */
   }
 }
 
-/** 처음 화면에 띄울 때 한 번: 기존 기록을 올리고 다른 기기에서 한 것도 받아온다 */
+/** 처음 화면에 띄울 때 한 번: 서버 기록을 받아 오고, 기기에서 끝낸 완료가 남아 있으면 올린다 */
 function pullOnce(episodeId: string) {
   if (pulled.has(episodeId)) return;
   pulled.add(episodeId);

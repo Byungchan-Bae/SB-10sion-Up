@@ -1,6 +1,6 @@
-import { neon } from "@neondatabase/serverless";
-import type { ApiError, RankingEntry, RankingResponse } from "@sb/types";
+import type { RankingEntry, RankingResponse } from "@sb/types";
 import { getEpisode } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
+import { connect, ensureProgressTables, error, sha256 } from "../server/db.js";
 
 /** 목록에 보여 주는 인원 */
 const TOP = 50;
@@ -9,22 +9,12 @@ const MIN_TRUSTED_SECONDS = 60;
 /** Postgres: 테이블이 없음 */
 const UNDEFINED_TABLE = "42P01";
 
-function error(status: number, message: string) {
-  const body: ApiError = { error: message };
-  return Response.json(body, { status });
-}
-
-async function sha256(text: string) {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("");
-}
-
 // GET /api/ranking?episodeId=&userId=  (내 순위도 받으려면 헤더 Authorization: Bearer <token>)
-// 순서: 포인트 많은 순 → 소요 시간 짧은 순 → 먼저 끝낸 순.
+// 순서: 포인트 많은 순 → 소요 시간 짧은 순 → 먼저 끝낸 순. 시연 모드(demo_users)를 쓴 사용자는 뺀다.
 // 소요 시간은 서버가 기록한 시각(첫 인증 ~ 마지막 단서)으로 계산한다. 기기가 보낸 시각은 쓰지 않는다.
 export async function GET(request: Request): Promise<Response> {
-  const url = process.env.DATABASE_URL;
-  if (!url) return error(500, "DATABASE_URL이 설정되지 않았어요");
+  const sql = connect();
+  if (!sql) return error(500, "DATABASE_URL이 설정되지 않았어요");
   const params = new URL(request.url).searchParams;
   const episode = getEpisode(params.get("episodeId") ?? undefined);
   if (!episode) return error(404, "에피소드를 찾을 수 없어요");
@@ -33,9 +23,9 @@ export async function GET(request: Request): Promise<Response> {
   const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
   const tokenHash = token ? await sha256(token) : "";
 
-  const sql = neon(url);
   let rows: Record<string, unknown>[];
   try {
+    await ensureProgressTables(sql);
     rows = await sql`WITH timing AS (
         SELECT user_id, EXTRACT(EPOCH FROM MAX(clue_at) - MIN(verified_at)) AS seconds
         FROM place_progress
@@ -55,12 +45,13 @@ export async function GET(request: Request): Promise<Response> {
         JOIN users u ON u.id = e.user_id
         LEFT JOIN timing t ON t.user_id = e.user_id
         WHERE e.episode_id = ${episode.id} AND e.completed_at IS NOT NULL AND e.points IS NOT NULL
+          AND NOT EXISTS (SELECT 1 FROM demo_users d WHERE d.user_id = e.user_id)
       )
       SELECT nickname, points, seconds, is_me, rank, total FROM ranked
       WHERE rank <= ${TOP} OR is_me
       ORDER BY rank`;
   } catch (err) {
-    // 아직 아무도 진행 상태를 저장하지 않아 테이블이 없는 경우
+    // 아직 아무도 닉네임을 등록하지 않아 users 테이블이 없는 경우
     if ((err as { code?: string }).code !== UNDEFINED_TABLE) throw err;
     rows = [];
   }
