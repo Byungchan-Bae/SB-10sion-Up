@@ -1,7 +1,6 @@
 // API(apps/web/api/*.ts)들이 함께 쓰는 DB 코드. api/ 밖에 있어서 Vercel 함수(주소)로는 안 열린다.
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
-import type { ApiError, EpisodeProgress } from "@sb/types";
-import type { Episode } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
+import type { ApiError, Episode, EpisodeProgress } from "@sb/types";
 
 export type Sql = NeonQueryFunction<false, false>;
 export type Row = Record<string, unknown>;

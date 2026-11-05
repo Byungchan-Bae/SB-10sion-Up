@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { Place } from "../data/episodes";
+import type { Place } from "@sb/types";
 import styles from "./PlaceHero.module.css";
 
 /** 무대 밖(화면이 더 길 때) 배경: 위는 하늘색, 아래는 크림색 */

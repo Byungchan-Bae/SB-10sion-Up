@@ -4,8 +4,8 @@
 //  - 완료: 기기에 먼저 남기고 뒤에서 /api/complete로 보낸다. 실패하면 다음 변경이나 온라인 복귀 때 다시 보냄
 //  - 시작 시각: 지도 타이머용으로 기기에만 남긴다. 서버는 첫 인증 때 자기 시각을 기록한다
 import { useSyncExternalStore } from "react";
-import type { EpisodeProgress } from "@sb/types";
-import { getEpisode, type Episode } from "../data/episodes";
+import type { Episode, EpisodeProgress } from "@sb/types";
+import { getEpisode } from "../data/episodes";
 import { completeOnServer, fetchProgress } from "./api";
 import { getUser } from "./storage";
 

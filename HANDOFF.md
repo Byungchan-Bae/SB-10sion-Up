@@ -4,7 +4,7 @@
 
 ## 현재 작업
 
-- 브랜치: `feat/server-verify` (위치 인증 · 문제 1 정답 · 완료를 서버에서 확인)
+- 브랜치: `chore/shared-types` (공용 타입 정리, `/api/episodes`, 템플릿 삭제)
 - 작업자: Byungchan-Bae, 양원우 + Claude Code
 - 마지막 갱신: 2026-11-05
 
@@ -19,7 +19,7 @@
 - 색상, 글꼴, 버튼 크기를 Figma 실제 값으로 교체 (`tokens.css`)
 - 2단계: 홈(`/home`), 에피소드 상세(`/episode/ep01`), 의문의 편지(`/episode/ep01/intro`), 하단 탭바(홈/지도/수집물/랭킹)
 - 홈 카드 가로 넘김 (`design/home-carousel`): 카드를 스와이프하면 한 장씩 멈추고 페이지 점이 따라감(점 눌러도 이동). EP.02 · EP.03은 `data/episodes.ts`의 `COMING_SOON_EPISODES`로 "공개 예정" 카드 + 버튼 비활성. 카드 테두리는 `home-card-frame-single.png`
-- 에피소드 타입과 데이터 확정: `apps/web/src/data/episodes.ts` (Episode, Place, Quiz, Clue)
+- 에피소드 데이터: `apps/web/src/data/episodes.ts`, 타입(Episode, Place, Quiz, Clue 등): `packages/types/src/index.ts`. `GET /api/episodes`로도 받을 수 있음 (정답 없음. 화면은 아직 episodes.ts를 바로 씀)
 - `Stage` 컴포넌트: Figma 390 × 844 좌표를 그대로 absolute로 쓰고 화면 크기에 맞게 확대/축소. 탭 화면은 `<Stage footer={<TabBar />}>`
 - 3단계: 탐험 지도(`/map`, `/episode/ep01/map`), 장소 도착 인증(`/place/:id`), 역사 내용(`/place/:id/story`)
 - 진행 상태: `apps/web/src/lib/progress.ts` (localStorage `sb-treasure:progress`: 시작 시각, 인증한 장소, 찾은 단서). 앞 장소 단서를 찾아야 다음 장소가 열림

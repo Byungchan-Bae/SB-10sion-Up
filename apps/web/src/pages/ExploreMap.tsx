@@ -4,7 +4,8 @@ import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
 import { BackButton } from "../components/BackButton";
-import { EPISODES, getEpisode, type Place } from "../data/episodes";
+import type { Place } from "@sb/types";
+import { EPISODES, getEpisode } from "../data/episodes";
 import { isPlaceOpen, useProgress } from "../lib/progress";
 import styles from "./ExploreMap.module.css";
 
