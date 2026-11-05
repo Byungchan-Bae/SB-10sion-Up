@@ -1,0 +1,38 @@
+/* 테스트 · 시연용 진행 초기화. Figma 프레임 없음, 수집물 탭과 같은 색 · 글꼴 */
+.page {
+  flex: 1;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 37px;
+  box-sizing: border-box;
+  background: var(--color-detail-bg);
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--color-brown);
+}
+
+.desc {
+  margin: 0 0 14px;
+  white-space: pre-line;
+  word-break: keep-all;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--color-brown);
+}
+
+.error {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #d6342c;
+}

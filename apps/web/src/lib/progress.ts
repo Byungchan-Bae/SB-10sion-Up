@@ -6,7 +6,7 @@
 import { useSyncExternalStore } from "react";
 import type { Episode, EpisodeProgress } from "@sb/types";
 import { getEpisode } from "../data/episodes";
-import { completeOnServer, fetchProgress } from "./api";
+import { completeOnServer, deleteProgress, fetchProgress } from "./api";
 import { getUser, PROGRESS_KEY as KEY } from "./storage";
 
 export type { EpisodeProgress };
@@ -69,6 +69,14 @@ export const hasAllClues = (episode: Episode, progress: EpisodeProgress) =>
 /** "밝혀진 비밀"에서 완료를 누르면 끝낸 시각을 남긴다 (처음 한 번만) */
 export const completeEpisode = (episodeId: string) =>
   update(episodeId, (p) => (p.completedAt ? p : { ...p, completedAt: Date.now() }));
+
+/** 테스트 · 시연용: 서버와 이 기기의 진행 기록을 지운다. 서버에서 실패하면 기기 기록도 그대로 둔다 */
+export async function resetEpisode(episodeId: string) {
+  if (getUser()) await deleteProgress(episodeId);
+  const next = { ...read() };
+  delete next[episodeId];
+  write(next);
+}
 
 /** 첫 장소는 항상 열림. 그 다음은 바로 앞 장소의 단서를 찾아야 열린다. */
 export function isPlaceOpen(episode: Episode, index: number, progress: EpisodeProgress) {
