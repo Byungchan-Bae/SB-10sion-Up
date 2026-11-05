@@ -16,35 +16,49 @@ export const TAB_BAR_H = 80;
 export function Stage({
   background,
   footer,
+  scrollHeight,
   children,
 }: {
   background?: string;
   footer?: ReactNode;
+  /** 한 화면보다 긴 페이지: 무대 높이(px). 폭에만 맞춰 키우고 세로로 스크롤 */
+  scrollHeight?: number;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const reserved = footer ? TAB_BAR_H : 0;
-  const height = STAGE_H - reserved;
+  const height = scrollHeight ?? STAGE_H - reserved;
 
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
     const update = () =>
-      setScale(Math.min(el.clientWidth / STAGE_W, (el.clientHeight - reserved) / height));
+      setScale(
+        scrollHeight
+          ? el.clientWidth / STAGE_W
+          : Math.min(el.clientWidth / STAGE_W, (el.clientHeight - reserved) / height),
+      );
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [reserved, height]);
+  }, [reserved, height, scrollHeight]);
 
-  const rootStyle: CSSProperties | undefined = background ? { background } : undefined;
+  const rootStyle: CSSProperties = {
+    ...(background ? { background } : {}),
+    ...(scrollHeight ? { height: Math.ceil(height * scale), flex: "none" } : {}),
+  };
 
   return (
     <div ref={ref} className={styles.root} style={rootStyle}>
       <div
         className={styles.stage}
-        style={{ height, bottom: reserved, transform: `translateX(-50%) scale(${scale})` }}
+        style={{
+          height,
+          ...(scrollHeight ? { top: 0, transformOrigin: "50% 0" } : { bottom: reserved }),
+          transform: `translateX(-50%) scale(${scale})`,
+        }}
       >
         {children}
       </div>

@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="114.097" height="47.7015" viewBox="0 0 114.097 47.7015" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Component 3">
+<g id="Polygon 1">
+<path d="M6.293 40.0928L12.8901 23.5397L23.7898 36.7182L6.293 40.0928Z" fill="#FDFBF7"/>
+<mask id="stroke0_0_146" fill="white">
+<path d="M6.293 40.0928L12.8901 23.5397L23.7898 36.7182L6.293 40.0928Z"/>
+</mask>
+<path d="M6.293 40.0928L12.8901 23.5397L23.7898 36.7182L6.293 40.0928Z" stroke-width="2.19418" stroke="#F8EAD6" mask="url(#stroke0_0_146)"/>
+</g>
+<path id="Rectangle 11" d="M29.3472 0.548544H92.4298C104.094 0.548544 113.549 10.0038 113.549 21.6675C113.549 33.3312 104.094 42.7865 92.4298 42.7865H29.3472C17.6835 42.7865 8.22826 33.3312 8.22826 21.6675C8.22826 10.0038 17.6835 0.548544 29.3472 0.548544Z" fill="#FDFBF7" stroke-width="1.09709" stroke="#F8EAD6"/>
+</g>
+</svg>

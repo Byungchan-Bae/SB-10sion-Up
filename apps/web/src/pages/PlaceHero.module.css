@@ -1,0 +1,88 @@
+/* Figma 136:3108 위쪽 — 390 × 844 Stage 좌표 */
+
+/* 한옥 정원 풍경 (136:3109) 중 보이는 위쪽 390 × 345 */
+.bg {
+  left: 0;
+  top: 0;
+  width: 390px;
+  height: 345px;
+}
+
+.cream {
+  left: -3px;
+  top: 345px;
+  width: 393px;
+  height: 499px;
+  background: var(--color-detail-bg);
+}
+
+.header {
+  left: 136px;
+  top: 63px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* 사진 카드 354 × 194, radius 30 */
+.photoCard {
+  left: 20px;
+  top: 134px;
+  width: 354px;
+  height: 194px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #fff;
+}
+.photoCard img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mascots {
+  left: 206px;
+  top: 291px;
+  width: 169px;
+  height: 125px;
+  pointer-events: none;
+}
+
+/* 장소 이름 38px + 주소, 간격 19 */
+.titleBlock {
+  left: 22px;
+  top: 360px;
+  width: 336px;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+.name,
+.nameLong {
+  margin: 0;
+  max-width: 190px; /* 마스코트와 겹치지 않게 */
+  font-size: 38px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-brown);
+}
+/* 긴 이름(한국순교복자성직수도회 구 본원)은 줄여서 두 줄 */
+.nameLong {
+  max-width: 200px;
+  white-space: pre-line;
+  font-size: 22px;
+  margin-bottom: -6px;
+}
+.address {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-brown);
+}

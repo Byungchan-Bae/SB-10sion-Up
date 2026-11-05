@@ -1,0 +1,156 @@
+/* Figma 136:2839 탐험 지도 — 390 × 844 Stage 좌표 */
+
+.header {
+  left: 155px;
+  top: 63px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* 지도 390 × 677 (top 106). 아래쪽은 탭바 밑으로 들어감 */
+.map {
+  left: 0;
+  top: 106px;
+  width: 390px;
+  height: 677px;
+}
+.map > * {
+  position: absolute;
+}
+.mapImage {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- 장소 핀 (Component 11/13/15/17) ---- */
+.pin,
+.pinLocked {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pin > *,
+.pinLocked > * {
+  position: absolute;
+}
+.ring {
+  border-radius: 50%;
+  background: #fdf4db;
+}
+.label {
+  border-radius: 20px;
+  background: #fdf4db;
+}
+.photo {
+  overflow: hidden;
+  border-radius: 50%;
+}
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.name {
+  white-space: pre-line;
+  text-align: center;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* 잠긴 장소: 회색 사진 + 자물쇠, 회색 이름표 */
+.pinLocked .ring {
+  background: #e4e4e4;
+}
+.pinLocked .label {
+  background: #dedede;
+}
+.pinLocked .name {
+  color: #5c5c5c;
+}
+.pinLocked .photo img:first-child {
+  filter: grayscale(1) brightness(0.62);
+}
+.photo .lock {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 24px;
+  height: 28px;
+  transform: translate(-50%, -50%);
+}
+
+/* ---- 진행 카드 300 × 52 (41, 106) ---- */
+.status {
+  left: 41px;
+  top: 0;
+  width: 290px;
+  height: 52px;
+  border: 3px solid var(--color-tag-border);
+  border-radius: 20px;
+  background: var(--color-detail-bg);
+  backdrop-filter: blur(16.15px);
+}
+.status > * {
+  position: absolute;
+}
+.thumb {
+  left: 6px;
+  top: 4px;
+  width: 63px;
+  height: 37px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.ep {
+  left: 79px;
+  top: 14px;
+  width: 50px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: var(--color-main);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  color: #fefefe;
+}
+.title,
+.timer {
+  top: 13px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: normal;
+  white-space: nowrap;
+}
+.title {
+  left: 139px;
+  color: var(--color-brown);
+}
+.timer {
+  left: 214px;
+  color: var(--color-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.toast {
+  left: 30px;
+  top: 690px;
+  width: 330px;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgb(54 32 12 / 0.85);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  z-index: 5;
+}

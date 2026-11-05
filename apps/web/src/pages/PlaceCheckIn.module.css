@@ -1,0 +1,75 @@
+/* Figma 136:3108 장소 도착 인증 아래쪽 — 390 × 844 Stage 좌표 */
+
+.box {
+  left: 35px;
+  top: 483px;
+  width: 331px;
+  height: 204px;
+  border: 3px solid var(--color-tag-border);
+  border-radius: 20px;
+  background: #fdf6e9;
+}
+
+.guide,
+.error {
+  left: 35px;
+  top: 505px;
+  width: 331px;
+  margin: 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-brown);
+}
+.error {
+  top: 498px;
+  padding: 0 16px;
+  font-size: 13px;
+  color: var(--color-main);
+}
+
+.steps {
+  left: 84px;
+  top: 524px;
+  width: 239px;
+  height: 71px;
+}
+
+.cta {
+  left: 60px;
+  top: 607px;
+  width: 270px;
+}
+/* Figma 인증 중: #d7d7d7 */
+.cta:disabled {
+  background: #d7d7d7;
+}
+
+.mascots {
+  left: 22px;
+  top: 687px;
+  width: 131px;
+  height: 141px;
+  pointer-events: none;
+}
+
+/* 말풍선 210 × 89 */
+.bubble {
+  left: 133px;
+  top: 707px;
+  width: 210px;
+  height: 89px;
+}
+.bubbleText {
+  left: 159px;
+  top: 730px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-brown);
+}
+.em {
+  color: var(--color-main);
+}

@@ -6,6 +6,10 @@ import Home from "./pages/Home";
 import EpisodeDetail from "./pages/EpisodeDetail";
 import EpisodeIntro from "./pages/EpisodeIntro";
 import TabPlaceholder from "./pages/TabPlaceholder";
+import ExploreMap from "./pages/ExploreMap";
+import PlaceCheckIn from "./pages/PlaceCheckIn";
+import PlaceStory from "./pages/PlaceStory";
+import QuizPlaceholder from "./pages/QuizPlaceholder";
 
 export default function App() {
   return (
@@ -16,7 +20,11 @@ export default function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/episode/:episodeId" element={<EpisodeDetail />} />
       <Route path="/episode/:episodeId/intro" element={<EpisodeIntro />} />
-      <Route path="/map" element={<TabPlaceholder title="탐험 지도" />} />
+      <Route path="/episode/:episodeId/map" element={<ExploreMap />} />
+      <Route path="/map" element={<ExploreMap />} />
+      <Route path="/place/:placeId" element={<PlaceCheckIn />} />
+      <Route path="/place/:placeId/story" element={<PlaceStory />} />
+      <Route path="/place/:placeId/quiz" element={<QuizPlaceholder />} />
       <Route path="/collection" element={<TabPlaceholder title="수집물" />} />
       <Route path="/ranking" element={<TabPlaceholder title="랭킹" />} />
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -9,7 +9,6 @@
 .stage {
   position: absolute;
   left: 50%;
-  bottom: 0;
   width: 390px;
   height: 844px; /* footer가 있으면 764 (Stage.tsx에서 지정) */
   transform-origin: 50% 100%;
