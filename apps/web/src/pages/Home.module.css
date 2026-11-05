@@ -16,11 +16,11 @@
   color: var(--fill);
 }
 
-/* "진행 가능한 에피소드" 35px Jalnan, 가운데 x 127, top 124 */
+/* "진행 가능한 에피소드" 35px Jalnan, 가운데 x 127. Figma top 124 → 마스코트와 간격을 위해 16px 올림 */
 .heading {
   --stroke: 8px;
   left: -31px;
-  top: 124px;
+  top: 108px;
   width: 316px;
   margin: 0;
   white-space: pre-line;
@@ -32,19 +32,54 @@
   --fill: var(--color-dark-brown);
 }
 
-/* 카드 뒤 종이 테두리 + 오른쪽 다음 카드 */
+/* 가로로 넘기는 카드 영역: 마스코트 머리(y 189)부터 카드 테두리 아래(y 626)까지 */
+.carousel {
+  left: 0;
+  top: 189px;
+  width: 390px;
+  height: 437px;
+  display: flex;
+  gap: 11px;
+  /* 카드 326을 가운데(390 - 326) / 2 = 32에 두고 양옆 카드가 살짝 보이게 */
+  padding: 0 32px;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* 카드 한 장 (좌표는 카드 왼쪽 위 = 무대 y 189 기준) */
+.slide {
+  position: relative;
+  flex: none;
+  width: 326px;
+  height: 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+.slide > * {
+  position: absolute;
+}
+
+/* 카드 뒤 종이 테두리 (무대 x 12, y 239.86) */
 .frame {
-  left: -16px;
-  top: 239.86px;
-  width: 411px;
+  left: -2px;
+  top: 50.86px;
+  width: 331px;
   height: 387.2px;
   pointer-events: none;
 }
 
-/* 카드 326 × 357, radius 30 */
+/* 카드 326 × 357, radius 30 (무대 x 14, y 255) */
 .card {
-  left: 14px;
-  top: 255px;
+  left: 0;
+  top: 66px;
   width: 326px;
   height: 357px;
   border-radius: 30px;
@@ -136,16 +171,62 @@
   transform: scaleX(-1);
 }
 
-/* 카드 위에 얹힌 마스코트 */
+/* 카드 위에 얹힌 마스코트 (무대 x 189, y 189.32) — 1번 카드와 같이 넘어감 */
 .mascots {
-  left: 189px;
-  top: 189.32px;
+  left: 175px;
+  top: 0.32px;
   width: 132px;
   height: 82.35px;
   pointer-events: none;
 }
 
-/* 페이지 점 22.49 × 4.94 */
+/* ===== 공개 예정 카드 ===== */
+.locked {
+  cursor: default;
+}
+.locked .cardArt {
+  filter: grayscale(1) blur(3px);
+  transform: scale(1.06);
+}
+.lockedDim {
+  inset: 0;
+  background: rgb(60 40 20 / 0.45);
+}
+.badgeLocked {
+  background: #d9d9d9;
+  color: #8a8a8a;
+}
+.lockedBox {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  color: #fff;
+}
+.lockIcon {
+  width: 44px;
+  height: 44px;
+}
+.lockedTitle {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+.lockedText {
+  white-space: pre-line;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* 페이지 점 22.49 × 4.94 (점을 누르면 그 카드로 이동) */
 .dots {
   left: 177px;
   top: 626px;
@@ -156,8 +237,12 @@
 .dotActive {
   width: 4.94px;
   height: 4.94px;
+  padding: 0;
+  border: none;
   border-radius: 50%;
   background: #d9d9d9;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 .dotActive {
   background: var(--color-primary);

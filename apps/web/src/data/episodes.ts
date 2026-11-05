@@ -318,3 +318,16 @@ export function findPlace(placeId: string | undefined): { episode: Episode; plac
   }
   return undefined;
 }
+
+/** 홈 카드에 "공개 예정"으로만 보여주는 다음 에피소드 (아직 내용 없음) */
+export type ComingSoonEpisode = {
+  /** "EP.02" */
+  badge: string;
+  /** 카드 안내 문구 (줄바꿈은 \n) */
+  message: string;
+};
+
+export const COMING_SOON_EPISODES: ComingSoonEpisode[] = [
+  { badge: "EP.02", message: "새로운 이야기가\n곧 찾아와요!" },
+  { badge: "EP.03", message: "새로운 이야기가\n곧 찾아와요!" },
+];
