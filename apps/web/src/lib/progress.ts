@@ -13,6 +13,8 @@ export type EpisodeProgress = {
   clues: string[];
   /** 문제 2에서 장소별로 적은 한 줄 기록 */
   notes?: Record<string, string>;
+  /** 에피소드를 끝낸 시각 (ms) — 수집 완료 화면의 소요 시간 */
+  completedAt?: number;
 };
 
 type State = Record<string, EpisodeProgress>;
@@ -65,6 +67,14 @@ export const markClueFound = (episodeId: string, placeId: string) =>
 /** 문제 2의 한 줄 기록을 저장하고 단서를 찾은 것으로 처리 */
 export const completeQuiz = (episodeId: string, placeId: string, note: string) =>
   update(episodeId, (p) => ({ ...p, clues: addUnique(p.clues, placeId), notes: { ...p.notes, [placeId]: note } }));
+
+/** 단서를 모두 모았는지 */
+export const hasAllClues = (episode: Episode, progress: EpisodeProgress) =>
+  episode.places.every((p) => progress.clues.includes(p.id));
+
+/** "밝혀진 비밀"에서 완료를 누르면 끝낸 시각을 남긴다 (처음 한 번만) */
+export const completeEpisode = (episodeId: string) =>
+  update(episodeId, (p) => (p.completedAt ? p : { ...p, completedAt: Date.now() }));
 
 /** 첫 장소는 항상 열림. 그 다음은 바로 앞 장소의 단서를 찾아야 열린다. */
 export function isPlaceOpen(episode: Episode, index: number, progress: EpisodeProgress) {

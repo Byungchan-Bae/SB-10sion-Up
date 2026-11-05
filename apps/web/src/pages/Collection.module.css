@@ -169,3 +169,33 @@
   line-height: 1.4;
   color: var(--color-brown);
 }
+.tipLink {
+  border: none;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+}
+.tipLink:active {
+  transform: translateY(1px);
+}
+.arrow {
+  margin-left: auto;
+  font-size: 26px;
+  font-weight: 800;
+  color: #fd6f03;
+}
+.tipLink {
+  border: none;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+}
+.tipLink:active {
+  transform: translateY(1px);
+}
+.arrow {
+  margin-left: auto;
+  font-size: 26px;
+  font-weight: 800;
+  color: #fd6f03;
+}

@@ -117,6 +117,15 @@ export type Episode = {
     body: string;
     mission: string;
   };
+  /** 단서를 다 모으면 나오는 "밝혀진 비밀" (Figma 136:4582). {{ }} 안은 주황 강조 */
+  secret: {
+    lead: string;
+    headline: string;
+    body: string;
+    closing: string;
+  };
+  /** 에피소드를 끝내면 받는 포인트 (수집 완료 136:4504) */
+  points: number;
   startPlace: string;
   distance: string;
   duration: string;
@@ -140,6 +149,14 @@ export const EPISODES: Episode[] = [
       body: "이 편지에는 성북동의 중요한 비밀이\n담겨 있다고 하는데요.\n편지에 남은 단서를 따라 성북동의 네 곳을\n탐험하고, 흩어진 기록을 모아\n편지의 수신인을 밝혀주세요.",
       mission: "성북동의 네 장소를 탐험하며\n단서를 모아 편지의 수신인을 찾아보세요!",
     },
+    // Figma 오타 "미해의", "메세지"는 고침
+    secret: {
+      lead: "사라진 편지의 수신인은",
+      headline: "바로 {{당신}}이었습니다",
+      body: "이 편지는 과거의 누군가가\n미래의 성북동을 살아갈 사람들에게\n남긴 메시지였어요.",
+      closing: "성북동의 진짜 보물은\n건물에 숨겨진 것이 아니라,\n그곳에 남겨진 사람들의 이야기였습니다.",
+    },
+    points: 100,
     startPlace: "길상사",
     distance: "약 3.2km",
     duration: "1시간 30분",

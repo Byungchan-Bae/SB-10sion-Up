@@ -12,6 +12,8 @@ import PlaceStory from "./pages/PlaceStory";
 import PlaceQuiz from "./pages/PlaceQuiz";
 import PlaceClue from "./pages/PlaceClue";
 import Collection from "./pages/Collection";
+import EpisodeSecret from "./pages/EpisodeSecret";
+import EpisodeComplete from "./pages/EpisodeComplete";
 
 export default function App() {
   return (
@@ -23,6 +25,8 @@ export default function App() {
       <Route path="/episode/:episodeId" element={<EpisodeDetail />} />
       <Route path="/episode/:episodeId/intro" element={<EpisodeIntro />} />
       <Route path="/episode/:episodeId/map" element={<ExploreMap />} />
+      <Route path="/episode/:episodeId/secret" element={<EpisodeSecret />} />
+      <Route path="/episode/:episodeId/complete" element={<EpisodeComplete />} />
       <Route path="/map" element={<ExploreMap />} />
       <Route path="/place/:placeId" element={<PlaceCheckIn />} />
       <Route path="/place/:placeId/story" element={<PlaceStory />} />

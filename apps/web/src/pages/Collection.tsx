@@ -3,7 +3,7 @@ import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
 import { EPISODES } from "../data/episodes";
-import { useProgress } from "../lib/progress";
+import { hasAllClues, useProgress } from "../lib/progress";
 import styles from "./Collection.module.css";
 
 /**
@@ -56,14 +56,24 @@ export default function Collection() {
           })}
         </ul>
 
-        <div className={styles.tip}>
-          <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
-          <p>
-            {count === episode.places.length
-              ? "단서를 모두 모았어요! 편지의 수신인을 확인해 보세요."
-              : "네 개의 단서를 모두 모으면\n편지의 수신인이 밝혀져요!"}
-          </p>
-        </div>
+        {hasAllClues(episode, progress) ? (
+          <button
+            type="button"
+            className={[styles.tip, styles.tipLink].join(" ")}
+            onClick={() => navigate(`/episode/${episode.id}/secret`)}
+          >
+            <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
+            <p>{"단서를 모두 모았어요!\n눌러서 편지의 비밀을 확인해 보세요"}</p>
+            <span className={styles.arrow} aria-hidden="true">
+              ›
+            </span>
+          </button>
+        ) : (
+          <div className={styles.tip}>
+            <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
+            <p>{"네 개의 단서를 모두 모으면\n편지의 수신인이 밝혀져요!"}</p>
+          </div>
+        )}
       </Stage>
     </MobileFrame>
   );

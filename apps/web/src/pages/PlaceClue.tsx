@@ -5,7 +5,7 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
-import { useProgress } from "../lib/progress";
+import { hasAllClues, useProgress } from "../lib/progress";
 import { particle } from "../lib/korean";
 import styles from "./PlaceClue.module.css";
 
@@ -18,7 +18,7 @@ export default function PlaceClue() {
   const progress = useProgress(found?.episode.id ?? "");
 
   if (!found) return <Navigate to="/map" replace />;
-  const { place } = found;
+  const { episode, place } = found;
   // 문제를 아직 안 풀었으면 문제 화면으로
   if (!progress.clues.includes(place.id)) return <Navigate to={`/place/${place.id}/quiz`} replace />;
   const { clue } = place;
@@ -58,9 +58,16 @@ export default function PlaceClue() {
           {place.ordinal} 단서는 <em>“{clue.word}”</em>입니다
         </p>
 
-        <PrimaryButton size="md" className={styles.next} onClick={() => navigate("/map")}>
-          다음 에피소드 보기
-        </PrimaryButton>
+        {/* 단서를 다 모았으면 지도 대신 "밝혀진 비밀"로 */}
+        {hasAllClues(episode, progress) ? (
+          <PrimaryButton size="md" className={styles.next} onClick={() => navigate(`/episode/${episode.id}/secret`)}>
+            다음
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton size="md" className={styles.next} onClick={() => navigate("/map")}>
+            다음 에피소드 보기
+          </PrimaryButton>
+        )}
         <SecondaryButton size="md" className={styles.collection} onClick={() => navigate("/collection")}>
           수집물 보기
         </SecondaryButton>
