@@ -56,8 +56,15 @@
   width: 100%;
   height: 100%;
 }
+/*
+ * 장소 이름: 데이터에 적힌 줄바꿈(\n)만 지키고 자동 줄바꿈은 하지 않는다 (pre).
+ * 웹폰트가 늦게 와서 더 넓은 대체 글꼴로 그려져도 "심우/장"처럼 쪼개지지 않게.
+ * 글자가 칸보다 넓어지면 flex 가운데 정렬로 양쪽에 똑같이 나가서 이름표 가운데를 지킨다.
+ */
 .name {
-  white-space: pre-line;
+  display: flex;
+  justify-content: center;
+  white-space: pre;
   text-align: center;
   font-weight: 900;
   line-height: normal;

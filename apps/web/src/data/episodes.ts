@@ -281,7 +281,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-simujang.jpg",
         pinPhoto: "pin-simujang.png",
-        pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [80, 14, 54, 25], text: [86, 21, 41], fontSize: 15 },
+        pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [80, 20, 54, 25], text: [86, 21, 41], fontSize: 15 },
         ordinal: "네번째",
         story: {
           title: "만해 한용운이\n마지막까지 머문 집",
