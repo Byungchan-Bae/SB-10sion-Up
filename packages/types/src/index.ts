@@ -41,3 +41,32 @@ export interface AskResponse {
   /** 오늘 남은 질문 횟수 */
   remaining: number;
 }
+
+// GET /api/progress?userId=&episodeId=  ·  POST /api/progress  (헤더 Authorization: Bearer <token>)
+/** 에피소드 하나의 진행 상태. 시각은 ms (Date.now()) */
+export interface EpisodeProgress {
+  /** 에피소드 시작 시각 — 지도 타이머 */
+  startedAt?: number;
+  /** 도착 인증한 장소 id */
+  verified: string[];
+  /** 단서를 찾은 장소 id */
+  clues: string[];
+  /** 문제 2에서 장소별로 적은 한 줄 기록 */
+  notes?: Record<string, string>;
+  /** 에피소드를 끝낸 시각 — 수집 완료 화면의 소요 시간 */
+  completedAt?: number;
+  /** 끝냈을 때 받은 포인트 (서버가 채움) */
+  points?: number;
+}
+
+/** 이 기기의 진행 상태를 보내면 서버가 저장된 것과 합쳐서 돌려준다 */
+export interface SyncProgressRequest {
+  userId: string;
+  episodeId: string;
+  progress: EpisodeProgress;
+}
+
+export interface ProgressResponse {
+  episodeId: string;
+  progress: EpisodeProgress;
+}
