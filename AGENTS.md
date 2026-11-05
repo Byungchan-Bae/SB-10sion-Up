@@ -8,6 +8,11 @@ SB 10sion Up — 성북 SB 스타트업 네트워킹 해커톤용 모바일 웹�
 1. `HANDOFF.md`를 읽고 이전 사람이 하던 작업과 다음 할 일을 파악한다.
 2. `git log -5 --oneline`, `git status`로 현재 브랜치 상태를 확인한다.
 
+## 디자인 기준
+
+- Figma 컨셉 이미지: `docs/design/*.webp`. 화면은 이 이미지와 최대한 똑같이 구현한다.
+- 구현 단계와 상세 요구사항: `docs/prompts/figma-ui.md`
+
 ## 기술 스택
 
 - React 19 + TypeScript + Vite (프론트)
