@@ -14,6 +14,7 @@ import PlaceClue from "./pages/PlaceClue";
 import Collection from "./pages/Collection";
 import EpisodeSecret from "./pages/EpisodeSecret";
 import EpisodeComplete from "./pages/EpisodeComplete";
+import Reset from "./pages/Reset";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
       <Route path="/place/:placeId/clue" element={<PlaceClue />} />
       <Route path="/collection" element={<Collection />} />
       <Route path="/ranking" element={<Ranking />} />
+      <Route path="/reset" element={<Reset />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

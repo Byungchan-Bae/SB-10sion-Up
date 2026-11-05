@@ -98,6 +98,17 @@ export function fetchProgress(episodeId: string) {
   });
 }
 
+/** 서버에 저장된 내 진행 기록을 지운다 (테스트 · 시연용 초기화) */
+export function deleteProgress(episodeId: string) {
+  const user = getUser();
+  if (!user) return Promise.reject(new Error(NOT_REGISTERED));
+  const params = new URLSearchParams({ episodeId, userId: user.userId });
+  return request<ProgressResponse>(`/api/progress?${params}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+}
+
 /** 장소 도착 인증 — 서버가 거리를 계산한다. demo면 거리 확인을 건너뛰고 랭킹에서 빠진다 */
 export const checkIn = (placeId: string, where: { lat: number; lng: number } | "demo") =>
   postAsUser<CheckInRequest, CheckInResponse>("/api/checkin", (userId) =>
