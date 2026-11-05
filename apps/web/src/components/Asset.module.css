@@ -1,0 +1,14 @@
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: repeating-linear-gradient(45deg, #e6e2dc 0 8px, #ddd8d0 8px 16px);
+  border: 1px dashed #b9b1a5;
+  color: #6f675c;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  padding: 4px;
+  overflow: hidden;
+  word-break: break-all;
+}

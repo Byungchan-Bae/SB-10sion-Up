@@ -1,0 +1,28 @@
+.header {
+  position: relative;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.back {
+  position: absolute;
+  left: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.85);
+  color: var(--color-title);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-title);
+}

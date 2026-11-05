@@ -1,0 +1,110 @@
+.leaves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 130px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.viewport {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.slide {
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(96px, 16dvh, 136px) 28px 0;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--color-primary);
+}
+
+.subtitle {
+  margin: 14px 0 0;
+  white-space: pre-line;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+  color: var(--color-title);
+}
+
+.photo {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 340 / 214;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+  margin-top: 34px;
+}
+.dot,
+.dotActive {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d9d2c8;
+}
+.dotActive {
+  background: var(--color-primary);
+}
+
+.spacer {
+  flex: 1;
+  min-height: 16px;
+}
+
+.description {
+  width: 100%;
+  margin: 0;
+  padding: 16px 12px;
+  border-radius: 10px;
+  white-space: pre-line;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+  color: var(--color-title);
+}
+.orange {
+  background: var(--color-primary-soft);
+}
+.green {
+  background: var(--color-green-soft);
+}
+.blue {
+  background: var(--color-blue-soft);
+}
+
+/* 하단: 한옥 담장 + 풀 장식 위에 버튼 */
+.bottom {
+  position: relative;
+  padding: 40px 36px calc(clamp(24px, 7dvh, 60px) + env(safe-area-inset-bottom));
+  background: url("/assets/onboarding-bottom.png") center bottom / 100% auto no-repeat;
+}

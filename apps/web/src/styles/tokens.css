@@ -1,0 +1,33 @@
+/* 디자인 토큰: docs/design 이미지에서 추출한 값. Figma 실제 값을 알면 여기만 바꾸면 된다. */
+:root {
+  --color-primary: #f9a23b;
+  --color-primary-pressed: #e88d22;
+  --color-primary-disabled: #f6cf9f;
+  --color-primary-soft: #fff1dc;
+  --color-green-soft: #e9f7ea;
+  --color-blue-soft: #e8f3fc;
+
+  --color-bg: #ffffff;
+  --color-cream: #fff8ee;
+  --color-paper: #f6e6c8;
+  --color-sepia: #e9c99a;
+  --color-outside: #efe7da; /* PC에서 앱 바깥 배경 */
+
+  --color-title: #5a3412;
+  --color-text: #3b2a1a;
+  --color-text-sub: #8a7360;
+  --color-border: #ecdcc6;
+
+  --radius-button: 12px;
+  --radius-card: 16px;
+  --radius-input: 12px;
+
+  --shadow-card: 0 4px 16px rgb(90 52 18 / 0.1);
+  --shadow-button: 0 3px 0 rgb(214 120 20 / 0.25);
+
+  --gutter: 24px;
+  --button-height: 56px;
+  --app-max-width: 430px;
+
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}

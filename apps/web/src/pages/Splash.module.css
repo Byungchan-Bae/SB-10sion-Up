@@ -1,0 +1,38 @@
+.splash {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  /* 하늘 + 한옥 골목 + 남산타워 일러스트. 파일이 없으면 그라데이션만 보임 */
+  background:
+    url("/assets/splash-bg.png") center bottom / cover no-repeat,
+    linear-gradient(180deg, #8ec9f2 0%, #bfe2f7 45%, #f3e3c8 75%, #e8cfa6 100%);
+}
+
+.logo {
+  width: 240px;
+  height: 180px;
+  margin-top: clamp(80px, 17dvh, 150px);
+}
+
+.tagline {
+  margin: 20px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+  color: var(--color-title);
+}
+
+.mascots {
+  position: absolute;
+  left: 28px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  width: 260px;
+  height: 200px;
+}

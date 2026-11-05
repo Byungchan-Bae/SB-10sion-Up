@@ -1,9 +1,9 @@
 {
-  "name": "SB 10sion Up",
-  "short_name": "10sion Up",
+  "name": "성북 트레저",
+  "short_name": "성북 트레저",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#4f46e5",
+  "theme_color": "#f9a23b",
   "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
 }
