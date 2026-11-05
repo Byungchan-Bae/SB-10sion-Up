@@ -79,7 +79,18 @@ export default function ExploreMap() {
 
   return (
     <MobileFrame>
-      <Stage footer={<TabBar />} background="#aee0fe">
+      <Stage
+        footer={<TabBar />}
+        background="#aee0fe"
+        // 지도는 세로로 스크롤될 수 있어서 토스트는 화면(탭바 위)에 고정
+        overlay={
+          toast && (
+            <p className={styles.toast} role="status">
+              {toast}
+            </p>
+          )
+        }
+      >
         <BackButton to="/home" />
         <h1 className={styles.header}>탐험 지도</h1>
 
@@ -98,12 +109,6 @@ export default function ExploreMap() {
             </span>
           </div>
         </div>
-
-        {toast && (
-          <p className={styles.toast} role="status">
-            {toast}
-          </p>
-        )}
       </Stage>
     </MobileFrame>
   );

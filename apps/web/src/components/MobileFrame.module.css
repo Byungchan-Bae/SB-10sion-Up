@@ -26,8 +26,11 @@
   .frame:has(> [data-stage="full"]) {
     max-width: min(var(--app-max-width), calc(100dvh * 390 / 844));
   }
-  /* 탭바 화면: 무대는 위쪽 390 × 764, 탭바 80px */
+  /*
+   * 탭바 화면: 휴대폰에서는 화면 폭에 맞추고 세로 스크롤하지만(Stage.tsx),
+   * PC 넓은 창에서는 앱 폭을 줄여 무대 + 탭바(390 × 844)가 스크롤 없이 한 화면에 들어가게 한다.
+   */
   .frame:has(> [data-stage="tab"]) {
-    max-width: min(var(--app-max-width), calc((100dvh - 80px) * 390 / 764));
+    max-width: min(var(--app-max-width), calc(100dvh * 390 / 844));
   }
 }
