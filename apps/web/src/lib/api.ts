@@ -1,4 +1,13 @@
-import type { ApiError, AskRequest, AskResponse, CreateUserRequest, CreateUserResponse } from "@sb/types";
+import type {
+  ApiError,
+  AskRequest,
+  AskResponse,
+  CreateUserRequest,
+  CreateUserResponse,
+  EpisodeProgress,
+  ProgressResponse,
+  SyncProgressRequest,
+} from "@sb/types";
 import { getUser } from "./storage";
 
 async function post<Req, Res>(path: string, body: Req, headers: Record<string, string> = {}): Promise<Res> {
@@ -21,6 +30,17 @@ export function askAi(placeId: string, question: string) {
   return post<AskRequest, AskResponse>(
     "/api/ask",
     { userId: user.userId, placeId, question },
+    { Authorization: `Bearer ${user.token}` },
+  );
+}
+
+/** 이 기기의 진행 상태를 서버로 보내고, 서버에 저장된 것과 합친 결과를 받는다 */
+export function syncProgress(episodeId: string, progress: EpisodeProgress) {
+  const user = getUser();
+  if (!user) return Promise.reject(new Error("닉네임을 먼저 등록해 주세요"));
+  return post<SyncProgressRequest, ProgressResponse>(
+    "/api/progress",
+    { userId: user.userId, episodeId, progress },
     { Authorization: `Bearer ${user.token}` },
   );
 }
