@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Asset } from "../components/Asset";
 import { PrimaryButton } from "../components/Button";
@@ -13,7 +13,11 @@ export default function Nickname() {
   const navigate = useNavigate();
   const [name, setName] = useState(getNickname() ?? "");
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [search] = useSearchParams();
+  // 서버가 이 기기의 사용자를 모를 때 lib/api.ts가 ?expired=1로 보낸다
+  const [error, setError] = useState<string | null>(
+    search.get("expired") === "1" ? "등록 정보가 없어요. 닉네임을 다시 등록해 주세요" : null,
+  );
   const valid = name.trim().length > 0;
 
   const submit = async (e: FormEvent) => {

@@ -1,17 +1,18 @@
 // 에피소드 진행 상태.
 // 화면은 이 기기(localStorage)에 저장된 값을 바로 쓰고, 서버(DB)와 맞춘다.
 //  - 장소 인증 · 단서 · 한 줄 기록: 서버(/api/checkin, /api/quiz)가 확인하고 기록한 결과만 받아 온다 (applyServerProgress)
-//  - 완료: 기기에 먼저 남기고 뒤에서 /api/complete로 보낸다. 실패하면 다음 변경이나 온라인 복귀 때 다시 보냄
+//  - 완료: 기기에 먼저 남기고 뒤에서 /api/complete로 보낸다. 실패하면 올라갈 때까지 다시 보냄 (RETRY_MS마다, 온라인 복귀, 앱으로 돌아올 때)
 //  - 시작 시각: 지도 타이머용으로 기기에만 남긴다. 서버는 첫 인증 때 자기 시각을 기록한다
 import { useSyncExternalStore } from "react";
 import type { Episode, EpisodeProgress } from "@sb/types";
 import { getEpisode } from "../data/episodes";
 import { completeOnServer, fetchProgress } from "./api";
-import { getUser } from "./storage";
+import { getUser, PROGRESS_KEY as KEY } from "./storage";
 
 export type { EpisodeProgress };
 
-const KEY = "sb-treasure:progress";
+/** 완료 전송에 실패했을 때 다시 보내는 간격 */
+const RETRY_MS = 30_000;
 
 type State = Record<string, EpisodeProgress>;
 
@@ -133,8 +134,16 @@ async function syncNow(episodeId: string) {
     // 다시 보내지는 않음 (write에 episodeId를 안 넘김)
     write({ ...state, [episodeId]: merge(state[episodeId] ?? EMPTY, server, first) });
   } catch {
-    /* 오프라인 등 — 다음 변경이나 온라인 복귀 때 다시 보냄 */
+    // 오프라인 등 — 다음 변경이나 온라인 복귀 때 다시 보낸다.
+    // 끝낸 기록은 랭킹에 올라가야 하므로, 신호 없이 약한 통신이 이어져도 스스로 다시 시도한다.
+    if (completionPending(episodeId)) scheduleSync(episodeId, RETRY_MS);
   }
+}
+
+/** 기기에서는 끝냈는데 서버 확인(포인트)을 아직 못 받았는지 */
+function completionPending(episodeId: string) {
+  const local = read()[episodeId];
+  return !!local?.completedAt && local.points === undefined;
 }
 
 /** 처음 화면에 띄울 때 한 번: 서버 기록을 받아 오고, 기기에서 끝낸 완료가 남아 있으면 올린다 */
@@ -146,4 +155,10 @@ function pullOnce(episodeId: string) {
 
 if (typeof window !== "undefined") {
   window.addEventListener("online", () => pulled.forEach((id) => scheduleSync(id)));
+  // 휴대폰은 앱이 뒤로 가면 타이머가 멈추므로, 돌아왔을 때 밀린 완료를 바로 보낸다
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      pulled.forEach((id) => completionPending(id) && scheduleSync(id));
+    }
+  });
 }
