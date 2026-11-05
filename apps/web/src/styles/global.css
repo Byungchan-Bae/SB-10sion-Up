@@ -16,3 +16,13 @@ body {
 
 button, input, textarea { font: inherit; color: inherit; }
 img { display: block; max-width: 100%; }
+
+/* 화면에는 안 보이고 스크린 리더만 읽는 글 */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

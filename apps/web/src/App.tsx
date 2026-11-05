@@ -9,7 +9,9 @@ import TabPlaceholder from "./pages/TabPlaceholder";
 import ExploreMap from "./pages/ExploreMap";
 import PlaceCheckIn from "./pages/PlaceCheckIn";
 import PlaceStory from "./pages/PlaceStory";
-import QuizPlaceholder from "./pages/QuizPlaceholder";
+import PlaceQuiz from "./pages/PlaceQuiz";
+import PlaceClue from "./pages/PlaceClue";
+import Collection from "./pages/Collection";
 
 export default function App() {
   return (
@@ -24,8 +26,9 @@ export default function App() {
       <Route path="/map" element={<ExploreMap />} />
       <Route path="/place/:placeId" element={<PlaceCheckIn />} />
       <Route path="/place/:placeId/story" element={<PlaceStory />} />
-      <Route path="/place/:placeId/quiz" element={<QuizPlaceholder />} />
-      <Route path="/collection" element={<TabPlaceholder title="수집물" />} />
+      <Route path="/place/:placeId/quiz" element={<PlaceQuiz />} />
+      <Route path="/place/:placeId/clue" element={<PlaceClue />} />
+      <Route path="/collection" element={<Collection />} />
       <Route path="/ranking" element={<TabPlaceholder title="랭킹" />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

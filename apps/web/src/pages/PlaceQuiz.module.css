@@ -1,0 +1,237 @@
+/* Figma 문제 7 (136:4087) · 문제 8 (136:4112) — 390 × 844 Stage 좌표 */
+
+.leavesRight {
+  left: 261px;
+  top: 104px;
+  width: 130px;
+  height: 106px;
+  pointer-events: none;
+}
+.leavesLeft {
+  left: 0;
+  top: 0;
+  width: 217px;
+  height: 118px;
+  pointer-events: none;
+}
+/* 구름과 한옥이 있는 풍경 (아래) */
+.landscape {
+  left: 1px;
+  top: 405px;
+  width: 390px;
+  height: 439px;
+  pointer-events: none;
+}
+
+.header {
+  left: 0;
+  top: 63px;
+  width: 390px;
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* 진행 바 35 × 6 두 개 + "문제 n/2" */
+.progress {
+  left: 117px;
+  top: 104px;
+  width: 160px;
+  height: 18px;
+}
+.progress[data-step="2"] {
+  left: 124px;
+}
+.progress > span {
+  position: absolute;
+}
+.barOn,
+.barOff {
+  top: 6px;
+  width: 35px;
+  height: 6px;
+  border-radius: 20px;
+  background: var(--color-primary);
+}
+.barOff {
+  background: #d7d7d7;
+}
+.progress > span:nth-child(1) {
+  left: 0;
+}
+.progress > span:nth-child(2) {
+  left: 47px;
+}
+.count {
+  left: 110px;
+  top: 0;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+.qLabel {
+  left: 36px;
+  top: 164px;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+.question {
+  left: 91px;
+  top: 163px;
+  width: 290px;
+  margin: 0;
+  white-space: pre-line;
+  font-size: 21px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* ----- 문제 1: 힌트 카드 + 보기 ----- */
+.hintBox {
+  left: 33px;
+  top: 240px;
+  width: 320px;
+  height: 142px;
+  border-radius: 23px;
+  background: #f6f8d9;
+}
+.hintImage {
+  object-fit: cover;
+  pointer-events: none;
+}
+.mascot {
+  width: 94px;
+  height: 118px;
+  pointer-events: none;
+}
+
+.options {
+  left: 45px;
+  top: 418px;
+  width: 301px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.option {
+  height: 43px;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 22px;
+  border: 1px solid rgb(0 0 0 / 0.21);
+  border-radius: 20px;
+  background: #fff;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--color-brown);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.selected {
+  border-color: #5ca900;
+  background: #eef9e1;
+}
+.wrong {
+  border-color: #e5484d;
+  background: #fff0f0;
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-7px);
+  }
+  40%,
+  80% {
+    transform: translateX(7px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wrong {
+    animation: none;
+  }
+}
+.feedback {
+  left: 0;
+  top: 625px;
+  width: 390px;
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #e5484d;
+}
+
+.confirm {
+  left: 56px;
+  top: 654px;
+  width: 270px;
+}
+
+/* ----- 문제 2: 양피지 입력 카드 ----- */
+.paper {
+  left: 19px;
+  top: 232px;
+  width: 371px;
+  height: 370px;
+  pointer-events: none;
+}
+.line {
+  left: 51px;
+  width: 280px;
+  height: 1px;
+  /* Figma는 -0.41° 기울어져 있지만(280px에 2px), 1px 점선을 돌리면 축소된 화면에서 끊겨 보여서 수평으로 둠 */
+  pointer-events: none;
+}
+/* 줄 높이 34px → 점선(376 · 407 · 443 · 474) 위에 글자가 앉는다 */
+.note {
+  left: 51px;
+  top: 340px;
+  width: 280px;
+  height: 136px;
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 34px;
+  color: var(--color-brown);
+}
+.note::placeholder {
+  color: #978a83;
+  opacity: 1;
+}
+.note:focus-visible {
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px rgb(255 162 62 / 0.5);
+}
+.counter {
+  left: 51px;
+  top: 539px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  color: #978a83;
+}

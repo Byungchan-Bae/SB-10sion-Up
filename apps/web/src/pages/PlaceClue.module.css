@@ -1,0 +1,95 @@
+/* Figma 136:4524 단서 발견 — 390 × 844 Stage 좌표 */
+
+/* 안개 낀 숲길과 타워 풍경: 492 × 874 를 (-75, 0)에 cover → 무대 크기로 잘라 둠 */
+.bg {
+  left: 0;
+  top: 0;
+  width: 390px;
+  height: 844px;
+  pointer-events: none;
+}
+
+.card {
+  left: 46px;
+  top: 279px;
+  width: 300px;
+  height: 374px;
+  background: #fbddb3;
+  box-shadow: 0 4px 4px rgb(105 44 0 / 0.2);
+}
+
+/* "단서 발견!" 현판 + 마스코트 */
+.title {
+  left: 60px;
+  top: 148px;
+  width: 284.667px;
+  height: 183px;
+  pointer-events: none;
+}
+
+.thumb {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.subLabel {
+  left: 177px;
+  top: 314px;
+  margin: 0;
+  white-space: nowrap;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: normal;
+  color: #4b1f00;
+}
+.foundAt {
+  left: 177px;
+  top: 324px;
+  margin: 0;
+  white-space: nowrap;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  color: #4b1f00;
+}
+
+.fragment {
+  pointer-events: none;
+}
+
+.desc,
+.summary {
+  left: 46px;
+  width: 300px;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--color-brown);
+}
+.desc {
+  top: 538px;
+  font-size: 14px;
+}
+.summary {
+  top: 571px;
+  font-size: 16.974px;
+}
+.summary em {
+  font-style: normal;
+  color: #fd6f03;
+}
+
+.next,
+.collection {
+  left: 60px;
+  width: 270px;
+}
+.next {
+  top: 663px;
+}
+.collection {
+  top: 732px;
+  border: none;
+  background: #fefefe;
+}

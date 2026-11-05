@@ -11,6 +11,8 @@ export type EpisodeProgress = {
   verified: string[];
   /** 단서를 찾은 장소 id */
   clues: string[];
+  /** 문제 2에서 장소별로 적은 한 줄 기록 */
+  notes?: Record<string, string>;
 };
 
 type State = Record<string, EpisodeProgress>;
@@ -59,6 +61,10 @@ export const markVerified = (episodeId: string, placeId: string) =>
 
 export const markClueFound = (episodeId: string, placeId: string) =>
   update(episodeId, (p) => ({ ...p, clues: addUnique(p.clues, placeId) }));
+
+/** 문제 2의 한 줄 기록을 저장하고 단서를 찾은 것으로 처리 */
+export const completeQuiz = (episodeId: string, placeId: string, note: string) =>
+  update(episodeId, (p) => ({ ...p, clues: addUnique(p.clues, placeId), notes: { ...p.notes, [placeId]: note } }));
 
 /** 첫 장소는 항상 열림. 그 다음은 바로 앞 장소의 단서를 찾아야 열린다. */
 export function isPlaceOpen(episode: Episode, index: number, progress: EpisodeProgress) {

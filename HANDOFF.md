@@ -4,7 +4,7 @@
 
 ## 현재 작업
 
-- 브랜치: `feat/place` (3단계 완료). `feat/onboarding` → `feat/episode` → `feat/place` 순서로 쌓여 있어서 PR도 이 순서로 머지
+- 브랜치: `feat/quiz` (4단계 완료). `feat/onboarding` → `feat/episode` → `feat/place` → `feat/quiz` 순서로 쌓여 있어서 PR도 이 순서로 머지
 - 작업자: Byungchan-Bae + Claude Code
 - 마지막 갱신: 2026-11-05
 
@@ -20,11 +20,15 @@
 - 2단계: 홈(`/home`), 에피소드 상세(`/episode/ep01`), 의문의 편지(`/episode/ep01/intro`), 하단 탭바(홈/지도/수집물/랭킹)
 - 에피소드 타입과 데이터 확정: `apps/web/src/data/episodes.ts` (Episode, Place, Quiz, Clue). 장소 좌표는 대략값
 - `Stage` 컴포넌트: Figma 390 × 844 좌표를 그대로 absolute로 쓰고 화면 크기에 맞게 확대/축소. 탭 화면은 `<Stage footer={<TabBar />}>`
-- 수집물/랭킹 탭은 "곧 열려요" 임시 화면
+- 랭킹 탭은 "곧 열려요" 임시 화면
 - 3단계: 탐험 지도(`/map`, `/episode/ep01/map`), 장소 도착 인증(`/place/:id`), 역사 내용(`/place/:id/story`)
 - 진행 상태: `apps/web/src/lib/progress.ts` (localStorage `sb-treasure:progress`: 시작 시각, 인증한 장소, 찾은 단서). 앞 장소 단서를 찾아야 다음 장소가 열림
 - 위치 인증: `lib/geo.ts` 하버사인 거리 150m 이내 통과. URL에 `?demo=1`이면 위치 확인 생략 (시연용)
-- `/place/:id/quiz`는 임시 화면: "단서 찾은 걸로 처리" 버튼으로 다음 장소를 열 수 있음. 4단계에서 문제 화면으로 교체
+- 4단계: 문제 풀이(`/place/:id/quiz`, 문제 1 객관식 → 문제 2 한 줄 기록), 단서 발견(`/place/:id/clue`), 수집물 탭(`/collection`)
+- 4곳 모두 Figma에 문제 · 보기 · 정답 · 힌트 · 단서 글자(마음 / 믿음 / 기록 / 자유)가 있어서 그대로 `data/episodes.ts`에 넣음 (TODO 없음)
+- 문제 1을 틀리면 보기가 빨갛게 흔들리고 선택이 풀림. 문제 2는 1자 이상이면 확인 활성, 최대 30자, 엔터로 제출
+- 문제 2 기록은 `progress.notes[장소id]`에 저장되고 수집물 카드에 보임. 제출하면 단서 찾음 처리 → 단서 발견 화면
+- 단서 발견 "다음 에피소드 보기"는 지도로 (다음 장소가 열려 있음), "수집물 보기"는 `/collection`
 
 ## 다음 할 일
 
@@ -32,7 +36,8 @@
 - [x] 2단계: 홈 + 에피소드
 - [x] 3단계: 탐험 지도 + 장소 인증 + 역사 이야기
 - [ ] 장소 좌표 · 주소 확인 (`data/episodes.ts`의 TODO. 길상사 주소만 확인됨)
-- [ ] 4단계: 문제 풀이 + 단서 발견 (브랜치 `feat/quiz`, Figma 노드는 `docs/design/ASSETS.md` 표. `QuizPlaceholder` 교체)
+- [x] 4단계: 문제 풀이 + 단서 발견 + 수집물 탭
+- [ ] 5단계: 성공 화면 (Figma 136:4504, 136:4582 "밝혀진 비밀") — 단서 4개를 다 모으면 보여 주기
 - [x] 1단계 에셋을 Figma에서 가져오기
 
 ## 막힌 점 / 메모
@@ -49,4 +54,10 @@
 - Figma 제목 글꼴 "Jalnan 2"는 CDN에 없어서 "Jalnan"(잘난체, fonts-archive)으로 대체. 인용 부호 글꼴 KFAGothic은 NanumHuman으로 대체.
 - 상세 화면 인용문 뒤 흰 사각형(136:2449)은 Figma 렌더에 안 보여서 뺐음.
 - 홈 에피소드 카드는 지금 1개라 점 3개는 고정 표시. 에피소드가 늘면 온보딩처럼 스와이프로 바꾸면 됨.
+- 힌트 카드 글은 Figma에서 글자가 들어간 그림이라 그림(`hint-<장소id>.png`)을 쓰고, 같은 글을 `quiz.hint`에 넣어 대체 텍스트로 씀. 문구를 바꾸면 그림도 다시 만들어야 함.
+- 단서 발견의 편지 조각도 글자가 그림 안에 있음 (`clue-<장소id>.png`).
+- Figma 단서 문구의 "첫번재"는 오타라 "첫번째"로, 심우장 "“자유”이"는 "“자유”가"로 고침 (`lib/korean.ts`에서 받침 보고 조사 고름).
+- Figma 문제 화면 헤더는 4곳 모두 "EP.01 사라진 편지"라 그대로 둠 (UI 키트 시안의 "EP.02 구 본원의 이야기"는 안 씀).
+- 문제 2 점선은 Figma에서 -0.41° 기울어 있는데, 축소된 화면에서 1px 점선이 끊겨 보여서 수평으로 둠.
+- 수집물 탭은 Figma 프레임이 없어서 단서 발견 화면의 색 · 카드 · 편지 조각 그림으로 구성. 못 찾은 단서는 흐리게 + 자물쇠.
 - 로컬 테스트 시 닉네임 초기화: 브라우저 콘솔에서 `localStorage.clear()`.

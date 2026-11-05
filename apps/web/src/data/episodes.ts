@@ -1,23 +1,43 @@
 /**
  * 에피소드 데이터와 타입.
  * 화면 문구는 Figma "최종" 섹션(홈 136:2362, 에피소드 상세 136:2411, 스토리 136:2455) 기준.
- * 장소별 역사 이야기는 3단계에서 채움. 문제·단서는 4단계에서 채운다.
+ * 장소 문제 · 단서는 Figma 문제 7/8, 스토리(단서 발견) 프레임 기준 (docs/design/ASSETS.md 표).
  */
 
+/** [left, top, width, height] — Stage(390 × 844) 좌표 */
+export type Rect = [number, number, number, number];
+
+/**
+ * 장소 문제 2개 (Figma 문제 7 · 문제 8 프레임).
+ * 1번은 객관식, 2번은 그 장소에서 느낀 분위기를 한 줄로 적는 서술형.
+ */
 export type Quiz = {
-  id: string;
+  /** Q1 질문 (줄바꿈은 \n) */
   question: string;
-  /** 정답 (공백 무시, 대소문자 무시로 비교) */
+  options: string[];
   answer: string;
-  hint?: string;
+  /** 연두색 힌트 카드 글 — 화면에는 글자가 들어간 그림(hint-<장소 id>.png)을 쓰고, 이 글은 대체 텍스트 */
+  hint: string;
+  /** 힌트 그림 자리 */
+  hintImage: Rect;
+  /** 힌트 카드 옆 마스코트 [left, top] */
+  mascot: [number, number];
+  /** Q2 질문 (줄바꿈은 \n) */
+  reflection: string;
 };
 
+/** 단서 발견 화면 (Figma 136:4524 · 4538 · 4553 · 4568) */
 export type Clue = {
-  id: string;
-  title: string;
-  description: string;
-  /** public/assets/ 아래 이미지 파일 이름 */
-  image?: string;
+  /** 편지 조각에 적힌 단서 글자 */
+  word: string;
+  /** 편지 조각 그림 (clue-<장소 id>.png) 자리 */
+  image: Rect;
+  /** "<foundAt>에서 단서를 찾았어요!" */
+  foundAt: string;
+  /** foundAt 위 작은 글씨 (긴 장소 이름) */
+  subLabel?: string;
+  /** 원형 장소 사진(pinPhoto) 자리 */
+  thumb: Rect;
 };
 
 /**
@@ -66,8 +86,8 @@ export type Place = {
     /** 마스코트 말풍선 */
     tip: string;
   };
-  quiz?: Quiz;
-  clue?: Clue;
+  quiz: Quiz;
+  clue: Clue;
 };
 
 /** 위치 인증 통과 거리(m) */
@@ -147,6 +167,16 @@ export const EPISODES: Episode[] = [
             "현재는 불교체험, 템플스테이 등 다양한 행사가 열리는 도심 속 문화공간이에요.",
           tip: "가진 것을 모두 내어준 마음, 편지와도 관련이 있을까요?",
         },
+        quiz: {
+          question: "다음 설명이 가리키는\n장소는 어디일까요?",
+          options: ["성북동 성곽길", "길상사", "심우장", "수연산방"],
+          answer: "길상사",
+          hint: "조선시대 왕실과 관련된 역사 이야기가 남아 있고, 아름다운 정원과 사찰이 어우러진 성북동의 대표 명소예요.",
+          hintImage: [48, 257, 289.636, 108],
+          mascot: [279, 304],
+          reflection: "길상사에서 느낀 분위기를\n한 줄로 기록해보세요!",
+        },
+        clue: { word: "마음", image: [82, 373, 222.732, 155.047], foundAt: "길상사", thumb: [105, 315, 69, 71] },
       },
       {
         id: "martyrs",
@@ -167,6 +197,22 @@ export const EPISODES: Episode[] = [
             "방유룡 신부가 직접 설계했고, 라틴십자가 모양 평면에 타원형 후진과 돔을 갖춘 건물이에요.\n\n" +
             "2015년 국가등록문화재 제655호로 지정되었답니다.",
           tip: "건물의 모양을 잘 살펴보세요. 단서가 숨어 있을지도 몰라요!",
+        },
+        quiz: {
+          question: "이곳의 수도회 이름은\n무엇일까요?",
+          options: ["성 베네딕도 수도회", "한국순교복자성직수도회", "예수회", "프란치스코 수도회"],
+          answer: "한국순교복자성직수도회",
+          hint: "1953년에 세워진 한국 최초의 내국인 남자 수도회예요.",
+          hintImage: [42, 252, 306, 117],
+          mascot: [273, 296],
+          reflection: "구 본원에서 느낀 분위기를\n한 줄로 기록해보세요!",
+        },
+        clue: {
+          word: "믿음",
+          image: [102, 370, 199, 141],
+          foundAt: "구 본원",
+          subLabel: "한국순교복자성직수도회",
+          thumb: [102, 316, 65, 65],
         },
       },
       {
@@ -189,6 +235,22 @@ export const EPISODES: Episode[] = [
             "사랑방 문에는 한지 대신 유리를 끼워, 방 안에서도 북악산 자락이 보인답니다.",
           tip: "문장가의 집이라니, 편지를 쓴 사람과 관련이 있을까요?",
         },
+        quiz: {
+          question: "이 집의 원래 주인은\n누구일까요?",
+          options: ["염상섭", "이태준", "김동인", "이상"],
+          answer: "이태준",
+          hint: "『문장강화』, 『무서록』을 쓴 소설가예요.",
+          hintImage: [33, 259, 315, 118],
+          mascot: [279, 300],
+          reflection: "수연산방에서 느낀 분위기를\n한 줄로 기록해보세요!",
+        },
+        clue: {
+          word: "기록",
+          image: [96, 382, 202, 144],
+          foundAt: "수연산방",
+          subLabel: "이태준 가옥",
+          thumb: [99, 316, 63, 61],
+        },
       },
       {
         id: "simujang",
@@ -210,6 +272,16 @@ export const EPISODES: Episode[] = [
             "마당에는 만해가 직접 심은 향나무가 지금도 자라고 있어요.",
           tip: "마지막 단서예요. 지금까지 모은 단서를 떠올려 보세요!",
         },
+        quiz: {
+          question: "이 집에 살았던\n인물은 누구일까요?",
+          options: ["이상화", "김소월", "한용운", "윤동주"],
+          answer: "한용운",
+          hint: "『님의 침묵』을 지은 시인이자 독립운동가예요.",
+          hintImage: [42, 259, 301, 112],
+          mascot: [273, 300],
+          reflection: "심우장에서 느낀 분위기를\n한 줄로 기록해보세요!",
+        },
+        clue: { word: "자유", image: [89, 379, 220, 144], foundAt: "심우장", thumb: [108, 316, 68, 67] },
       },
     ],
   },
