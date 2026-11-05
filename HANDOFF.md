@@ -4,24 +4,23 @@
 
 ## 현재 작업
 
-- 브랜치: `feat/reset-progress` (테스트 · 시연용 진행 초기화)
+- 브랜치: 양원우 쪽 진행 중인 작업 없음. 새 작업은 최신 `main`에서 브랜치를 따서 시작. 백엔드 인수인계 항목은 코드까지 끝났고, 남은 일은 아래 "다음 할 일"
 - 작업자: Byungchan-Bae, 양원우 + Claude Code
-- 마지막 갱신: 2026-11-05
+- 마지막 갱신: 2026-11-06
 
 ## 끝난 것
 
 - Turborepo + React + TypeScript + Vite 기본 구조, Vercel 자동 배포 (https://sb-10sion-up.vercel.app)
 - 1단계: 디자인 토큰(`apps/web/src/styles/tokens.css`), 공통 컴포넌트(MobileFrame, Button, PageHeader, Asset),
   라우팅(`/` → `/onboarding` → `/nickname` → `/home`), 스플래시 · 온보딩 3장(스와이프 지원) · 닉네임 화면
-- 닉네임은 localStorage(`sb-treasure:nickname`)에 저장. 저장돼 있으면 스플래시 후 바로 `/home`
-- `/home`은 임시 화면 (2단계에서 교체)
+- 닉네임 등록은 `POST /api/users`. 받은 사용자 정보는 localStorage(`sb-treasure:user`)에 저장하고, 저장돼 있으면 스플래시 후 바로 `/home`
 - 1단계 화면을 Figma "최종" 섹션과 1px 단위로 맞춤. 에셋 10개를 Figma MCP로 가져옴 (`docs/design/ASSETS.md`에 노드 ID 정리)
 - 색상, 글꼴, 버튼 크기를 Figma 실제 값으로 교체 (`tokens.css`)
 - 2단계: 홈(`/home`), 에피소드 상세(`/episode/ep01`), 의문의 편지(`/episode/ep01/intro`), 하단 탭바(홈/지도/수집물/랭킹)
 - 에피소드 데이터: `apps/web/src/data/episodes.ts`, 타입(Episode, Place, Quiz, Clue 등): `packages/types/src/index.ts`. `GET /api/episodes`로도 받을 수 있음 (정답 없음. 화면은 아직 episodes.ts를 바로 씀)
 - `Stage` 컴포넌트: Figma 390 × 844 좌표를 그대로 absolute로 쓰고 화면 크기에 맞게 확대/축소. 탭 화면은 `<Stage footer={<TabBar />}>`
 - 3단계: 탐험 지도(`/map`, `/episode/ep01/map`), 장소 도착 인증(`/place/:id`), 역사 내용(`/place/:id/story`)
-- 진행 상태: `apps/web/src/lib/progress.ts` (localStorage `sb-treasure:progress`: 시작 시각, 인증한 장소, 찾은 단서). 앞 장소 단서를 찾아야 다음 장소가 열림
+- 진행 상태: `apps/web/src/lib/progress.ts`. 화면은 localStorage(`sb-treasure:progress`)를 바로 쓰고 서버와 맞춤 (아래 "서버 확인"). 앞 장소 단서를 찾아야 다음 장소가 열림
 - 위치 인증: 서버(`POST /api/checkin`)가 `lib/geo.ts` 하버사인 거리로 150m 이내인지 확인. URL에 `?demo=1`이면 거리 확인을 건너뛰는 대신 그 사용자는 랭킹에서 빠짐 (시연용, `demo_users` 테이블)
 - 4단계: 문제 풀이(`/place/:id/quiz`, 문제 1 객관식 → 문제 2 한 줄 기록), 단서 발견(`/place/:id/clue`), 수집물 탭(`/collection`)
 - 4곳 모두 Figma에 문제 · 보기 · 정답 · 힌트 · 단서 글자(마음 / 믿음 / 기록 / 자유)가 있어서 그대로 `data/episodes.ts`에 넣음 (TODO 없음)
@@ -52,14 +51,18 @@
 - [x] 2단계: 홈 + 에피소드
 - [x] 3단계: 탐험 지도 + 장소 인증 + 역사 이야기
 - [x] 장소 좌표 · 주소 확인 (2026-11-05, 아래 메모 참고)
-- [ ] 현장 테스트: 네 곳에서 실제로 위치 인증이 되는지 (`?demo=1` 없이)
+- [ ] 현장 테스트: 네 곳에서 실제 GPS로 위치 인증이 되는지 (`?demo=1` 없이). 위치 인증이 서버 판정으로 바뀐 뒤 아직 안 해봄. 권한 거부, 약한 통신에서 안내가 나오는지도 확인
 - [x] 4단계: 문제 풀이 + 단서 발견 + 수집물 탭
 - [x] 5단계: 밝혀진 비밀 + 수집 완료 화면
 - [x] 진행 상태 서버 저장 (`/api/progress`)
 - [x] 랭킹 API + 랭킹 탭
 - [x] 위치 인증 · 문제 1 정답 · 완료 확인을 서버에서 (`/api/checkin`, `/api/quiz`, `/api/complete`)
-- [ ] 시연 전 테스트 기록(`PR2테스트`) 지우기: Neon에서 `users` 행을 지우면 진행 기록도 같이 지워짐
+- [x] 공용 타입, `/api/episodes`, 템플릿 삭제, 닉네임 검사, 통신 실패 처리, 테스트용 초기화 (`/reset`)
 - [x] 1단계 에셋을 Figma에서 가져오기
+- [ ] 시연 전 테스트 기록 지우기 (Neon 권한 필요): 닉네임 `PR2테스트`(랭킹 1위로 보임), `검증테스트A`, `검증테스트B`, `검증테스트C`, 깨진 닉네임 1건. `users` 행을 지우면 진행 기록도 같이 지워지고, `ask_logs`에는 `검증테스트B` 기록 1줄이 따로 남아 있음
+- [ ] 수도회 · 수연산방 · 심우장 고해상도 사진, 수도회 구 본원 도로명 번지
+- [ ] Figma 랭킹 화면 글꼴을 Noto Sans KR에서 NanumHuman으로 교체
+- [ ] 실제 휴대폰 · 약한 통신에서 통신 실패 안내 확인 (지금까지는 브라우저에서 흉내 내서 시험함)
 
 ## 막힌 점 / 메모
 
@@ -78,7 +81,7 @@
 - 나머지 3곳 사진은 저해상도 임시.
 - Figma 제목 글꼴 "Jalnan 2"는 CDN에 없어서 "Jalnan"(잘난체, fonts-archive)으로 대체. 인용 부호 글꼴 KFAGothic은 NanumHuman으로 대체.
 - 상세 화면 인용문 뒤 흰 사각형(136:2449)은 Figma 렌더에 안 보여서 뺐음.
-- 홈 에피소드 카드는 지금 1개라 점 3개는 고정 표시. 에피소드가 늘면 온보딩처럼 스와이프로 바꾸면 됨.
+- 홈 에피소드 카드는 가로로 넘김: 한 장씩 멈추고 페이지 점이 따라감. EP.02 · EP.03은 `data/episodes.ts`의 `COMING_SOON_EPISODES`로 "공개 예정" 카드 표시 (PR #6).
 - 힌트 카드 글은 Figma에서 글자가 들어간 그림이라 그림(`hint-<장소id>.png`)을 쓰고, 같은 글을 `quiz.hint`에 넣어 대체 텍스트로 씀. 문구를 바꾸면 그림도 다시 만들어야 함.
 - 단서 발견의 편지 조각도 글자가 그림 안에 있음 (`clue-<장소id>.png`).
 - Figma 단서 문구의 "첫번재"는 오타라 "첫번째"로, 심우장 "“자유”이"는 "“자유”가"로 고침 (`lib/korean.ts`에서 받침 보고 조사 고름).
@@ -93,3 +96,7 @@
 - 로컬 `pnpm dev`는 `.env`를 `process.env`로 읽지 않아서 API에 `DATABASE_URL`이 안 들어감. DB가 필요한 확인은 Vercel 미리보기에서 하는 게 편함.
 - 위치 값은 기기가 보내는 것이라 위치를 속이는 앱이나 직접 호출로 조작할 수 있음. 서버 확인은 정답 노출과 기록 위조를 막는 수준이고 GPS 위조까지 막지는 못함.
 - 로컬에 `DATABASE_URL`이 없으면 닉네임 등록부터 안 되어 게임을 진행할 수 없음. 전체 흐름은 Vercel 미리보기에서 확인. 미리보기와 프로덕션은 같은 DB를 쓰므로 테스트는 `?demo=1`로 (랭킹에 안 올라감).
+- 인수인계 문서와 다른 점: 랭킹 소요 시간은 `completed_at - started_at`이 아니라 첫 인증 ~ 마지막 단서. 시연 모드(`?demo=1`)를 쓴 사용자는 랭킹에서 빠짐. 서버 검증 때문에 서버에 없는 옛 기기 기록은 올리지 않고 지움. `/api/quiz` 오답 응답에 진행 상태도 같이 보냄(정답은 없음).
+- `/reset`은 주소를 알면 누구나 자기 기록을 지울 수 있음 (다시 달려서 시간을 줄일 수 있음). 해커톤 뒤에도 쓸 거라면 막는 것을 검토.
+- 미리보기(Preview)에는 `GEMINI_API_KEY`가 없어서 `/api/ask`가 500. AI 질문은 프로덕션에서 확인해야 함. 프로덕션에서 일시적인 502가 한 번 있었는데 다시 물으니 정상 (반복되면 Vercel 로그의 `Gemini error` 확인).
+- 서버 쪽 환경변수와 Vercel · Neon 권한은 병찬 님 계정에 있음.
