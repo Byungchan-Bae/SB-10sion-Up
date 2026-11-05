@@ -1,0 +1,21 @@
+.root {
+  position: relative;
+  flex: 1;
+  min-height: 100dvh;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+.stage {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 390px;
+  height: 844px; /* footer가 있으면 764 (Stage.tsx에서 지정) */
+  transform-origin: 50% 100%;
+}
+
+/* 무대 안 공통: Figma 좌표로 배치 */
+.stage > * {
+  position: absolute;
+}

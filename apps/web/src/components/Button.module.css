@@ -15,6 +15,15 @@
   transform: translateY(1px);
 }
 
+/* Figma 2단계 화면 "버튼": 폭 270, padding 13.671 17.089, radius 12.816, 16.79px ExtraBold */
+.md {
+  max-width: 270px;
+  padding: 13.671px 17.089px;
+  border-radius: 12.816px;
+  font-size: 16.79px;
+  line-height: normal;
+}
+
 .primary {
   border: none;
   background: var(--color-primary);

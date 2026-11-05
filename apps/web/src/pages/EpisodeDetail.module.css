@@ -1,0 +1,204 @@
+/* Figma 136:2411 에피소드 상세 — 390 × 844 Stage 좌표 */
+
+.cream {
+  left: -2px;
+  top: 345px;
+  width: 392px;
+  height: 499px;
+  background: var(--color-detail-bg);
+}
+
+/* 흐린 편지지 (opacity 0.27, -8.98도 회전 포함 이미지) */
+.paper {
+  left: 72.03px;
+  top: 393.21px;
+  width: 364.5px;
+  height: 364px;
+  pointer-events: none;
+}
+
+.leaves {
+  left: -3px;
+  top: 0;
+  width: 217px;
+  height: 118px;
+  pointer-events: none;
+}
+
+.header {
+  left: 136px;
+  top: 63px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* 사진 카드 403 × 201, 위쪽 모서리 20.72 */
+.photoCard {
+  left: -7.02px;
+  top: 144px;
+  width: 403.04px;
+  height: 201px;
+  overflow: hidden;
+  border-radius: 20.72px 20.72px 0 0;
+  background: #fff;
+}
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.badge {
+  position: absolute;
+  left: 16.91px;
+  top: 159.76px;
+  width: 76.42px;
+  height: 29.63px;
+  display: grid;
+  place-items: center;
+  border-radius: 16.11px;
+  background: var(--color-point);
+  transform: rotate(-0.45deg);
+  font-family: var(--font-display);
+  font-size: 18.53px;
+  line-height: 1;
+  color: var(--color-text-strong);
+}
+
+.mascots {
+  left: 183px;
+  top: 248px;
+  width: 170px;
+  height: 139px;
+  pointer-events: none;
+}
+
+/* "사라진 편지" 32px Heavy, 가운데 x 95 */
+.title {
+  left: -63px;
+  top: 356px;
+  width: 316px;
+  margin: 0;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: normal;
+  color: #391603;
+}
+
+/* "이야기" 라벨 70 × 29 */
+.tag {
+  left: 20px;
+  top: 410px;
+  width: 70px;
+  height: 28.97px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+  border: 0.634px solid var(--color-tag-border);
+  border-radius: 4.23px;
+  background: var(--color-tag);
+  font-size: 14.48px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-main);
+}
+
+/* 인용문 316 × 42, 20px Bold */
+.hook {
+  left: 37px;
+  top: 436px;
+  width: 316px;
+  margin: 0;
+  white-space: pre-line;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--color-brown);
+}
+.em {
+  font-weight: 900;
+  color: var(--color-main);
+}
+.quoteOpen,
+.quoteClose {
+  position: absolute;
+  top: 0;
+  width: 30px;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 0.8;
+  color: var(--color-main);
+}
+.quoteOpen {
+  left: 45px;
+}
+.quoteClose {
+  left: 236px;
+  transform: scaleX(-1);
+}
+
+/* 설명 15px Bold, line-height 1.84 */
+.summary {
+  left: 30px;
+  top: 510px;
+  width: 316px;
+  margin: 0;
+  white-space: pre-line;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.84;
+  color: rgb(105 44 0 / 0.81);
+}
+.emLight {
+  color: var(--color-main);
+}
+
+/* 정보 박스 282 × 116.7 */
+.infoBox {
+  left: 52px;
+  top: 610px;
+  width: 282px;
+  height: 116.72px;
+  border: 2.556px solid var(--color-tag-border);
+  border-radius: 17.04px;
+  background: var(--color-tag);
+}
+.info {
+  left: 79.26px;
+  top: 627.89px;
+  width: 212.14px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12.78px;
+}
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12.78px;
+  font-size: 14.48px;
+  font-weight: 800;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--color-brown);
+}
+.row dt {
+  color: var(--color-main);
+}
+.row dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.cta {
+  left: 55px;
+  top: 759px;
+  width: 270px;
+}

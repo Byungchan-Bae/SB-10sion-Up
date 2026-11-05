@@ -19,6 +19,17 @@
   --color-card-border: #f8ead6;
   --color-cream: #fdefde; /* 닉네임 화면 배경 */
 
+  /* 2단계: 홈 · 에피소드 */
+  --color-gray2: #b0abaa; /* 탭바 비활성 글자 */
+  --color-gray-icon: #ebebeb; /* 탭바 비활성 아이콘 */
+  --color-point: #fdd352; /* 상세 EP 뱃지 */
+  --color-badge: #ffc600; /* 홈 카드 EP 뱃지 */
+  --color-text-strong: #724423;
+  --color-dark-brown: #431a02; /* 홈 큰 제목 */
+  --color-tag: #fff1cd; /* "이야기" 라벨, 정보 박스 */
+  --color-tag-border: rgb(246 229 206 / 0.72);
+  --color-detail-bg: #fef5e7;
+
   --color-bg: #ffffff;
   --color-outside: #efe7da; /* PC에서 앱 바깥 배경 */
 
@@ -34,5 +45,6 @@
   --button-width: 316px;
 
   /* 글꼴: 나눔휴먼 (Regular 400 / ExtraBold 800 / Heavy 900) */
-  --font-sans: "NanumHuman", "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-display: "Jalnan", "NanumHuman", sans-serif; /* Figma "Jalnan 2" 대체 */
+  --font-sans:"NanumHuman", "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }

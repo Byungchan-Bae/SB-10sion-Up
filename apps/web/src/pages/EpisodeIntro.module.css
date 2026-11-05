@@ -1,0 +1,87 @@
+/* Figma 136:2455 스토리 — 390 × 844 Stage 좌표 */
+
+/* 편지 종이 + 위에 얹힌 마스코트 */
+.letter {
+  left: 18.99px;
+  top: 218.03px;
+  width: 371.01px;
+  height: 417.1px;
+  pointer-events: none;
+}
+
+.title {
+  left: 136px;
+  top: 310px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  color: #261000;
+}
+
+.lead,
+.body,
+.mission {
+  margin: 0;
+  white-space: pre-line;
+  line-height: normal;
+}
+
+.lead {
+  left: 54px;
+  top: 345px;
+  width: 316px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #261000;
+}
+
+.body {
+  left: 54px;
+  top: 409px;
+  width: 316px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-brown);
+}
+
+/* 미션 박스 243 × 57 (라벨보다 먼저 그려야 라벨이 위로 옴) */
+.mission {
+  left: 49px;
+  top: 545px;
+  width: 243px;
+  height: 57px;
+  padding: 12px 0 0 15px;
+  border-radius: 9px;
+  background: #ffe3c9;
+  font-size: 13px;
+  font-weight: 700;
+  color: #000;
+}
+
+/* "당신의 미션" 라벨 99 × 29 */
+.tag {
+  left: 46px;
+  top: 521px;
+  width: 99px;
+  height: 29px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+  border: 0.634px solid var(--color-tag-border);
+  border-radius: 4.23px;
+  background: var(--color-tag);
+  font-size: 14.48px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-main);
+}
+
+.cta {
+  left: 58px;
+  top: 742px;
+  width: 270px;
+}

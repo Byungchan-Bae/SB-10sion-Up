@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="home_repair_service">
+<mask id="mask0_0_100" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect id="Bounding box" width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_100)">
+<path id="home_repair_service_2" d="M2.00005 20V10C2.00005 9.45002 2.19588 8.97918 2.58755 8.58752C2.97921 8.19585 3.45005 8.00002 4.00005 8.00002H7.00005V6.00002C7.00005 5.45002 7.19588 4.97918 7.58755 4.58752C7.97921 4.19585 8.45005 4.00002 9.00005 4.00002H15C15.55 4.00002 16.0209 4.19585 16.4125 4.58752C16.8042 4.97918 17 5.45002 17 6.00002V8.00002H20C20.55 8.00002 21.0209 8.19585 21.4125 8.58752C21.8042 8.97918 22 9.45002 22 10V20H2.00005ZM8.00005 15V16H6.00005V15H4.00005V18H20V15H18V16H16V15H8.00005ZM4.00005 10V13H6.00005V12H8.00005V13H16V12H18V13H20V10H4.00005ZM9.00005 8.00002H15V6.00002H9.00005V8.00002Z" fill="#EBEBEB"/>
+</g>
+</g>
+</svg>
