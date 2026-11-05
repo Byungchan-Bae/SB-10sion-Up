@@ -79,7 +79,8 @@ export async function POST(request: Request): Promise<Response> {
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: system }] },
       contents: [{ role: "user", parts: [{ text: question }] }],
-      generationConfig: { maxOutputTokens: 400, temperature: 0.4 },
+      // Gemini 3는 답하기 전에 "생각"에도 출력 토큰을 써서, 생각을 줄이고 한도를 넉넉히 둔다
+      generationConfig: { maxOutputTokens: 2048, temperature: 0.4, thinkingConfig: { thinkingLevel: "low" } },
     }),
   });
   if (res.status === 429) return error(429, "지금 질문이 많아요. 잠시 후 다시 물어봐 주세요!");
