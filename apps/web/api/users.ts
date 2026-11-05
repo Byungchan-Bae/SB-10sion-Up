@@ -34,7 +34,7 @@ export async function POST(request: Request): Promise<Response> {
       SELECT 1 FROM users WHERE lower(regexp_replace(nickname, '[[:space:]]', '', 'g')) = ${key}::text
     )
     RETURNING id`;
-  if (!rows.length) return error(409, "이미 사용 중인 닉네임이에요. 다른 닉네임을 입력해 주세요");
+  if (!rows.length) return error(409, "이미 사용 중인 닉네임이에요");
 
   const body: CreateUserResponse = { userId: rows[0].id as string, nickname, token };
   return Response.json(body, { status: 201 });

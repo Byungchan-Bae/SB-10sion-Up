@@ -33,7 +33,7 @@ export function checkNickname(input: unknown): NicknameCheck {
   // "시 발", "시.발"처럼 글자 사이를 띄워도 잡도록 문자만 남겨서 비교한다
   const letters = fold(nickname).replace(/[^\p{L}]/gu, "");
   if (BLOCKED_EXACT.includes(letters) || BLOCKED_ANYWHERE.some((word) => letters.includes(word))) {
-    return { ok: false, message: "사용할 수 없는 닉네임이에요. 다른 닉네임을 입력해 주세요" };
+    return { ok: false, message: "사용할 수 없는 닉네임이에요" };
   }
 
   // 중복 비교용: 대소문자와 띄어쓰기는 구분하지 않는다 ("홍 길동" = "홍길동")
