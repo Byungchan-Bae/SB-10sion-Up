@@ -1,6 +1,6 @@
-import { neon } from "@neondatabase/serverless";
-import type { ApiError, AskRequest, AskResponse } from "@sb/types";
+import type { AskRequest, AskResponse } from "@sb/types";
 import { findPlace } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
+import { connect, error, isUser } from "../server/db.js";
 
 const MAX_QUESTION = 200;
 /** 사용자 한 명이 하루에 할 수 있는 질문 수 (무료 API 한도 보호) */
@@ -8,21 +8,11 @@ const DAILY_LIMIT = 20;
 /** Google AI Studio 무료 등급 모델. 바꾸려면 Vercel 환경변수 GEMINI_MODEL */
 const DEFAULT_MODEL = "gemini-3.6-flash";
 
-function error(status: number, message: string) {
-  const body: ApiError = { error: message };
-  return Response.json(body, { status });
-}
-
-async function sha256(text: string) {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("");
-}
-
 // POST /api/ask  { userId, placeId, question } → { answer, remaining }
 export async function POST(request: Request): Promise<Response> {
-  const dbUrl = process.env.DATABASE_URL;
+  const sql = connect();
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!dbUrl || !apiKey) return error(500, "서버 설정(DATABASE_URL, GEMINI_API_KEY)이 없어요");
+  if (!sql || !apiKey) return error(500, "서버 설정(DATABASE_URL, GEMINI_API_KEY)이 없어요");
 
   let input: Partial<AskRequest>;
   try {
@@ -35,17 +25,9 @@ export async function POST(request: Request): Promise<Response> {
   const found = findPlace(input.placeId);
   if (!found) return error(404, "장소를 찾을 수 없어요");
 
-  // 등록된 사용자인지 확인 (닉네임 등록 때 받은 token)
-  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
-  if (typeof input.userId !== "string" || !token) return error(401, "닉네임을 먼저 등록해 주세요");
-  const sql = neon(dbUrl);
-  let users: Record<string, unknown>[];
-  try {
-    users = await sql`SELECT id FROM users WHERE id = ${input.userId}::uuid AND token_hash = ${await sha256(token)}`;
-  } catch {
-    return error(401, "닉네임을 먼저 등록해 주세요");
-  }
-  if (!users.length) return error(401, "닉네임을 먼저 등록해 주세요");
+  // 등록된 사용자인지 확인 (닉네임 등록 때 받은 token). DB 오류는 401이 아니라 500이 된다:
+  // 화면은 401을 받으면 이 기기의 사용자 정보를 지우므로, 장애를 401로 돌려주면 안 된다.
+  if (!(await isUser(sql, input.userId, request))) return error(401, "닉네임을 먼저 등록해 주세요");
 
   // 하루 질문 수 제한
   await sql`CREATE TABLE IF NOT EXISTS ask_logs (
