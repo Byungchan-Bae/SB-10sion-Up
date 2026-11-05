@@ -18,7 +18,6 @@
 - 1단계 화면을 Figma "최종" 섹션과 1px 단위로 맞춤. 에셋 10개를 Figma MCP로 가져옴 (`docs/design/ASSETS.md`에 노드 ID 정리)
 - 색상, 글꼴, 버튼 크기를 Figma 실제 값으로 교체 (`tokens.css`)
 - 2단계: 홈(`/home`), 에피소드 상세(`/episode/ep01`), 의문의 편지(`/episode/ep01/intro`), 하단 탭바(홈/지도/수집물/랭킹)
-- 홈 카드 가로 넘김 (`design/home-carousel`): 카드를 스와이프하면 한 장씩 멈추고 페이지 점이 따라감(점 눌러도 이동). EP.02 · EP.03은 `data/episodes.ts`의 `COMING_SOON_EPISODES`로 "공개 예정" 카드 + 버튼 비활성. 카드 테두리는 `home-card-frame-single.png`
 - 에피소드 타입과 데이터 확정: `apps/web/src/data/episodes.ts` (Episode, Place, Quiz, Clue)
 - `Stage` 컴포넌트: Figma 390 × 844 좌표를 그대로 absolute로 쓰고 화면 크기에 맞게 확대/축소. 탭 화면은 `<Stage footer={<TabBar />}>`
 - 3단계: 탐험 지도(`/map`, `/episode/ep01/map`), 장소 도착 인증(`/place/:id`), 역사 내용(`/place/:id/story`)
@@ -64,6 +63,7 @@
 
 - 글꼴은 Figma와 같은 NanumHuman(jsDelivr CDN, 400/800/900). 없으면 Pretendard로 대체.
 - 색상 코드와 크기는 Figma 값. 바꿀 땐 `apps/web/src/styles/tokens.css`만 수정.
+- PC에서 창 높이가 짧으면 Stage가 줄어드는 만큼 앱 틀(MobileFrame) 폭도 같이 줄임 (`fix/pc-frame-width`). Stage 루트의 `data-stage`(full / tab / scroll)를 `MobileFrame.module.css`의 `:has()`가 읽음. 휴대폰(430px 이하)은 그대로
 - 화면 수치는 390 × 844(Figma 프레임) 기준. 버튼 316 × 61, 좌우 여백 37px.
 - Figma `download_assets`로 받은 이미지는 투명도가 사라짐. 로고, 마스코트 같은 투명 에셋은 원본 이미지를 crop해야 함 (`docs/design/ASSETS.md`).
 - Figma 온보딩 1번 프레임(136:2309)엔 설명 박스와 점이 빠져 있어서 2, 3번 프레임 값으로 통일함.
