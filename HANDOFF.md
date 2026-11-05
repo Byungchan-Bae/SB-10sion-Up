@@ -62,6 +62,7 @@
 ## 막힌 점 / 메모
 
 - 글꼴은 Figma와 같은 NanumHuman(jsDelivr CDN, 400/800/900). 없으면 Pretendard로 대체.
+- 장소 도착 인증의 "○○까지 N km 남았어요" 안내는 두 줄(남은 거리 / 반경 안내)로 고정하고 단계 그림 위(top 490)에 둠 (`fix/checkin-message`). 전에는 둘째 줄이 그림에 가려졌음
 - 색상 코드와 크기는 Figma 값. 바꿀 땐 `apps/web/src/styles/tokens.css`만 수정.
 - PC에서 창 높이가 짧으면 Stage가 줄어드는 만큼 앱 틀(MobileFrame) 폭도 같이 줄임 (`fix/pc-frame-width`). Stage 루트의 `data-stage`(full / tab / scroll)를 `MobileFrame.module.css`의 `:has()`가 읽음. 휴대폰(430px 이하)은 그대로
 - 화면 수치는 390 × 844(Figma 프레임) 기준. 버튼 316 × 61, 좌우 여백 37px.

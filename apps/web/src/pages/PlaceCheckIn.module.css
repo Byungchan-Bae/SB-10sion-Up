@@ -23,9 +23,13 @@
   color: var(--color-brown);
 }
 .error {
-  top: 498px;
-  padding: 0 16px;
-  font-size: 13px;
+  /* 두 줄(남은 거리 / 반경 안내)이 아래 단계 그림(top 524)에 가려지지 않게 위로 */
+  top: 492px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  white-space: pre-line;
+  font-size: 14px;
+  line-height: 1.15;
   color: var(--color-main);
 }
 

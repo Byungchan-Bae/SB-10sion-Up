@@ -56,7 +56,7 @@ export default function PlaceCheckIn() {
         navigate(`/place/${place.id}/story${demo ? "?demo=1" : ""}`, { replace: true });
         return;
       }
-      setError(`${place.name}까지 ${formatDistance(res.distance ?? 0)} 남았어요. ${res.radius}m 안으로 와주세요!`);
+      setError(`${place.name}까지 ${formatDistance(res.distance ?? 0)} 남았어요.\n${res.radius}m 안으로 와주세요!`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "인증하지 못했어요. 다시 시도해주세요");
     }
