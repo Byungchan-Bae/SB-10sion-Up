@@ -13,22 +13,24 @@ export default function Nickname() {
   const navigate = useNavigate();
   const [name, setName] = useState(getNickname() ?? "");
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const valid = name.trim().length > 0;
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!valid || saving) return;
     setSaving(true);
+    setError(null);
     setNickname(name);
     try {
-      // DB(users 테이블)에 닉네임 등록
+      // DB(users 테이블)에 닉네임 등록. 인증 · 문제 확인을 서버에서 하므로 등록 없이는 진행할 수 없다
       const { userId, token } = await createUser(name.trim());
       setUser({ userId, token });
+      navigate("/home", { replace: true });
     } catch (err) {
-      // 서버가 안 돼도 게임은 기기 저장만으로 계속할 수 있게 둔다 (다음 실행 때 다시 등록)
-      console.warn("닉네임 등록 실패", err);
+      setError(err instanceof Error ? err.message : "닉네임을 등록하지 못했어요. 다시 시도해 주세요");
+      setSaving(false);
     }
-    navigate("/home", { replace: true });
   };
 
   return (
@@ -58,6 +60,11 @@ export default function Nickname() {
             maxLength={MAX_LENGTH}
           />
         </div>
+        {error && (
+          <p className={styles.error} role="alert">
+            {error}
+          </p>
+        )}
         <PrimaryButton type="submit" disabled={!valid || saving} className={styles.submit}>
           {saving ? "등록 중…" : "시작하기"}
         </PrimaryButton>

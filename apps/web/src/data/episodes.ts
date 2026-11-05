@@ -15,7 +15,7 @@ export type Quiz = {
   /** Q1 질문 (줄바꿈은 \n) */
   question: string;
   options: string[];
-  answer: string;
+  // 정답은 화면 코드에 두지 않는다 → apps/web/server/answers.ts (서버 /api/quiz에서 확인)
   /** 연두색 힌트 카드 글 — 화면에는 글자가 들어간 그림(hint-<장소 id>.png)을 쓰고, 이 글은 대체 텍스트 */
   hint: string;
   /** 힌트 그림 자리 */
@@ -188,7 +188,6 @@ export const EPISODES: Episode[] = [
         quiz: {
           question: "다음 설명이 가리키는\n장소는 어디일까요?",
           options: ["성북동 성곽길", "길상사", "심우장", "수연산방"],
-          answer: "길상사",
           hint: "조선시대 왕실과 관련된 역사 이야기가 남아 있고, 아름다운 정원과 사찰이 어우러진 성북동의 대표 명소예요.",
           hintImage: [48, 257, 289.636, 108],
           mascot: [279, 304],
@@ -220,7 +219,6 @@ export const EPISODES: Episode[] = [
         quiz: {
           question: "이곳의 수도회 이름은\n무엇일까요?",
           options: ["성 베네딕도 수도회", "한국순교복자성직수도회", "예수회", "프란치스코 수도회"],
-          answer: "한국순교복자성직수도회",
           hint: "1953년에 세워진 한국 최초의 내국인 남자 수도회예요.",
           hintImage: [42, 252, 306, 117],
           mascot: [273, 296],
@@ -257,7 +255,6 @@ export const EPISODES: Episode[] = [
         quiz: {
           question: "이 집의 원래 주인은\n누구일까요?",
           options: ["염상섭", "이태준", "김동인", "이상"],
-          answer: "이태준",
           hint: "『문장강화』, 『무서록』을 쓴 소설가예요.",
           hintImage: [33, 259, 315, 118],
           mascot: [279, 300],
@@ -294,7 +291,6 @@ export const EPISODES: Episode[] = [
         quiz: {
           question: "이 집에 살았던\n인물은 누구일까요?",
           options: ["이상화", "김소월", "한용운", "윤동주"],
-          answer: "한용운",
           hint: "『님의 침묵』을 지은 시인이자 독립운동가예요.",
           hintImage: [42, 259, 301, 112],
           mascot: [273, 300],

@@ -42,7 +42,7 @@ export interface AskResponse {
   remaining: number;
 }
 
-// GET /api/progress?userId=&episodeId=  ·  POST /api/progress  (헤더 Authorization: Bearer <token>)
+// GET /api/progress?userId=&episodeId=  (헤더 Authorization: Bearer <token>)
 /** 에피소드 하나의 진행 상태. 시각은 ms (Date.now()) */
 export interface EpisodeProgress {
   /** 에피소드 시작 시각 — 지도 타이머 */
@@ -59,16 +59,53 @@ export interface EpisodeProgress {
   points?: number;
 }
 
-/** 이 기기의 진행 상태를 보내면 서버가 저장된 것과 합쳐서 돌려준다 */
-export interface SyncProgressRequest {
-  userId: string;
+export interface ProgressResponse {
   episodeId: string;
   progress: EpisodeProgress;
 }
 
-export interface ProgressResponse {
+// POST /api/checkin  (헤더 Authorization: Bearer <token>)
+export interface CheckInRequest {
+  userId: string;
+  placeId: string;
+  /** 현재 위치. demo면 없어도 됨 */
+  lat?: number;
+  lng?: number;
+  /** 시연 모드(?demo=1): 거리 확인을 건너뛰는 대신 랭킹에서 빠진다 */
+  demo?: boolean;
+}
+
+export interface CheckInResponse {
+  /** 인증 성공 여부 */
+  ok: boolean;
+  /** 장소까지 거리(m). demo면 없음 */
+  distance?: number;
+  /** 인증 반경(m) */
+  radius: number;
   episodeId: string;
   progress: EpisodeProgress;
+}
+
+// POST /api/quiz  (헤더 Authorization: Bearer <token>)
+export interface QuizRequest {
+  userId: string;
+  placeId: string;
+  /** 문제 1에서 고른 보기 */
+  choice: string;
+  /** 문제 2 한 줄 기록. 있으면 정답일 때 단서를 찾은 것으로 저장 */
+  note?: string;
+}
+
+export interface QuizResponse {
+  correct: boolean;
+  episodeId: string;
+  progress: EpisodeProgress;
+}
+
+// POST /api/complete  (헤더 Authorization: Bearer <token>) → ProgressResponse
+export interface CompleteRequest {
+  userId: string;
+  episodeId: string;
 }
 
 // GET /api/ranking?episodeId=&userId=  (내 순위도 받으려면 헤더 Authorization: Bearer <token>)

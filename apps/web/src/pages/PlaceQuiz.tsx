@@ -6,7 +6,8 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
-import { completeQuiz, getProgress, useProgress } from "../lib/progress";
+import { checkQuiz } from "../lib/api";
+import { applyServerProgress, getProgress, useProgress } from "../lib/progress";
 import styles from "./PlaceQuiz.module.css";
 
 const MAX_NOTE = 30;
@@ -23,6 +24,10 @@ export default function PlaceQuiz() {
   const [step, setStep] = useState<1 | 2>(1);
   const [selected, setSelected] = useState<string | null>(null);
   const [wrong, setWrong] = useState<string | null>(null);
+  /** 서버가 정답이라고 확인한 보기 — 문제 2를 낼 때 같이 보낸다 */
+  const [solved, setSolved] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState(() =>
     found ? (getProgress(found.episode.id).notes?.[found.place.id] ?? "") : "",
   );
@@ -32,22 +37,44 @@ export default function PlaceQuiz() {
   if (!progress.verified.includes(place.id)) return <Navigate to={`/place/${place.id}`} replace />;
   const { quiz } = place;
 
-  const submitChoice = () => {
-    if (!selected) return;
-    if (selected === quiz.answer) {
-      setStep(2);
-      return;
+  // 정답은 서버(/api/quiz)에서 확인한다
+  const submitChoice = async () => {
+    if (!selected || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const { correct } = await checkQuiz(place.id, selected);
+      if (correct) {
+        setSolved(selected);
+        setStep(2);
+      } else {
+        // 틀리면 흔들고 선택을 풀어 다시 고르게 한다
+        setWrong(selected);
+        setSelected(null);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "확인하지 못했어요. 다시 시도해주세요");
     }
-    // 틀리면 흔들고 선택을 풀어 다시 고르게 한다
-    setWrong(selected);
-    setSelected(null);
+    setBusy(false);
   };
 
-  const submitNote = () => {
+  const submitNote = async () => {
     const text = note.trim();
-    if (!text) return;
-    completeQuiz(episode.id, place.id, text);
-    navigate(`/place/${place.id}/clue`, { replace: true });
+    if (!text || !solved || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await checkQuiz(place.id, solved, text);
+      applyServerProgress(res.episodeId, res.progress);
+      if (res.correct) {
+        navigate(`/place/${place.id}/clue`, { replace: true });
+        return;
+      }
+      setStep(1); // 있을 수 없는 경우지만, 정답이 바뀌었으면 문제 1부터 다시
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "저장하지 못했어요. 다시 시도해주세요");
+    }
+    setBusy(false);
   };
 
   return (
@@ -111,6 +138,7 @@ export default function PlaceQuiz() {
                   onClick={() => {
                     setSelected(option);
                     setWrong(null);
+                    setError(null);
                   }}
                   onAnimationEnd={() => setWrong(null)}
                 >
@@ -118,14 +146,14 @@ export default function PlaceQuiz() {
                 </button>
               ))}
             </div>
-            {wrong && (
-              <p className={styles.feedback} role="status">
-                다시 생각해 보세요!
+            {(wrong || error) && (
+              <p className={styles.feedback} role={error ? "alert" : "status"}>
+                {error ?? "다시 생각해 보세요!"}
               </p>
             )}
 
-            <PrimaryButton size="md" className={styles.confirm} disabled={!selected} onClick={submitChoice}>
-              확인
+            <PrimaryButton size="md" className={styles.confirm} disabled={!selected || busy} onClick={submitChoice}>
+              {busy ? "확인 중…" : "확인"}
             </PrimaryButton>
           </>
         ) : (
@@ -153,8 +181,13 @@ export default function PlaceQuiz() {
               {note.length} / {MAX_NOTE}
             </p>
 
-            <PrimaryButton size="md" className={styles.confirm} disabled={!note.trim()} onClick={submitNote}>
-              확인
+            {error && (
+              <p className={styles.feedback} role="alert">
+                {error}
+              </p>
+            )}
+            <PrimaryButton size="md" className={styles.confirm} disabled={!note.trim() || busy} onClick={submitNote}>
+              {busy ? "저장 중…" : "확인"}
             </PrimaryButton>
           </>
         )}
