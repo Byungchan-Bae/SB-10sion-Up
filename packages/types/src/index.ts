@@ -28,3 +28,16 @@ export interface CreateUserResponse {
 export interface ApiError {
   error: string;
 }
+
+// POST /api/ask  (헤더 Authorization: Bearer <token>)
+export interface AskRequest {
+  userId: string;
+  placeId: string;
+  question: string;
+}
+
+export interface AskResponse {
+  answer: string;
+  /** 오늘 남은 질문 횟수 */
+  remaining: number;
+}

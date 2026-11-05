@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
@@ -6,6 +6,7 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { useProgress } from "../lib/progress";
+import { AskSheet } from "../components/AskSheet";
 import { PlaceHero } from "./PlaceHero";
 import styles from "./PlaceStory.module.css";
 
@@ -22,13 +23,7 @@ export default function PlaceStory() {
   const navigate = useNavigate();
   const found = findPlace(placeId);
   const progress = useProgress(found?.episode.id ?? "");
-  const [toast, setToast] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2200);
-    return () => clearTimeout(t);
-  }, [toast]);
+  const [asking, setAsking] = useState(false);
 
   if (!found) return <Navigate to="/map" replace />;
   const { place } = found;
@@ -62,16 +57,12 @@ export default function PlaceStory() {
         <PrimaryButton size="md" className={styles.findClue} onClick={() => navigate(`/place/${place.id}/quiz`)}>
           {place.ordinal} 단서 찾기
         </PrimaryButton>
-        <SecondaryButton size="md" className={styles.ask} onClick={() => setToast("AI 질문하기는 준비 중이에요!")}>
+        <SecondaryButton size="md" className={styles.ask} onClick={() => setAsking(true)}>
           AI 질문하기
         </SecondaryButton>
 
-        {toast && (
-          <p className={styles.toast} role="status">
-            {toast}
-          </p>
-        )}
       </Stage>
+      {asking && <AskSheet placeId={place.id} placeName={place.name} onClose={() => setAsking(false)} />}
     </MobileFrame>
   );
 }

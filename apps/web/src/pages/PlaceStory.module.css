@@ -92,17 +92,3 @@
   background: #fefefe;
 }
 
-.toast {
-  left: 30px;
-  top: 700px;
-  width: 330px;
-  margin: 0;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: rgb(54 32 12 / 0.85);
-  text-align: center;
-  font-size: 14px;
-  font-weight: 800;
-  color: #fff;
-  z-index: 5;
-}
