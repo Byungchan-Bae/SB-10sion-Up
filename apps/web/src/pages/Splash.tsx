@@ -2,16 +2,17 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Asset } from "../components/Asset";
-import { getNickname } from "../lib/storage";
+import { getUser } from "../lib/storage";
 import styles from "./Splash.module.css";
 
 const SPLASH_MS = 2000;
+// DB에 등록된 사용자만 홈으로 바로 간다. 처음이거나 등록 전이면 온보딩 → 닉네임
 
 export default function Splash() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const t = setTimeout(() => navigate(getNickname() ? "/home" : "/onboarding", { replace: true }), SPLASH_MS);
+    const t = setTimeout(() => navigate(getUser() ? "/home" : "/onboarding", { replace: true }), SPLASH_MS);
     return () => clearTimeout(t);
   }, [navigate]);
 
@@ -20,7 +21,7 @@ export default function Splash() {
       <button
         type="button"
         className={styles.splash}
-        onClick={() => navigate(getNickname() ? "/home" : "/onboarding", { replace: true })}
+        onClick={() => navigate(getUser() ? "/home" : "/onboarding", { replace: true })}
         aria-label="시작하기"
       >
         <Asset name="logo.png" alt="성북 트레저" className={styles.logo} />

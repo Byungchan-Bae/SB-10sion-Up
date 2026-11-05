@@ -175,6 +175,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@neondatabase/serverless':
+        specifier: ^1.2.0
+        version: 1.2.0
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -214,6 +217,10 @@ importers:
         version: 7.0.2
 
 packages:
+
+  '@neondatabase/serverless@1.2.0':
+    resolution: {integrity: sha512-tnaqgixUengZQNd9ZrS3ytQfamJzLKY8QxgqWQTNHHtB+KrFQWk77JTbbpg4RD+J3qE4eO2lVytvGDX5Kj6FdQ==}
+    engines: {node: '>=19.0.0'}
 
   '@oxc-project/types@0.156.0':
     resolution: {integrity: sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw==}
@@ -708,6 +715,8 @@ packages:
         optional: true
 
 snapshots:
+
+  '@neondatabase/serverless@1.2.0': {}
 
   '@oxc-project/types@0.156.0': {}
 

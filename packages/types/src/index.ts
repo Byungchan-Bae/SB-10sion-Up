@@ -12,3 +12,19 @@ export interface HealthResponse {
   ok: boolean;
   time: string;
 }
+
+// POST /api/users
+export interface CreateUserRequest {
+  nickname: string;
+}
+
+export interface CreateUserResponse {
+  userId: string;
+  nickname: string;
+  /** 이 기기에서 사용자 본인임을 증명하는 값. 서버에는 해시만 저장한다 */
+  token: string;
+}
+
+export interface ApiError {
+  error: string;
+}
