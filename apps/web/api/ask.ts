@@ -1,6 +1,6 @@
 import { neon } from "@neondatabase/serverless";
 import type { ApiError, AskRequest, AskResponse } from "@sb/types";
-import { findPlace } from "../src/data/episodes";
+import { findPlace } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
 
 const MAX_QUESTION = 200;
 /** 사용자 한 명이 하루에 할 수 있는 질문 수 (무료 API 한도 보호) */
