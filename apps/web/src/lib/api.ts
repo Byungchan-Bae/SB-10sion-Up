@@ -6,6 +6,7 @@ import type {
   CreateUserResponse,
   EpisodeProgress,
   ProgressResponse,
+  RankingResponse,
   SyncProgressRequest,
 } from "@sb/types";
 import { getUser } from "./storage";
@@ -43,4 +44,17 @@ export function syncProgress(episodeId: string, progress: EpisodeProgress) {
     { userId: user.userId, episodeId, progress },
     { Authorization: `Bearer ${user.token}` },
   );
+}
+
+/** 랭킹. 닉네임을 등록한 사용자면 내 순위도 함께 받는다 */
+export async function getRanking(episodeId: string, signal?: AbortSignal): Promise<RankingResponse> {
+  const user = getUser();
+  const params = new URLSearchParams({ episodeId, ...(user ? { userId: user.userId } : {}) });
+  const res = await fetch(`/api/ranking?${params}`, {
+    signal,
+    headers: user ? { Authorization: `Bearer ${user.token}` } : {},
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error((data as ApiError | null)?.error ?? `요청 실패 (${res.status})`);
+  return data as RankingResponse;
 }

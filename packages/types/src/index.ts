@@ -70,3 +70,23 @@ export interface ProgressResponse {
   episodeId: string;
   progress: EpisodeProgress;
 }
+
+// GET /api/ranking?episodeId=&userId=  (내 순위도 받으려면 헤더 Authorization: Bearer <token>)
+export interface RankingEntry {
+  rank: number;
+  nickname: string;
+  points: number;
+  /** 서버 기록 기준 소요 시간. 믿을 수 없는 기록(한 번에 몰아서 보냄)은 null이고 같은 점수에서 맨 뒤 */
+  durationMs: number | null;
+  isMe: boolean;
+}
+
+export interface RankingResponse {
+  episodeId: string;
+  /** 완주한 전체 인원 */
+  total: number;
+  /** 상위 목록 */
+  entries: RankingEntry[];
+  /** 내 순위. 상위 목록 밖이어도 들어 있고, 완주 전이거나 등록 전이면 null */
+  me: RankingEntry | null;
+}
