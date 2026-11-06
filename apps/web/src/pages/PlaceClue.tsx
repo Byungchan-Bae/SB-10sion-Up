@@ -25,12 +25,12 @@ export default function PlaceClue() {
 
   return (
     <MobileFrame>
-      <Stage background='#e9b98a url("/assets/clue-bg.jpg") center / cover no-repeat'>
-        <img className={styles.bg} src="/assets/clue-bg.jpg" alt="" draggable={false} />
+      <Stage background='#e9b98a url("/assets/clue-bg.webp") center / cover no-repeat'>
+        <img className={styles.bg} src="/assets/clue-bg.webp" alt="" draggable={false} />
         <BackButton to="/map" />
 
         <div className={styles.card} />
-        <img className={styles.title} src="/assets/clue-title.png" alt="" draggable={false} />
+        <img className={styles.title} src="/assets/clue-title.webp" alt="" draggable={false} />
         <h1 className="sr-only">단서 발견!</h1>
 
         <img className={styles.thumb} style={rectStyle(clue.thumb)} src={`/assets/${place.pinPhoto}`} alt="" />
@@ -44,7 +44,7 @@ export default function PlaceClue() {
         <img
           className={styles.fragment}
           style={rectStyle(clue.image)}
-          src={`/assets/clue-${place.id}.png`}
+          src={`/assets/clue-${place.id}.webp`}
           alt={`편지 조각: ${clue.word}`}
           draggable={false}
         />

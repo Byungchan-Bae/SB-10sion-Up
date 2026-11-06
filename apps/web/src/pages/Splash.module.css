@@ -9,7 +9,7 @@
   padding: 0;
   cursor: pointer;
   text-align: center;
-  background: #fcfcfc url("/assets/splash-bg.jpg") center top / cover no-repeat;
+  background: #fcfcfc url("/assets/splash-bg.webp") center top / cover no-repeat;
 }
 
 .logo {

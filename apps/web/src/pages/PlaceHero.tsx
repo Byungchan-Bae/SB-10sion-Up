@@ -31,14 +31,14 @@ export function PlaceHero({
 }) {
   return (
     <>
-      <img className={styles.bg} src="/assets/place-bg.jpg" alt="" draggable={false} />
+      <img className={styles.bg} src="/assets/place-bg.webp" alt="" draggable={false} />
       <div className={styles.cream} />
       {back}
       <h1 className={styles.header}>{title}</h1>
       <div className={styles.photoCard}>
         <img src={`/assets/${place.photo}`} alt={`${place.name} 사진`} />
       </div>
-      <img className={styles.mascots} src="/assets/checkin-mascots.png" alt="" draggable={false} />
+      <img className={styles.mascots} src="/assets/checkin-mascots.webp" alt="" draggable={false} />
       <div className={styles.titleBlock}>
         {place.heroSub && <p className={styles.sub}>{place.heroSub}</p>}
         <h2 className={styles.name} aria-label={place.name}>

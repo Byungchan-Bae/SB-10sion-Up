@@ -17,8 +17,8 @@ export default function EpisodeIntro() {
 
   return (
     <MobileFrame>
-      <Stage background='#e9c9a0 url("/assets/story-bg.jpg") center bottom / cover no-repeat'>
-        <img className={styles.letter} src="/assets/story-letter.png" alt="" draggable={false} />
+      <Stage background='#e9c9a0 url("/assets/story-bg.webp") center bottom / cover no-repeat'>
+        <img className={styles.letter} src="/assets/story-letter.webp" alt="" draggable={false} />
         <BackButton />
 
         <h1 className={styles.title}>{intro.title}</h1>
