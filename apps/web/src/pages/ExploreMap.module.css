@@ -219,12 +219,9 @@
 
 /*
  * 지도 그림(map-ep01.webp)에 핀의 원, 이름, 화살표가 그려져 있어서 핀을 옮기거나 크기를 바꾸면
- * 그림이 뒤에서 드러나 글자가 두 겹으로 보인다. 핀은 제자리에서 나타나기만 하고 움직이지 않는다.
+ * 그림이 뒤에서 드러나 글자가 두 겹으로 보인다. 그림에는 사진도 있어서 천천히 나타나게 해도
+ * 잠긴 장소가 잠깐 열린 것처럼 보인다. 그래서 핀에는 등장 애니메이션을 넣지 않는다.
  */
-.pin,
-.pinLocked {
-  animation: pinFade 0.4s ease-out var(--d, 0s) backwards;
-}
 /* 다음 목적지: 둘레에 빛이 퍼지고, 핀 위에 작은 화살표가 튄다 */
 .pinCurrent .ring {
   animation: ringPulse 1.4s ease-out calc(var(--d, 0s) + 0.4s) infinite;
@@ -247,11 +244,6 @@
 }
 .toast {
   animation: toastIn 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
-}
-@keyframes pinFade {
-  from {
-    opacity: 0;
-  }
 }
 @keyframes ringPulse {
   0% {
@@ -283,8 +275,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pin,
-  .pinLocked,
   .pinCurrent .ring,
   .pinCurrent::before,
   .shaking .lock,

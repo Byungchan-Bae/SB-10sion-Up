@@ -30,7 +30,6 @@ function Pin({
   open,
   current,
   shaking,
-  order,
   onClick,
 }: {
   place: Place;
@@ -39,8 +38,6 @@ function Pin({
   current: boolean;
   /** 잠긴 핀을 눌러서 흔들리는 중 */
   shaking: boolean;
-  /** 튀어나오는 순서 */
-  order: number;
   onClick: () => void;
 }) {
   const p = place.pin;
@@ -52,7 +49,7 @@ function Pin({
         .filter(Boolean)
         .join(" ")}
       style={
-        { left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h, "--d": `${0.2 + order * 0.12}s`, "--ring-w": `${p.ring[0]}px` } as CSSProperties
+        { left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h, "--ring-w": `${p.ring[0]}px` } as CSSProperties
       }
       onClick={onClick}
       aria-label={open ? `${place.name} 장소 인증하기` : `${place.name} (잠김)`}
@@ -141,7 +138,6 @@ export default function ExploreMap() {
               open={isPlaceOpen(episode, i, progress)}
               current={i === currentIndex}
               shaking={shakingId === place.id}
-              order={i}
               onClick={() => openPlace(place, i)}
             />
           ))}
