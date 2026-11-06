@@ -12,33 +12,54 @@
   color: var(--color-brown);
 }
 
+/* ===== 단서 탭 (Figma 242:3980) ===== */
+
+/* "에피소드" 꼬리표 70 × 24 + 책 아이콘 */
 .episodeLabel {
-  left: 24px;
-  top: 146px;
+  left: 27px;
+  top: 178.56px;
+  width: 70px;
+  height: 23.88px;
   margin: 0;
-  font-size: 16px;
-  font-weight: 800;
-  color: #fd6f03;
-}
-.episodePicker {
-  left: 24px;
-  top: 167px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 3px;
+  padding-left: 8px;
+  box-sizing: border-box;
+  border: 0.522px solid rgb(246 229 206 / 0.72);
+  border-radius: 3.483px;
+  background: #fff1cd;
+  font-size: 11.755px;
+  font-weight: 800;
+  line-height: 1;
+  color: #fd6f03;
+}
+.episodeLabel svg {
+  flex: none;
+  width: 10.5px;
+  height: 13.9px;
+}
+/* "사라진 편지 ⌄" 18px */
+.episodePicker {
+  left: 32px;
+  top: 211px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 0;
   border: none;
   background: none;
   font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
   color: var(--color-brown);
   cursor: pointer;
 }
 /* 아래 화살표 (글꼴에 없을 수 있어 그린다) */
 .chevron {
-  width: 11px;
-  height: 11px;
+  width: 9px;
+  height: 9px;
   margin-top: -4px;
   box-sizing: border-box;
   border-right: 2.5px solid #fd6f03;
@@ -53,58 +74,88 @@
   font-weight: 800;
   color: #fff;
 }
-.count {
-  right: 24px;
-  top: 174px;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--color-gray2);
+/* 돋보기 든 감 (덤불 포함) 143 × 78 */
+.mascot {
+  left: 205px;
+  top: 180px;
+  width: 143px;
+  height: 78px;
+  pointer-events: none;
 }
-.count b {
-  color: #fd6f03;
+/* 아래 초록 덤불 (쿠폰 탭과 같은 그림, 무대 끝 764에서 자름) */
+.bush {
+  left: -1px;
+  top: 604px;
+  width: 391px;
+  height: 160px;
+  object-fit: cover;
+  object-position: top;
+  pointer-events: none;
 }
 
+/* 단서 카드 147 × 168, 간격 18 · 19 */
 .grid {
-  left: 24px;
-  top: 202px;
-  width: 342px;
+  left: 36px;
+  top: 265px;
+  width: 312px;
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, 147px);
+  column-gap: 18px;
+  row-gap: 19px;
 }
-
-.card {
-  width: 100%;
-  min-width: 0;
-  height: 222px;
+.grid li {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 10px 0;
+}
+.card {
+  position: relative;
+  display: block;
+  width: 147px;
+  height: 168px;
+  padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   background: #fbddb3;
   box-shadow: 0 4px 4px rgb(105 44 0 / 0.2);
   font-family: var(--font-sans);
   color: var(--color-brown);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.08s ease;
 }
+.card > * {
+  position: absolute;
+}
 .card:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.98);
 }
 .card:disabled {
   cursor: default;
 }
-
+/* 장소 사진 동그라미 + 이름 */
+.thumb {
+  left: 9px;
+  top: 9px;
+  width: 30.65px;
+  height: 30.65px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.place {
+  left: 44px;
+  top: 15px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+}
 .fragment {
-  position: relative;
-  width: 145px;
-  height: 101px;
+  left: 12px;
+  top: 43px;
+  width: 120px;
+  height: 84px;
   display: grid;
   place-items: center;
 }
@@ -113,9 +164,37 @@
   height: 100%;
   object-fit: contain;
 }
+.ordinal,
+.word {
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: 900;
+  line-height: normal;
+}
+.ordinal {
+  top: 129px;
+  font-size: 10px;
+  color: #978a83;
+}
+.word {
+  top: 144px;
+  font-size: 15px;
+  color: #fd6f03;
+}
+
+/* 아직 못 찾은 단서: 흐리게 + 자물쇠 */
 .locked {
   background: #efe6da;
   box-shadow: none;
+}
+.locked .thumb {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+.locked .place,
+.locked .word {
+  color: var(--color-gray2);
 }
 .locked .fragment img:first-child {
   filter: grayscale(1) blur(5px);
@@ -124,88 +203,60 @@
 .lock {
   position: absolute;
   box-sizing: border-box;
-  width: 46px;
-  height: 46px;
-  padding: 10px 11px 11px;
+  width: 40px;
+  height: 40px;
+  padding: 9px 10px 10px;
   border-radius: 50%;
   background: rgb(105 44 0 / 0.45);
 }
 
-.ordinal {
-  margin-top: 10px;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--color-gray2);
-}
-.word {
-  margin-top: 2px;
-  font-size: 22px;
-  font-weight: 900;
-  color: #fd6f03;
-}
-.locked .word {
-  color: var(--color-gray2);
-}
-.place {
-  margin-top: 2px;
-  font-size: 13px;
-  font-weight: 800;
-}
-.locked .place {
-  color: var(--color-gray2);
-}
-.note {
-  max-width: 100%;
-  margin-top: 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 700;
-  color: rgb(105 44 0 / 0.75);
-}
-
-.tip {
-  left: 24px;
-  top: 668px;
-  width: 342px;
-  height: 64px;
+/* 단서를 모두 모으면: 편지의 비밀로 가는 버튼 (Figma에는 없음, 덤불 위) */
+.secret {
+  left: 36px;
+  top: 640px;
+  width: 312px;
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-right: 14px;
-  border-radius: 16px;
-  background: #fde6c6;
+  gap: 8px;
+  padding: 0 14px 0 6px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgb(105 44 0 / 0.15);
+  font-family: var(--font-sans);
+  text-align: left;
+  color: var(--color-brown);
+  cursor: pointer;
 }
-.tip img {
-  width: 52px;
-  height: 65px;
-  margin: -14px 0 0 8px;
+.secret:active {
+  transform: translateY(1px);
+}
+.secret img {
   flex: none;
+  width: 42px;
+  height: 52px;
+  margin-top: -14px;
 }
-.tip p {
+.secret p {
   margin: 0;
   white-space: pre-line;
   word-break: keep-all;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.4;
-  color: var(--color-brown);
+  line-height: 1.35;
 }
-.tipLink {
-  border: none;
-  font-family: var(--font-sans);
-  text-align: left;
-  cursor: pointer;
-}
-.tipLink:active {
-  transform: translateY(1px);
-}
+/* 오른쪽 화살표 (글꼴에 › 가 없을 수 있어 그린다) */
 .arrow {
-  margin-left: auto;
-  font-size: 26px;
-  font-weight: 800;
-  color: #fd6f03;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin: 0 4px 0 auto;
+  box-sizing: border-box;
+  border-top: 3px solid #fd6f03;
+  border-right: 3px solid #fd6f03;
+  transform: rotate(45deg);
 }
 
 /* 단서 / 쿠폰 전환 */
@@ -260,8 +311,8 @@
   background: none;
 }
 .episodeMenu {
-  left: 24px;
-  top: 198px;
+  left: 27px;
+  top: 240px;
   width: 230px;
   z-index: 9;
   margin: 0;
@@ -317,13 +368,16 @@
   composes: rise from "../styles/motion.module.css";
   --d: 0.05s;
 }
-.count {
-  composes: fade from "../styles/motion.module.css";
+.mascot {
+  composes: float from "../styles/motion.module.css";
   --d: 0.1s;
 }
-.tip {
+.bush {
+  composes: fade from "../styles/motion.module.css";
+}
+.secret {
   composes: rise from "../styles/motion.module.css";
-  --d: 0.35s;
+  --d: 0.4s;
 }
 
 /* 단서 카드는 뒤집히며 차례로 들어온다 (쿠폰은 CollectionCoupons.module.css) */

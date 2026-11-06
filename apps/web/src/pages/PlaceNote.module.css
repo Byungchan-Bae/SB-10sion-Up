@@ -1,0 +1,140 @@
+/* 남긴 기록 — Figma 문제 9 (311:10225). 배경 · 양피지 · 점선은 문제 2(PlaceQuiz)와 같은 자리 */
+
+.leavesRight {
+  left: 261px;
+  top: 104px;
+  width: 130px;
+  height: 106px;
+  pointer-events: none;
+}
+.leavesLeft {
+  left: 0;
+  top: 0;
+  width: 217px;
+  height: 118px;
+  pointer-events: none;
+}
+.landscape {
+  left: 1px;
+  top: 405px;
+  width: 390px;
+  height: 439px;
+  pointer-events: none;
+}
+
+/* 하트 든 감 + 참새 (Figma Component 33: 339 × 136, 21 · 70). 그림 여백만큼 키워서 같은 크기로 보이게 */
+.mascots {
+  left: 139px;
+  top: 66px;
+  width: 103px;
+  height: 86px;
+  pointer-events: none;
+}
+.title {
+  left: 21px;
+  top: 152px;
+  width: 339px;
+  margin: 0;
+  white-space: pre-line;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+.paper {
+  left: 19px;
+  top: 232px;
+  width: 371px;
+  height: 370px;
+  pointer-events: none;
+}
+.line {
+  left: 51px;
+  width: 280px;
+  height: 1px;
+  pointer-events: none;
+}
+/* 줄 높이 34px → 점선(376 · 407 · 443 · 474) 위에 글자가 앉는다 (문제 2 입력 칸과 같음) */
+.note,
+.empty {
+  left: 51px;
+  top: 340px;
+  width: 280px;
+  margin: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 34px;
+}
+.note {
+  color: var(--color-brown);
+}
+.empty {
+  color: #978a83;
+}
+.counter {
+  left: 51px;
+  top: 539px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  color: #978a83;
+}
+.close {
+  left: 56px;
+  top: 654px;
+  width: 270px;
+}
+
+/* ---- 움직임: 종이가 펼쳐지고, 적어 둔 글이 왼쪽부터 다시 써지듯 나타난다 ---- */
+.leavesLeft {
+  composes: leavesIn from "../styles/motion.module.css";
+}
+.leavesRight {
+  composes: hanokIn from "../styles/motion.module.css";
+}
+.landscape {
+  composes: rise from "../styles/motion.module.css";
+}
+.mascots {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.05s;
+}
+.title {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.paper {
+  composes: unfold from "../styles/motion.module.css";
+  --d: 0.15s;
+}
+.line,
+.counter,
+.empty {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.close {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.note {
+  animation: write 0.9s cubic-bezier(0.4, 0, 0.3, 1) 0.5s backwards;
+}
+@keyframes write {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .note {
+    animation: none;
+  }
+}

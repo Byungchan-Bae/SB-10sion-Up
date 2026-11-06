@@ -206,6 +206,9 @@ export function findPlace(placeId: string | undefined): { episode: Episode; plac
   return undefined;
 }
 
+/** 짧은 장소 이름: "구 본원", "수연산방"처럼 화면 제목에 쓰는 이름이 있으면 그것, 없으면 name */
+export const placeName = (place: Place) => place.heroName ?? place.name;
+
 /** 홈 카드에 "공개 예정"으로만 보여주는 다음 에피소드 (아직 내용 없음) */
 export type ComingSoonEpisode = {
   /** "EP.02" */
