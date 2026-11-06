@@ -43,7 +43,7 @@ export default function Collection() {
                   aria-label={found ? `${place.ordinal} 단서 “${place.clue.word}” — ${place.name}` : `${place.ordinal} 단서 — 아직 찾지 못했어요`}
                 >
                   <span className={styles.fragment}>
-                    <img src={`/assets/clue-${place.id}.png`} alt="" draggable={false} />
+                    <img src={`/assets/clue-${place.id}.webp`} alt="" draggable={false} />
                     {!found && <img className={styles.lock} src="/assets/icons/lock.svg" alt="" />}
                   </span>
                   <span className={styles.ordinal}>{place.ordinal} 단서</span>
@@ -62,7 +62,7 @@ export default function Collection() {
             className={[styles.tip, styles.tipLink].join(" ")}
             onClick={() => navigate(`/episode/${episode.id}/secret`)}
           >
-            <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
+            <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
             <p>{"단서를 모두 모았어요!\n눌러서 편지의 비밀을 확인해 보세요"}</p>
             <span className={styles.arrow} aria-hidden="true">
               ›
@@ -70,7 +70,7 @@ export default function Collection() {
           </button>
         ) : (
           <div className={styles.tip}>
-            <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
+            <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
             <p>{"네 개의 단서를 모두 모으면\n편지의 수신인이 밝혀져요!"}</p>
           </div>
         )}

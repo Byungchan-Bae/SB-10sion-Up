@@ -24,8 +24,8 @@ export default function EpisodeDetail() {
     <MobileFrame>
       <Stage background="linear-gradient(#fff 50%, var(--color-detail-bg) 50%)">
         <div className={styles.cream} />
-        <img className={styles.paper} src="/assets/detail-paper.png" alt="" draggable={false} />
-        <img className={styles.leaves} src="/assets/leaves-corner.png" alt="" draggable={false} />
+        <img className={styles.paper} src="/assets/detail-paper.webp" alt="" draggable={false} />
+        <img className={styles.leaves} src="/assets/leaves-corner.webp" alt="" draggable={false} />
 
         <BackButton to="/home" />
         <h1 className={styles.header}>에피소드 상세</h1>

@@ -95,7 +95,7 @@ export default function ExploreMap() {
         <h1 className={styles.header}>탐험 지도</h1>
 
         <div className={styles.map}>
-          <img className={styles.mapImage} src="/assets/map-ep01.jpg" alt="성북동 탐험 지도" draggable={false} />
+          <img className={styles.mapImage} src="/assets/map-ep01.webp" alt="성북동 탐험 지도" draggable={false} />
           <span className={styles.skyFade} aria-hidden="true" />
           {episode.places.map((place, i) => (
             <Pin key={place.id} place={place} open={isPlaceOpen(episode, i, progress)} onClick={() => openPlace(place, i)} />
