@@ -83,7 +83,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-martyrs.jpg",
         pinPhoto: "pin-martyrs.png",
-        pin: { x: 10.51, y: 53.18, w: 194, h: 67, ring: [70, 67], photo: [2, 2, 65, 65], label: [73, 9, 121, 37], lockedLabel: [40, 4, 167, 48], text: [87, 12, 93], fontSize: 13 },
+        pin: { x: 10.51, y: 53.18, w: 194, h: 67, ring: [70, 67], photo: [2, 2, 65, 65], label: [73, 9, 121, 37], lockedLabel: [40, 4, 167, 47], text: [87, 12, 93], fontSize: 13 },
         ordinal: "두번째",
         story: {
           title: "한국 최초의 내국인\n남자 수도회 본원",
@@ -119,7 +119,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-suyeonsanbang.jpg",
         pinPhoto: "pin-suyeonsanbang.png",
-        pin: { x: 38.46, y: 33.38, w: 160, h: 67, ring: [70, 67], photo: [3, 3, 63, 61], label: [77, 15, 83, 37], lockedLabel: [40, 9, 133, 47], text: [85, 16, 64], fontSize: 13 },
+        pin: { x: 38.46, y: 33.38, w: 160, h: 67, ring: [70, 67], photo: [3, 3, 63, 61], label: [77, 15, 83, 37], lockedLabel: [40, 9, 132, 46], text: [85, 16, 64], fontSize: 13 },
         ordinal: "세번째",
         story: {
           title: "문장가 이태준의 집,\n수연산방",
@@ -155,7 +155,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-simujang.jpg",
         pinPhoto: "pin-simujang.png",
-        pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [80, 20, 54, 25], lockedLabel: [40, 12, 112, 37], text: [86, 21, 41], fontSize: 15 },
+        pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [80, 20, 54, 25], lockedLabel: [40, 12, 112, 38], text: [86, 21, 41], fontSize: 15 },
         ordinal: "네번째",
         story: {
           title: "만해 한용운이\n마지막까지 머문 집",
