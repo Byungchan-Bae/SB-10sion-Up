@@ -82,14 +82,13 @@
   height: 78px;
   pointer-events: none;
 }
-/* 아래 초록 덤불 (쿠폰 탭과 같은 그림, 무대 끝 764에서 자름) */
+/* 아래 초록 덤불 (Figma y 604 ~ 786). 무대(764) 아래로 22px 내려가 탭바 둥근 모서리 뒤까지 채운다.
+   넘친 부분은 탭바 자리의 빈 칸(tabSpacer) 위라서 스크롤 길이는 그대로 */
 .bush {
   left: -1px;
   top: 604px;
   width: 391px;
-  height: 160px;
-  object-fit: cover;
-  object-position: top;
+  height: 182px;
   pointer-events: none;
 }
 
