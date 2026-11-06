@@ -6,10 +6,10 @@ import { connect, ensureProgressTables, error, sha256 } from "../server/db.js";
 const TOP = 50;
 /**
  * 이보다 짧으면 실제로 걸어서 문제를 풀었다고 볼 수 없어 시간을 믿지 않는다 ("시간 기록 없음", 같은 점수에서 맨 뒤).
- * 코스 직선거리 1,048m에서 인증 반경을 뺀 257m를 빠른 걸음(5km/h)으로 약 3분 + 문제 4개 약 1분 = 4분.
- * 장소나 문제를 바꾸면 다시 계산할 것.
+ * 도보 경로 1,712m(보통 걸음 약 24분) 중 인증 반경 150m씩을 뺀 882m를 달리듯(8km/h) 약 6.6분 + 문제 4개 약 1.4분 = 8분.
+ * 장소나 문제를 바꾸면 다시 계산하고, 현장 테스트에서 걸린 시간을 보고 맞출 것.
  */
-const MIN_TRUSTED_SECONDS = 240;
+const MIN_TRUSTED_SECONDS = 480;
 /** Postgres: 테이블이 없음 */
 const UNDEFINED_TABLE = "42P01";
 
