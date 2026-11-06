@@ -86,9 +86,9 @@ export default function PlaceQuiz() {
   return (
     <MobileFrame>
       <Stage background="#fff">
-        <img className={styles.leavesRight} src="/assets/quiz-leaves-right.png" alt="" draggable={false} />
-        <img className={styles.leavesLeft} src="/assets/quiz-leaves-left.png" alt="" draggable={false} />
-        <img className={styles.landscape} src="/assets/quiz-landscape.png" alt="" draggable={false} />
+        <img className={styles.leavesRight} src="/assets/quiz-leaves-right.webp" alt="" draggable={false} />
+        <img className={styles.leavesLeft} src="/assets/quiz-leaves-left.webp" alt="" draggable={false} />
+        <img className={styles.landscape} src="/assets/quiz-landscape.webp" alt="" draggable={false} />
 
         <h1 className={styles.header}>
           {episode.badge} {episode.title}
@@ -116,7 +116,7 @@ export default function PlaceQuiz() {
               <img
                 className={styles.hintImage}
                 style={rectStyle(inHintBox(quiz.hintImage))}
-                src={`/assets/hint-${place.id}.png`}
+                src={`/assets/hint-${place.id}.webp`}
                 alt={quiz.hint}
                 draggable={false}
               />
@@ -124,7 +124,7 @@ export default function PlaceQuiz() {
             <img
               className={styles.mascot}
               style={{ left: quiz.mascot[0], top: quiz.mascot[1] }}
-              src="/assets/quiz-mascot.png"
+              src="/assets/quiz-mascot.webp"
               alt=""
               draggable={false}
             />
@@ -166,7 +166,7 @@ export default function PlaceQuiz() {
           </>
         ) : (
           <>
-            <img className={styles.paper} src="/assets/quiz-paper.png" alt="" draggable={false} />
+            <img className={styles.paper} src="/assets/quiz-paper.webp" alt="" draggable={false} />
             {[376, 407, 443, 474].map((top) => (
               <img key={top} className={styles.line} style={{ top }} src="/assets/icons/dotted-line.svg" alt="" />
             ))}

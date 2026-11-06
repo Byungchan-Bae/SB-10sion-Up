@@ -21,12 +21,12 @@ export default function EpisodeSecret() {
 
   return (
     <MobileFrame>
-      <Stage background='#e9b98a url("/assets/clue-bg.jpg") center / cover no-repeat'>
-        <img className={styles.bg} src="/assets/clue-bg.jpg" alt="" draggable={false} />
+      <Stage background='#e9b98a url("/assets/clue-bg.webp") center / cover no-repeat'>
+        <img className={styles.bg} src="/assets/clue-bg.webp" alt="" draggable={false} />
         <BackButton to="/map" />
 
         <div className={styles.card} />
-        <img className={styles.title} src="/assets/secret-title.png" alt="" draggable={false} />
+        <img className={styles.title} src="/assets/secret-title.webp" alt="" draggable={false} />
         <h1 className="sr-only">밝혀진 비밀</h1>
 
         <p className={styles.reveal}>
@@ -40,7 +40,7 @@ export default function EpisodeSecret() {
 
         <img
           className={styles.letter}
-          src="/assets/secret-letter.png"
+          src="/assets/secret-letter.webp"
           alt="편지: “시간이 흘러도 이곳의 이야기를 기억해 주기를,”"
           draggable={false}
         />

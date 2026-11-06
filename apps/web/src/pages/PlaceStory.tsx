@@ -50,7 +50,7 @@ export default function PlaceStory() {
         <p className={styles.body}>{place.story.body}</p>
 
         <div className={styles.tip}>
-          <img src="/assets/checkin-mascots-bottom.png" alt="" draggable={false} />
+          <img src="/assets/checkin-mascots-bottom.webp" alt="" draggable={false} />
           <p>{place.story.tip}</p>
         </div>
 

@@ -51,7 +51,7 @@ export default function Ranking() {
         </p>
 
         <div className={styles.mine}>
-          <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
+          <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
           {data?.me ? (
             <p>
               내 순위 <b>{data.me.rank}위</b>

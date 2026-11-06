@@ -8,7 +8,7 @@
   padding: clamp(48px, 9.8dvh, 83px) 37px calc(clamp(20px, 6.8dvh, 57px) + env(safe-area-inset-bottom));
   text-align: center;
   /* 따뜻한 한옥 정원 풍경: top 267부터 화면 끝까지 */
-  background: var(--color-cream) url("/assets/nickname-bg.jpg") center bottom / 100% auto no-repeat;
+  background: var(--color-cream) url("/assets/nickname-bg.webp") center bottom / 100% auto no-repeat;
 }
 
 /* 로고 + 마스코트 369 × 241 */
