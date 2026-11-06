@@ -26,6 +26,19 @@
   height: 100%;
 }
 
+/*
+ * 지도 그림 맨 위 하늘색(#9edafc)이 화면 하늘색(#aee0fe)보다 진해서 경계가 줄처럼 보였다.
+ * Figma처럼 이어지게 화면 하늘색에서 투명으로 서서히 덮는다. 상태 카드·핀보다 아래
+ */
+.skyFade {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 32px;
+  background: linear-gradient(#aee0fe, rgb(174 224 254 / 0.6) 45%, rgb(174 224 254 / 0));
+  pointer-events: none;
+}
+
 /* ---- 장소 핀 (Component 11/13/15/17) ---- */
 .pin,
 .pinLocked {
