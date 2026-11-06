@@ -21,10 +21,12 @@ export default function PlaceClue() {
   const progress = useProgress(found?.episode.id ?? "");
 
   if (!found) return <Navigate to="/map" replace />;
-  const { episode, place } = found;
+  const { episode, place, index } = found;
   // 문제를 아직 안 풀었으면 문제 화면으로
   if (!progress.clues.includes(place.id)) return <Navigate to={`/place/${place.id}/quiz`} replace />;
   const { clue } = place;
+  // 마지막 장소의 단서일 때만 "밝혀진 비밀"로. 이미 다 깬 뒤 처음이나 중간부터 다시 하면 다음 장소로 이어서 간다
+  const isLast = index === episode.places.length - 1;
 
   return (
     <MobileFrame>
@@ -61,8 +63,8 @@ export default function PlaceClue() {
           {place.ordinal} 단서는 <em>“{clue.word}”</em>입니다
         </p>
 
-        {/* 단서를 다 모았으면 지도 대신 "밝혀진 비밀"로. 수집물에서 왔으면 다음 버튼 없음 */}
-        {fromCollection ? null : hasAllClues(episode, progress) ? (
+        {/* 마지막 장소에서 단서를 다 모았으면 지도 대신 "밝혀진 비밀"로. 수집물에서 왔으면 다음 버튼 없음 */}
+        {fromCollection ? null : isLast && hasAllClues(episode, progress) ? (
           <PrimaryButton size="md" className={styles.next} onClick={() => navigate(`/episode/${episode.id}/secret`)}>
             다음
           </PrimaryButton>
