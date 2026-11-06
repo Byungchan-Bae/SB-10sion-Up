@@ -64,17 +64,17 @@
 .heroSmall {
   flex: none;
   align-self: flex-start;
-  margin-left: -8px;
   object-fit: contain;
+  filter: drop-shadow(0 3px 4px rgb(105 44 0 / 0.22));
 }
 .hero {
-  width: 116px;
-  height: 82px;
+  width: 64px;
+  height: 64px;
   animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.1s backwards;
 }
 .heroSmall {
-  width: 72px;
-  height: 51px;
+  width: 44px;
+  height: 44px;
 }
 .greeting {
   flex: none;
@@ -167,15 +167,15 @@
   max-width: 94%;
   display: flex;
   align-items: flex-start;
-  gap: 4px;
-  margin-left: -8px;
+  gap: 8px;
   animation: rise 0.3s ease-out;
 }
 .mateIcon {
   flex: none;
-  width: 48px;
+  width: 34px;
   height: 34px;
   object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgb(105 44 0 / 0.2));
 }
 .a,
 .err {
