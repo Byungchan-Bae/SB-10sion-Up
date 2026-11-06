@@ -6,6 +6,7 @@ import { TabBar } from "../components/TabBar";
 import { PrimaryButton } from "../components/Button";
 import { COMING_SOON_EPISODES, EPISODES } from "../data/episodes";
 import { useProgress } from "../lib/progress";
+import { selectEpisode } from "../lib/selection";
 import styles from "./Home.module.css";
 
 /** 카드 간격: 카드 폭 326 + 사이 11 (Figma 다음 카드 위치 기준) */
@@ -57,6 +58,7 @@ export default function Home() {
             <img className={styles.frame} src="/assets/home-card-frame-single.webp" alt="" draggable={false} />
             <Link
               to={detailPath}
+              onClick={() => selectEpisode(episode.id)}
               className={styles.card}
               aria-label={`${episode.badge} ${episode.title}${cleared ? " (완료)" : ""}`}
             >
@@ -116,7 +118,10 @@ export default function Home() {
           ))}
         </div>
 
-        <PrimaryButton size="md" className={styles.cta} disabled={!isOpen} onClick={() => navigate(detailPath)}>
+        <PrimaryButton size="md" className={styles.cta} disabled={!isOpen} onClick={() => {
+            selectEpisode(episode.id);
+            navigate(detailPath);
+          }}>
           {isOpen ? "에피소드 보기" : "공개 예정"}
         </PrimaryButton>
       </Stage>

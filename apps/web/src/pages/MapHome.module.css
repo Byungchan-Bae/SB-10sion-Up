@@ -1,0 +1,48 @@
+/* Figma 221:3534 에피소드 고르기 전 지도 탭 — 390 × 844 Stage 좌표 */
+
+.leaves {
+  left: -3px;
+  top: 0;
+  width: 217px;
+  height: 118px;
+  pointer-events: none;
+}
+
+.mascots {
+  left: 89px;
+  top: 201px;
+  width: 208px;
+  height: 190px;
+  pointer-events: none;
+}
+
+.title {
+  left: 0;
+  top: 411px;
+  width: 390px;
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+.desc {
+  left: 0;
+  top: 446px;
+  width: 390px;
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #978a83;
+}
+
+.cta {
+  left: 64px;
+  top: 511px;
+  width: 270px;
+  height: 52px;
+}

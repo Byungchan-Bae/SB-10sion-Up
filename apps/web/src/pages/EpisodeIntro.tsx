@@ -5,6 +5,7 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
 import { getEpisode } from "../data/episodes";
 import { startEpisode } from "../lib/progress";
+import { selectEpisode } from "../lib/selection";
 import styles from "./EpisodeIntro.module.css";
 
 /** Figma 136:2455 스토리 ("의문의 편지") */
@@ -35,6 +36,7 @@ export default function EpisodeIntro() {
           size="md"
           className={styles.cta}
           onClick={() => {
+            selectEpisode(episode.id);
             startEpisode(episode.id);
             navigate(`/episode/${episode.id}/map`);
           }}

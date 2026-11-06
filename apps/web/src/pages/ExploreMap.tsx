@@ -72,8 +72,10 @@ function Pin({
 }
 
 /** Figma 136:2806 (5) ~ 136:2839 (8) 탐험 지도 */
-export default function ExploreMap() {
-  const { episodeId } = useParams();
+/** episodeId: /map 에서 MapHome이 정해 넘김. 없으면 주소(/episode/:episodeId/map)의 값 */
+export default function ExploreMap({ episodeId: chosenId }: { episodeId?: string } = {}) {
+  const { episodeId: routeId } = useParams();
+  const episodeId = chosenId ?? routeId;
   const navigate = useNavigate();
   const episode = episodeId ? getEpisode(episodeId) : EPISODES[0];
   const progress = useProgress(episode?.id ?? "");
