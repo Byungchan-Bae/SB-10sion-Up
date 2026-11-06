@@ -52,7 +52,7 @@ function Pin({
         .filter(Boolean)
         .join(" ")}
       style={
-        { left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h, "--d": `${0.2 + order * 0.12}s` } as CSSProperties
+        { left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h, "--d": `${0.2 + order * 0.12}s`, "--ring-w": `${p.ring[0]}px` } as CSSProperties
       }
       onClick={onClick}
       aria-label={open ? `${place.name} 장소 인증하기` : `${place.name} (잠김)`}

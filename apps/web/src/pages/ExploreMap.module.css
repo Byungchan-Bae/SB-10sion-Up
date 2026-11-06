@@ -204,39 +204,40 @@
   composes: fade from "../styles/motion.module.css";
 }
 
-/* 핀이 차례로 튀어나온다 (--d는 화면에서 넘긴다) */
+/*
+ * 지도 그림(map-ep01.webp)에 핀의 원, 이름, 화살표가 그려져 있어서 핀을 옮기거나 크기를 바꾸면
+ * 그림이 뒤에서 드러나 글자가 두 겹으로 보인다. 핀은 제자리에서 나타나기만 하고 움직이지 않는다.
+ */
 .pin,
 .pinLocked {
-  animation: pinPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) backwards;
+  animation: pinFade 0.4s ease-out var(--d, 0s) backwards;
 }
-/* 다음 목적지: 통통 튀고 둘레가 퍼져 나간다 */
-.pinCurrent {
-  animation:
-    pinPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) backwards,
-    pinBob 1.4s ease-in-out calc(var(--d, 0s) + 0.6s) infinite;
-}
+/* 다음 목적지: 둘레에 빛이 퍼지고, 핀 위에 작은 화살표가 튄다 */
 .pinCurrent .ring {
-  animation: ringPulse 1.4s ease-out calc(var(--d, 0s) + 0.6s) infinite;
+  animation: ringPulse 1.4s ease-out calc(var(--d, 0s) + 0.4s) infinite;
 }
-/* 잠긴 핀을 누르면 흔들린다. 핀 전체 애니메이션을 건드리지 않도록 안쪽을 흔든다 */
-.shaking .photo,
-.shaking .label,
-.shaking .ring,
-.shaking .name {
-  animation: pinShake 0.4s ease;
+.pinCurrent::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--ring-w) / 2 - 9px);
+  top: -22px;
+  border-style: solid;
+  border-width: 14px 9px 0;
+  border-color: #fd6f03 transparent transparent;
+  filter: drop-shadow(0 2px 2px rgb(105 44 0 / 0.35));
+  animation: markerBob 0.9s ease-in-out calc(var(--d, 0s) + 0.4s) infinite;
+}
+/* 잠긴 핀을 누르면 자물쇠만 흔들린다 */
+.shaking .lock {
+  animation: lockShake 0.4s ease;
 }
 .toast {
   animation: toastIn 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
-@keyframes pinPop {
+@keyframes pinFade {
   from {
     opacity: 0;
-    transform: scale(0.3);
-  }
-}
-@keyframes pinBob {
-  50% {
-    transform: translateY(-7px);
   }
 }
 @keyframes ringPulse {
@@ -247,14 +248,19 @@
     box-shadow: 0 0 0 16px rgb(253 111 3 / 0);
   }
 }
-@keyframes pinShake {
+@keyframes markerBob {
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes lockShake {
   20%,
   60% {
-    transform: translateX(-5px);
+    transform: translate(calc(-50% - 4px), -50%) rotate(-10deg);
   }
   40%,
   80% {
-    transform: translateX(5px);
+    transform: translate(calc(-50% + 4px), -50%) rotate(10deg);
   }
 }
 @keyframes toastIn {
@@ -266,12 +272,9 @@
 @media (prefers-reduced-motion: reduce) {
   .pin,
   .pinLocked,
-  .pinCurrent,
   .pinCurrent .ring,
-  .shaking .photo,
-  .shaking .label,
-  .shaking .ring,
-  .shaking .name,
+  .pinCurrent::before,
+  .shaking .lock,
   .toast {
     animation: none;
   }
