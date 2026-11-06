@@ -1,13 +1,30 @@
 /* Figma 136:2309 / 136:2319 / 136:2333 온보딩 (390 × 844) */
 
-/* 아래쪽 구름 + 한옥 풍경 (390 × 439, top 405) — 카드, 설명 뒤에 깔림 */
+/*
+ * 아래쪽 구름 + 한옥 풍경 (390 × 439) — 카드, 설명 뒤에 깔림.
+ * Figma(top 405)대로 두면 "다음" 버튼이 한옥과 성곽을 가려서, 그림의 땅 위쪽 선이 버튼 바로 위에 오도록 올린다.
+ * 11px = 버튼 높이 61 + 간격 4 - 그림 아래쪽 땅 54
+ */
 .landscape {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: calc(clamp(20px, 6.9dvh, 58px) + env(safe-area-inset-bottom) + 11px);
   width: 100%;
   height: 439px;
   pointer-events: none;
+  animation: rise 0.6s ease-out both;
+}
+
+/* 그림을 올려서 생긴 아래 빈 공간을 그림 맨 아래 땅 색으로 채운다 */
+.ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(clamp(20px, 6.9dvh, 58px) + env(safe-area-inset-bottom) + 12px);
+  background: #fff6e7;
+  pointer-events: none;
+  animation: fade 0.6s ease-out both;
 }
 
 /* 왼쪽 위 나뭇가지 (217 × 118) */
@@ -19,6 +36,7 @@
   height: 118px;
   z-index: 2;
   pointer-events: none;
+  animation: leaves 0.6s ease-out both;
 }
 
 .viewport {
@@ -26,6 +44,7 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+  animation: rise 0.5s ease-out 0.1s both;
 }
 
 .track {
@@ -109,4 +128,45 @@
   display: flex;
   justify-content: center;
   padding: 24px 37px calc(clamp(20px, 6.9dvh, 58px) + env(safe-area-inset-bottom));
+  animation: rise 0.5s ease-out 0.2s both;
+}
+
+/* 스플래시에서 넘어올 때 나타나는 애니메이션 */
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes leaves {
+  from {
+    opacity: 0;
+    transform: translate(-16px, -16px);
+  }
+}
+
+/* 닉네임 화면으로 넘어갈 때 */
+.leaving {
+  animation: out 0.25s ease-in forwards;
+}
+@keyframes out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landscape,
+  .ground,
+  .leaves,
+  .viewport,
+  .bottom,
+  .leaving {
+    animation: none;
+  }
 }

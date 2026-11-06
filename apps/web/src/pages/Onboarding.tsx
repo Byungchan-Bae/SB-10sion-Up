@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Asset } from "../components/Asset";
 import { PrimaryButton } from "../components/Button";
 import styles from "./Onboarding.module.css";
+
+/** 닉네임 화면으로 넘어갈 때 사라지는 시간 (Onboarding.module.css의 .leaving과 맞출 것) */
+const LEAVE_MS = 250;
 
 const DESCRIPTION = "성북동의 유서 깊은 장소를 직접 걸으며\n미스터리를 해결하는 야외 방탈출게임이에요";
 
@@ -16,16 +19,26 @@ const SLIDES = [
 export default function Onboarding() {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
 
   // 넘김은 "다음" 버튼으로만 (손으로 밀어서 넘기지 않음). 마지막 장에서 누르면 닉네임 입력으로
-  const goNext = () => (index < SLIDES.length - 1 ? setIndex(index + 1) : navigate("/nickname"));
+  const goNext = () => (index < SLIDES.length - 1 ? setIndex(index + 1) : setLeaving(true));
+
+  useEffect(() => {
+    if (!leaving) return;
+    const t = setTimeout(() => navigate("/nickname"), LEAVE_MS);
+    return () => clearTimeout(t);
+  }, [leaving, navigate]);
+
+  const cls = (name: string) => [name, leaving && styles.leaving].filter(Boolean).join(" ");
 
   return (
     <MobileFrame>
-      <Asset name="onboarding-bottom.webp" alt="" className={styles.landscape} fit="cover" />
-      <Asset name="leaves-corner.webp" alt="" className={styles.leaves} />
+      <div className={cls(styles.ground)} />
+      <Asset name="onboarding-bottom.webp" alt="" className={cls(styles.landscape)} fit="cover" />
+      <Asset name="leaves-corner.webp" alt="" className={cls(styles.leaves)} />
 
-      <div className={styles.viewport}>
+      <div className={cls(styles.viewport)}>
         <div className={styles.track} style={{ transform: `translateX(${-index * 100}%)` }}>
           {SLIDES.map((s, i) => (
             <section key={s.title} className={styles.slide} aria-hidden={i !== index}>
@@ -39,8 +52,8 @@ export default function Onboarding() {
         </div>
       </div>
 
-      <div className={styles.bottom}>
-        <PrimaryButton onClick={goNext}>다음</PrimaryButton>
+      <div className={cls(styles.bottom)}>
+        <PrimaryButton disabled={leaving} onClick={goNext}>다음</PrimaryButton>
       </div>
     </MobileFrame>
   );

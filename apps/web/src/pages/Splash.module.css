@@ -33,3 +33,19 @@
   width: 290px;
   height: 283px;
 }
+
+/* 다음 화면으로 넘어갈 때 */
+.leaving {
+  animation: leave 0.4s ease-in forwards;
+}
+@keyframes leave {
+  to {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leaving {
+    animation: none;
+  }
+}

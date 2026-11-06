@@ -9,6 +9,17 @@
   text-align: center;
   /* 따뜻한 한옥 정원 풍경: top 267부터 화면 끝까지 */
   background: var(--color-cream) url("/assets/nickname-bg.webp") center bottom / 100% auto no-repeat;
+  animation: fade 0.4s ease-out both;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    animation: none;
+  }
 }
 
 /* 로고 + 마스코트 369 × 241 */
