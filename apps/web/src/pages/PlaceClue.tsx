@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
@@ -14,6 +14,8 @@ import styles from "./PlaceClue.module.css";
 export default function PlaceClue() {
   const { placeId } = useParams();
   const navigate = useNavigate();
+  // 수집물 탭에서 다시 보러 왔으면 게임 흐름용 "다음" 버튼은 숨기고, 뒤로 가기도 수집물로
+  const fromCollection = (useLocation().state as { from?: string } | null)?.from === "collection";
   const found = findPlace(placeId);
   const progress = useProgress(found?.episode.id ?? "");
 
@@ -27,7 +29,7 @@ export default function PlaceClue() {
     <MobileFrame>
       <Stage background='#e9b98a url("/assets/clue-bg.webp") center / cover no-repeat'>
         <img className={styles.bg} src="/assets/clue-bg.webp" alt="" draggable={false} />
-        <BackButton to="/map" />
+        <BackButton to={fromCollection ? "/collection" : "/map"} />
 
         <div className={styles.card} />
         <img className={styles.title} src="/assets/clue-title.webp" alt="" draggable={false} />
@@ -58,8 +60,8 @@ export default function PlaceClue() {
           {place.ordinal} 단서는 <em>“{clue.word}”</em>입니다
         </p>
 
-        {/* 단서를 다 모았으면 지도 대신 "밝혀진 비밀"로 */}
-        {hasAllClues(episode, progress) ? (
+        {/* 단서를 다 모았으면 지도 대신 "밝혀진 비밀"로. 수집물에서 왔으면 다음 버튼 없음 */}
+        {fromCollection ? null : hasAllClues(episode, progress) ? (
           <PrimaryButton size="md" className={styles.next} onClick={() => navigate(`/episode/${episode.id}/secret`)}>
             다음
           </PrimaryButton>
@@ -68,7 +70,11 @@ export default function PlaceClue() {
             다음 에피소드 보기
           </PrimaryButton>
         )}
-        <SecondaryButton size="md" className={styles.collection} onClick={() => navigate("/collection")}>
+        <SecondaryButton
+          size="md"
+          className={fromCollection ? `${styles.collection} ${styles.collectionOnly}` : styles.collection}
+          onClick={() => navigate("/collection")}
+        >
           수집물 보기
         </SecondaryButton>
       </Stage>

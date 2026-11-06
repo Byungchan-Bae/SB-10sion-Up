@@ -78,7 +78,7 @@ export default function Collection() {
                       type="button"
                       className={[styles.card, !found && styles.locked].filter(Boolean).join(" ")}
                       disabled={!found}
-                      onClick={() => navigate(`/place/${place.id}/clue`)}
+                      onClick={() => navigate(`/place/${place.id}/clue`, { state: { from: "collection" } })}
                       aria-label={found ? `${place.ordinal} 단서 “${place.clue.word}” — ${place.name}` : `${place.ordinal} 단서 — 아직 찾지 못했어요`}
                     >
                       <span className={styles.fragment}>
