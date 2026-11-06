@@ -5,6 +5,7 @@ import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
 import { PrimaryButton } from "../components/Button";
 import { COMING_SOON_EPISODES, EPISODES } from "../data/episodes";
+import { useProgress } from "../lib/progress";
 import styles from "./Home.module.css";
 
 /** 카드 간격: 카드 폭 326 + 사이 11 (Figma 다음 카드 위치 기준) */
@@ -16,6 +17,8 @@ export default function Home() {
   const episode = EPISODES[0];
   const detailPath = `/episode/${episode.id}`;
   const total = 1 + COMING_SOON_EPISODES.length;
+  // 최종 클리어 = 밝혀진 비밀에서 "완료"를 눌러 남긴 completedAt (이 기기 기록 + 서버 기록을 합친 값)
+  const cleared = Boolean(useProgress(episode.id).completedAt);
 
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);
@@ -52,7 +55,11 @@ export default function Home() {
           {/* 1번: 진행 가능한 에피소드 */}
           <div className={styles.slide}>
             <img className={styles.frame} src="/assets/home-card-frame-single.webp" alt="" draggable={false} />
-            <Link to={detailPath} className={styles.card} aria-label={`${episode.badge} ${episode.title}`}>
+            <Link
+              to={detailPath}
+              className={styles.card}
+              aria-label={`${episode.badge} ${episode.title}${cleared ? " (완료)" : ""}`}
+            >
               <img className={styles.cardArt} src={`/assets/${episode.cardImage}`} alt="" draggable={false} />
               <span className={styles.badge}>{episode.badge}</span>
               <span className={styles.title} data-text={episode.title}>
@@ -63,6 +70,13 @@ export default function Home() {
               <span className={styles.teaserBox}>
                 <span className={styles.teaser}>{episode.teaser}</span>
               </span>
+              {/* 최종 클리어한 에피소드: 카드만 어둡게 덮고 가운데에 컬러 완료 도장 (Figma 242:3980) */}
+              {cleared && (
+                <>
+                  <span className={styles.clearDim} aria-hidden="true" />
+                  <img className={styles.clearStamp} src="/assets/home-complete-stamp.webp" alt="" draggable={false} />
+                </>
+              )}
             </Link>
             <img className={styles.mascots} src="/assets/home-mascots.webp" alt="" draggable={false} />
           </div>

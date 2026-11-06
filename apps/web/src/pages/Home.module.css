@@ -192,6 +192,25 @@
   inset: 0;
   background: rgb(60 40 20 / 0.45);
 }
+
+/*
+ * 최종 클리어한 에피소드 카드 (Figma 242:3980 · 311:5607).
+ * .card가 overflow: hidden + 둥근 모서리라 덮개도 그 안쪽에만 깔린다.
+ * 덮개 · 도장은 클릭을 막지 않아서 카드를 눌러 상세로 가고 옆으로 넘기는 동작은 그대로.
+ */
+.clearDim {
+  inset: 0;
+  background: rgb(0 0 0 / 0.65); /* Figma 덮개: #000000, 65% */
+  pointer-events: none;
+}
+/* Figma 311:5794 도장 186 × 170, 카드(덮개 프레임 326 × 357) 기준 (75, 94). 원본의 투명 여백까지 포함한 크기 */
+.clearStamp {
+  left: 75px;
+  top: 94px;
+  width: 186px;
+  height: 170px;
+  pointer-events: none;
+}
 .badgeLocked {
   background: #d9d9d9;
   color: #8a8a8a;
