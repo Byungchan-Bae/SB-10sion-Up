@@ -39,6 +39,21 @@
   animation: leaves 0.6s ease-out both;
 }
 
+/*
+ * 오른쪽 위 한옥 (130 × 106). 문제 화면(136:4088)과 배경을 맞춘 것.
+ * 문제 화면처럼 top 104에 두면 긴 부제와 겹쳐서, 제목 영역에 맞춰 부제 바로 위에서 끝나게 둔다.
+ * 49px = 그림 높이 106 - (제목 38 + 간격 24 - 여유 5)
+ */
+.hanok {
+  position: absolute;
+  top: calc(clamp(84px, 14.3dvh, 121px) - 49px);
+  right: 0;
+  width: 130px;
+  height: 106px;
+  pointer-events: none;
+  animation: hanok 0.6s ease-out both;
+}
+
 .viewport {
   position: relative;
   flex: 1;
@@ -55,6 +70,7 @@
 
 .slide {
   flex: 0 0 100%;
+  min-width: 0; /* 없으면 390px보다 좁은 화면에서 사진 폭만큼 넓어져 다음 장이 밀린다 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,6 +166,13 @@
   }
 }
 
+@keyframes hanok {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+
 /* 닉네임 화면으로 넘어갈 때 */
 .leaving {
   animation: out 0.25s ease-in forwards;
@@ -164,6 +187,7 @@
   .landscape,
   .ground,
   .leaves,
+  .hanok,
   .viewport,
   .bottom,
   .leaving {

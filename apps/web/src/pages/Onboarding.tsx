@@ -37,6 +37,7 @@ export default function Onboarding() {
       <div className={cls(styles.ground)} />
       <Asset name="onboarding-bottom.webp" alt="" className={cls(styles.landscape)} fit="cover" />
       <Asset name="leaves-corner.webp" alt="" className={cls(styles.leaves)} />
+      <Asset name="quiz-leaves-right.webp" alt="" className={cls(styles.hanok)} />
 
       <div className={cls(styles.viewport)}>
         <div className={styles.track} style={{ transform: `translateX(${-index * 100}%)` }}>
