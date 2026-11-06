@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
-import { EPISODES } from "../data/episodes";
+import { COMING_SOON_EPISODES, EPISODES } from "../data/episodes";
 import { hasAllClues, useProgress } from "../lib/progress";
 import { CollectionCoupons } from "./CollectionCoupons";
 import styles from "./Collection.module.css";
@@ -12,12 +13,18 @@ import styles from "./Collection.module.css";
  * Figma "최종"에 이 화면 프레임이 없어서 단서 발견 화면(136:4524)의 카드 · 편지 조각 그림으로 구성.
  */
 export default function Collection() {
-  // 지금은 에피소드가 하나뿐이라 EP.01만 보여 준다
-  const episode = EPISODES[0];
-  const progress = useProgress(episode.id);
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
+  // 에피소드가 늘어나면 고르는 목록에 자동으로 나온다 (?ep=에피소드 id). 없으면 첫 에피소드
+  const episode = EPISODES.find((e) => e.id === params.get("ep")) ?? EPISODES[0];
+  const progress = useProgress(episode.id);
+  const [picking, setPicking] = useState(false);
   const showCoupons = params.get("tab") === "coupons";
+  const go = (coupons: boolean, episodeId: string) =>
+    setParams(
+      { ...(coupons ? { tab: "coupons" } : {}), ...(episodeId !== EPISODES[0].id ? { ep: episodeId } : {}) },
+      { replace: true },
+    );
   const count = episode.places.filter((p) => progress.clues.includes(p.id)).length;
 
   const tab = (label: string, coupons: boolean) => (
@@ -26,7 +33,7 @@ export default function Collection() {
       role="tab"
       aria-selected={showCoupons === coupons}
       className={showCoupons === coupons ? styles.tabOn : styles.tab}
-      onClick={() => setParams(coupons ? { tab: "coupons" } : {}, { replace: true })}
+      onClick={() => go(coupons, episode.id)}
     >
       {label}
     </button>
@@ -40,15 +47,22 @@ export default function Collection() {
           {tab("단서", false)}
           {tab("쿠폰", true)}
         </div>
-        <p className={styles.episode}>
-          <span className={styles.badge}>{episode.badge}</span>
+        <p className={styles.episodeLabel}>에피소드</p>
+        <button
+          type="button"
+          className={styles.episodePicker}
+          aria-haspopup="listbox"
+          aria-expanded={picking}
+          onClick={() => setPicking((open) => !open)}
+        >
           {episode.title}
-          {!showCoupons && (
-            <span className={styles.count}>
-              단서 <b>{count}</b> / {episode.places.length}
-            </span>
-          )}
-        </p>
+          <span className={styles.chevron} aria-hidden="true" />
+        </button>
+        {!showCoupons && (
+          <p className={styles.count}>
+            단서 <b>{count}</b> / {episode.places.length}
+          </p>
+        )}
 
         {showCoupons ? (
           <CollectionCoupons episode={episode} />
@@ -99,6 +113,37 @@ export default function Collection() {
                 <p>{"네 개의 단서를 모두 모으면\n편지의 수신인이 밝혀져요!"}</p>
               </div>
             )}
+          </>
+        )}
+
+        {picking && (
+          <>
+            <button type="button" className={styles.episodeBack} aria-label="닫기" onClick={() => setPicking(false)} />
+            <ul className={styles.episodeMenu} role="listbox" aria-label="에피소드">
+              {EPISODES.map((e) => (
+                <li key={e.id} role="option" aria-selected={e.id === episode.id}>
+                  <button
+                    type="button"
+                    className={e.id === episode.id ? styles.episodeOn : styles.episodeItem}
+                    onClick={() => {
+                      go(showCoupons, e.id);
+                      setPicking(false);
+                    }}
+                  >
+                    <span className={styles.badge}>{e.badge}</span>
+                    {e.title}
+                  </button>
+                </li>
+              ))}
+              {COMING_SOON_EPISODES.map((e) => (
+                <li key={e.badge} role="option" aria-selected={false} aria-disabled={true}>
+                  <span className={styles.episodeSoon}>
+                    <span className={styles.badge}>{e.badge}</span>
+                    공개 예정
+                  </span>
+                </li>
+              ))}
+            </ul>
           </>
         )}
       </Stage>
