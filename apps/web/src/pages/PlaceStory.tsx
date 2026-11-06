@@ -6,7 +6,7 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { useProgress } from "../lib/progress";
-import { AskSheet } from "../components/AskSheet";
+import { AskMate } from "../components/AskMate";
 import { PlaceHero } from "./PlaceHero";
 import styles from "./PlaceStory.module.css";
 
@@ -62,7 +62,7 @@ export default function PlaceStory() {
         </SecondaryButton>
 
       </Stage>
-      {asking && <AskSheet placeId={place.id} placeName={place.name} onClose={() => setAsking(false)} />}
+      {asking && <AskMate place={place} onClose={() => setAsking(false)} />}
     </MobileFrame>
   );
 }
