@@ -9,7 +9,7 @@ import { CollectionCoupons } from "./CollectionCoupons";
 import styles from "./Collection.module.css";
 
 /**
- * 수집물 탭 (/collection) — 모은 단서(편지 조각) 카드와 쿠폰(?tab=coupons).
+ * 수집물 탭 (/collection) — 모은 단서(편지 조각) 카드와 쿠폰(?tab=coupons, CollectionCoupons).
  * Figma "최종"에 이 화면 프레임이 없어서 단서 발견 화면(136:4524)의 카드 · 편지 조각 그림으로 구성.
  */
 export default function Collection() {
@@ -19,6 +19,8 @@ export default function Collection() {
   const episode = EPISODES.find((e) => e.id === params.get("ep")) ?? EPISODES[0];
   const progress = useProgress(episode.id);
   const [picking, setPicking] = useState(false);
+  // 쿠폰 창은 탭바까지 덮도록 Stage overlay 안의 이 칸에 그린다
+  const [overlayHost, setOverlayHost] = useState<HTMLDivElement | null>(null);
   const showCoupons = params.get("tab") === "coupons";
   const go = (coupons: boolean, episodeId: string) =>
     setParams(
@@ -41,33 +43,36 @@ export default function Collection() {
 
   return (
     <MobileFrame>
-      <Stage footer={<TabBar />} background="var(--color-detail-bg)">
+      <Stage
+        footer={<TabBar />}
+        background="var(--color-detail-bg)"
+        overlay={<div ref={setOverlayHost} className={styles.overlayHost} />}
+      >
         <h1 className={styles.header}>수집물</h1>
         <div className={styles.tabs} role="tablist" aria-label="수집물 종류">
           {tab("단서", false)}
           {tab("쿠폰", true)}
         </div>
-        <p className={styles.episodeLabel}>에피소드</p>
-        <button
-          type="button"
-          className={styles.episodePicker}
-          aria-haspopup="listbox"
-          aria-expanded={picking}
-          onClick={() => setPicking((open) => !open)}
-        >
-          {episode.title}
-          <span className={styles.chevron} aria-hidden="true" />
-        </button>
-        {!showCoupons && (
-          <p className={styles.count}>
-            단서 <b>{count}</b> / {episode.places.length}
-          </p>
-        )}
-
         {showCoupons ? (
-          <CollectionCoupons episode={episode} />
+          // Figma 311:8212: 쿠폰 탭에는 에피소드 고르기가 없고 마스코트 + 현재 포인트가 그 자리에 온다
+          <CollectionCoupons episode={episode} overlayHost={overlayHost} />
         ) : (
           <>
+            <p className={styles.episodeLabel}>에피소드</p>
+            <button
+              type="button"
+              className={styles.episodePicker}
+              aria-haspopup="listbox"
+              aria-expanded={picking}
+              onClick={() => setPicking((open) => !open)}
+            >
+              {episode.title}
+              <span className={styles.chevron} aria-hidden="true" />
+            </button>
+            <p className={styles.count}>
+              단서 <b>{count}</b> / {episode.places.length}
+            </p>
+
             <ul className={styles.grid}>
               {episode.places.map((place) => {
                 const found = progress.clues.includes(place.id);
@@ -116,7 +121,7 @@ export default function Collection() {
           </>
         )}
 
-        {picking && (
+        {picking && !showCoupons && (
           <>
             <button type="button" className={styles.episodeBack} aria-label="닫기" onClick={() => setPicking(false)} />
             <ul className={styles.episodeMenu} role="listbox" aria-label="에피소드">

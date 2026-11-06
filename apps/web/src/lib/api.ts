@@ -136,9 +136,23 @@ export function getCoupons(episodeId: string, signal?: AbortSignal) {
   });
 }
 
-/** 쿠폰 사용 처리 — 서버가 완주 여부를 확인하고 한 번만 기록한다 */
+/** 포인트로 쿠폰 교환 — 서버가 남은 포인트를 확인한다 (모자라면 "포인트가 부족해요") */
+export const buyCoupon = (episodeId: string, couponId: string) =>
+  postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({
+    userId,
+    episodeId,
+    couponId,
+    action: "buy",
+  }));
+
+/** 쿠폰 사용 처리 — 교환한 쿠폰만, 한 번만 기록한다 */
 export const redeemCoupon = (episodeId: string, couponId: string) =>
-  postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({ userId, episodeId, couponId }));
+  postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({
+    userId,
+    episodeId,
+    couponId,
+    action: "use",
+  }));
 
 /** 랭킹. 닉네임을 등록한 사용자면 내 순위도 함께 받는다 */
 export function getRanking(episodeId: string, signal?: AbortSignal) {

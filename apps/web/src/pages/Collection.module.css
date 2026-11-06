@@ -237,232 +237,15 @@
   color: #fff;
 }
 
-/* 쿠폰 */
-.couponCount {
-  left: 24px;
-  top: 204px;
-  width: 342px;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--color-gray2);
-}
-.couponCount b {
-  color: #fd6f03;
-}
-.tickets {
-  left: 24px;
-  top: 232px;
-  width: 342px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.ticket {
-  position: relative;
-  width: 100%;
-  height: 104px;
-  display: flex;
-  align-items: stretch;
-  padding: 0 14px 0 0;
-  box-sizing: border-box;
-  overflow: hidden;
-  border: none;
-  border-radius: 12px;
-  background: #fbddb3;
-  box-shadow: 0 4px 4px rgb(105 44 0 / 0.2);
-  font-family: var(--font-sans);
-  text-align: left;
-  color: var(--color-brown);
-  cursor: pointer;
-}
-.ticket:active:not(:disabled) {
-  transform: translateY(1px);
-}
-.ticket:disabled {
-  cursor: default;
-}
-/* 표 절취선 양쪽의 홈 */
-.ticket::before,
-.ticket::after {
-  content: "";
+/* 쿠폰 창을 그리는 칸 (Stage overlay): 탭바 위까지 화면 전체 */
+.overlayHost {
   position: absolute;
-  left: 92px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--color-detail-bg);
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
 }
-.ticket::before {
-  top: -8px;
-}
-.ticket::after {
-  bottom: -8px;
-}
-.ticketBenefit {
-  flex: none;
-  width: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 2px dashed rgb(255 255 255 / 0.7);
-  background: var(--color-primary);
-  font-size: 13px;
-  font-weight: 800;
-  color: #fff;
-}
-.ticketBenefit b {
-  font-size: 22px;
-  font-weight: 900;
-  line-height: 1.2;
-}
-.ticketBenefit img {
-  width: 24px;
-  height: 28px;
-}
-.ticketBody {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 3px;
-  padding-left: 16px;
-}
-.ticketCategory {
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: #fff1cd;
-  font-size: 11px;
-  font-weight: 800;
-}
-.ticketShop {
-  font-size: 17px;
-  font-weight: 900;
-}
-.ticketCondition {
-  font-size: 12px;
-  font-weight: 700;
-  color: rgb(105 44 0 / 0.75);
-}
-.ticketLocked {
-  background: #efe6da;
-  box-shadow: none;
-}
-.ticketLocked .ticketBenefit {
-  background: rgb(105 44 0 / 0.35);
-}
-.ticketLocked .ticketShop,
-.ticketLocked .ticketCondition {
-  color: var(--color-gray2);
-}
-.ticketUsed {
-  background: #efe6da;
-  box-shadow: none;
-}
-.ticketUsed .ticketBenefit {
-  background: var(--color-gray2);
-}
-.ticketUsed .ticketBody {
-  opacity: 0.6;
-}
-.ticketState {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--color-gray2);
-}
-.ticketArrow {
-  flex: none;
-  align-self: center;
-  width: 9px;
-  height: 9px;
-  margin-right: 4px;
-  box-sizing: border-box;
-  border-top: 3px solid #fd6f03;
-  border-right: 3px solid #fd6f03;
-  transform: rotate(45deg);
-}
-
-.message {
-  left: 24px;
-  top: 300px;
-  width: 342px;
-  margin: 0;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--color-brown);
-}
-.message p {
-  margin: 0 0 12px;
-}
-.retry {
-  padding: 8px 18px;
-  border: none;
-  border-radius: 999px;
-  background: var(--color-primary);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 800;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* 쿠폰 사용 확인 */
-.dialogBack {
-  left: 0;
-  top: 0;
-  width: 390px;
-  height: 764px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgb(67 26 2 / 0.45);
-}
-.dialog {
-  width: 342px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 20px 16px;
-  box-sizing: border-box;
-  border-radius: 20px;
-  background: var(--color-detail-bg);
-}
-.dialogTicket {
-  flex: none;
-  box-shadow: none;
-  cursor: default;
-}
-.dialogTicket::before,
-.dialogTicket::after {
-  background: var(--color-detail-bg);
-}
-.dialogText {
-  margin: 6px 0;
-  white-space: pre-line;
-  word-break: keep-all;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.5;
-  color: var(--color-brown);
-}
-.dialogError {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 800;
-  color: #d6342c;
+.overlayHost > * {
+  pointer-events: auto;
 }
 
 /* 에피소드 고르기 */
@@ -542,22 +325,8 @@
   composes: rise from "../styles/motion.module.css";
   --d: 0.35s;
 }
-.couponCount {
-  composes: fade from "../styles/motion.module.css";
-  --d: 0.1s;
-}
-.dialog {
-  composes: pop from "../styles/motion.module.css";
-}
-.dialogBack {
-  composes: fade from "../styles/motion.module.css";
-}
-.message {
-  composes: fade from "../styles/motion.module.css";
-  --d: 0.1s;
-}
 
-/* 단서 카드는 뒤집히며, 쿠폰은 옆에서 차례로 들어온다 */
+/* 단서 카드는 뒤집히며 차례로 들어온다 (쿠폰은 CollectionCoupons.module.css) */
 .grid li {
   animation: cardIn 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15) backwards;
 }
@@ -570,15 +339,6 @@
 .grid li:nth-child(4) {
   animation-delay: 0.24s;
 }
-.tickets li {
-  animation: ticketIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1) backwards;
-}
-.tickets li:nth-child(2) {
-  animation-delay: 0.09s;
-}
-.tickets li:nth-child(3) {
-  animation-delay: 0.18s;
-}
 .episodeMenu {
   transform-origin: 0 0;
   animation: menuIn 0.2s ease-out;
@@ -589,12 +349,6 @@
     transform: perspective(600px) rotateY(70deg);
   }
 }
-@keyframes ticketIn {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-}
 @keyframes menuIn {
   from {
     opacity: 0;
@@ -603,7 +357,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .grid li,
-  .tickets li,
   .episodeMenu {
     animation: none;
   }
