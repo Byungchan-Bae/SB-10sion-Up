@@ -74,6 +74,7 @@
 - 장소 이름 · 주소 자리(`PlaceHero`)는 디자이너가 고친 Figma 136:3220(구 본원, 원본 파일 JH6kcRQoSPwOctYO15z5YM) 기준으로 네 장소 통일. 작은 줄 + 큰 이름은 `place.heroSub` / `heroName` (구 본원, 수연산방). 도착 인증 화면엔 주소 오른쪽 "지도 보기" → 카카오맵 웹 링크(`map.kakao.com/link/map/이름,위도,경도`)를 새 탭으로 (`feat/place-hero-map-button`)
 - 역사 화면(`/place/:id/story`)은 원본 Figma 136:3821 · 3848 · 3875 · 3907 기준: 제목 28px, 본문 18px Regular 검정(글자 단위 줄바꿈), 팁 박스 + 부엉이(`story-tip-mascot.webp`), 문구는 `place.story`. 이름 자리를 도착 인증과 맞춰서 아래 내용은 Figma + 29px, 페이지 1149 (`fix/place-story-figma`). Figma 길상사 화면 오른쪽의 헤드셋 복숭아 마스코트는 다른 세 곳엔 없어서 안 넣음
 - 수집 완료: 티켓 그림 윗색과 바탕(#fdedba)이 달라 top 113에 줄이 보여서, 바탕을 #feeaad로 맞추고 `.ticketFade`(40px)로 이어지게 함 (`fix/complete-top-blend`)
+- 수집 완료 등장 효과 (`feat/complete-reveal`, 약 2.5초): 액자 네 귀퉁이 장식에서 이번 에피소드 편지 조각(`clue-<장소id>.webp`) 4개가 나와 배지 자리로 모임 → 금빛이 번지며 배지가 나타나고 반짝임 → 포인트 0 → 100 (`useCountUp`) → 소요 시간 · 질문이 차례로. 버튼은 처음부터 누를 수 있음. 움직임 줄이기 설정이면 효과 없이 끝난 화면. 타이밍은 `EpisodeComplete.module.css`의 animation delay와 `EpisodeComplete.tsx`의 useCountUp(1600, 850)
 - 단서 발견(`/place/:id/clue`)을 수집물 탭에서 열면(`navigate(..., { state: { from: "collection" } })`) 게임용 "다음" 버튼을 숨기고 "수집물 보기"를 그 자리로, 뒤로 가기도 수집물로. 퀴즈를 맞히고 들어오면 전처럼 "다음"이 있음 (`fix/clue-from-collection`)
 - 단서 발견 단풍 효과: `components/LeafBurst.tsx`가 편지 조각 가운데서 단풍잎 · 은행잎 · 낙엽 42장(크기 12~48px)을 높이 터뜨린 뒤 중력처럼 빠르게 떨어뜨림 (SVG + CSS 애니메이션만, 약 2초). 퀴즈를 맞히고 들어올 때만, 수집물에서 열면 없음. 움직임 줄이기 설정이면 안 보임 (`feat/clue-leaf-burst`)
 - 탐험 지도 타이머: 에피소드를 끝내면(`completedAt`) 끝낸 시각에서 멈춤. 전에는 끝낸 뒤에도 계속 올라갔음 (`fix/map-timer-stop`). 랭킹 시간은 서버 기록(첫 인증 ~ 마지막 단서)이라 이 타이머와 다를 수 있음

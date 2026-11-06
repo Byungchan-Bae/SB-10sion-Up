@@ -47,6 +47,8 @@
   top: 365px;
   width: 89px;
   height: 90px;
+  /* 조각이 다 모였을 때 살짝 튀며 나타남 */
+  animation: badgeIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) 1.22s both;
 }
 
 .points {
@@ -63,6 +65,24 @@
 .points em {
   font-style: normal;
   color: #fd6f03;
+}
+.points {
+  animation:
+    fadeUp 0.4s ease-out 1.55s both,
+    pop 0.35s ease-out 2.45s;
+}
+/* 올라가는 숫자: 최종 숫자(투명)로 자리를 잡고 그 위에 겹침 */
+.count {
+  position: relative;
+  display: inline-block;
+}
+.countGhost {
+  visibility: hidden;
+}
+.countLive {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .duration {
@@ -85,7 +105,12 @@
   font-weight: 700;
 }
 
+.duration {
+  animation: fadeUp 0.45s ease-out 1.85s both;
+}
+
 .ask {
+  animation: fadeUp 0.45s ease-out 2.05s both;
   left: 0;
   top: 550px;
   width: 390px;
@@ -109,4 +134,153 @@
   top: 728px;
   border: none;
   background: #fefefe;
+}
+
+/* ===== 편지 조각 → 배지 효과 =====
+ * 조각은 배지 가운데에 놓고 --sx, --sy(액자 귀퉁이)에서 출발해 --mx, --my(위로 휜 중간 지점)를 지나 모인다.
+ * 화면 움직임 줄이기 설정이면 아래 @media에서 효과를 다 끄고 끝난 모습만 보여 준다.
+ */
+.fragment {
+  left: 156.5px; /* 194.5 - 38 */
+  top: 384px; /* 410 - 26 */
+  width: 76px;
+  height: 52px;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgb(105 44 0 / 0.25));
+  will-change: transform, opacity;
+  animation: gather 1.2s var(--delay) both;
+}
+@keyframes gather {
+  /* 귀퉁이 장식에서 살짝 떠오름 */
+  0% {
+    opacity: 0;
+    transform: translate(var(--sx), var(--sy)) scale(0.55) rotate(var(--rot));
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
+  }
+  14% {
+    opacity: 1;
+    transform: translate(var(--sx), var(--sy)) scale(1) rotate(var(--rot));
+    animation-timing-function: ease-in-out;
+  }
+  /* 잠깐 둥실 */
+  30% {
+    transform: translate(var(--sx), calc(var(--sy) - 5px)) scale(1) rotate(var(--rot));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.6);
+  }
+  /* 위로 휘며 가운데로 */
+  62% {
+    transform: translate(var(--mx), var(--my)) scale(0.75) rotate(calc(var(--rot) * 0.4));
+    animation-timing-function: cubic-bezier(0.25, 0.4, 0.4, 1);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.32) rotate(0deg);
+  }
+  /* 배지 속으로 스며듦 */
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2) rotate(0deg);
+  }
+}
+
+/* 배지 뒤로 번지는 따뜻한 금빛 */
+.glow {
+  left: 119.5px; /* 194.5 - 75 */
+  top: 335px; /* 410 - 75 */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 236 160 / 0.95) 0%,
+    rgb(255 210 90 / 0.55) 38%,
+    rgb(255 210 90 / 0) 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  animation: glow 0.95s ease-out 1.15s both;
+}
+@keyframes glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+@keyframes badgeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-12deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* 배지 둘레 반짝이: 톡 커졌다 돌며 사라짐 */
+.sparkle {
+  opacity: 0;
+  pointer-events: none;
+  animation: twinkle 0.85s ease-in-out var(--delay) both;
+}
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(90deg);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 포인트가 다 차면 살짝 톡 */
+@keyframes pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fragment,
+  .glow,
+  .sparkle {
+    display: none;
+  }
+  .badge,
+  .points,
+  .duration,
+  .ask {
+    animation: none;
+  }
 }
