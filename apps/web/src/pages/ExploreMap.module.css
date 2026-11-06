@@ -222,21 +222,9 @@
  * 그림이 뒤에서 드러나 글자가 두 겹으로 보인다. 그림에는 사진도 있어서 천천히 나타나게 해도
  * 잠긴 장소가 잠깐 열린 것처럼 보인다. 그래서 핀에는 등장 애니메이션을 넣지 않는다.
  */
-/* 다음 목적지: 둘레에 빛이 퍼지고, 핀 위에 작은 화살표가 튄다 */
+/* 다음 목적지: 둘레에 빛이 퍼진다 */
 .pinCurrent .ring {
   animation: ringPulse 1.4s ease-out calc(var(--d, 0s) + 0.4s) infinite;
-}
-.pinCurrent::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: calc(var(--ring-w) / 2 - 9px);
-  top: -22px;
-  border-style: solid;
-  border-width: 14px 9px 0;
-  border-color: #fd6f03 transparent transparent;
-  filter: drop-shadow(0 2px 2px rgb(105 44 0 / 0.35));
-  animation: markerBob 0.9s ease-in-out calc(var(--d, 0s) + 0.4s) infinite;
 }
 /* 잠긴 핀을 누르면 자물쇠만 흔들린다 */
 .shaking .lock {
@@ -251,11 +239,6 @@
   }
   100% {
     box-shadow: 0 0 0 16px rgb(253 111 3 / 0);
-  }
-}
-@keyframes markerBob {
-  50% {
-    transform: translateY(-7px);
   }
 }
 @keyframes lockShake {
@@ -276,7 +259,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .pinCurrent .ring,
-  .pinCurrent::before,
   .shaking .lock,
   .toast {
     animation: none;

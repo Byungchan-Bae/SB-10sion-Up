@@ -48,9 +48,7 @@ function Pin({
       className={[open ? styles.pin : styles.pinLocked, current && styles.pinCurrent, shaking && styles.shaking]
         .filter(Boolean)
         .join(" ")}
-      style={
-        { left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h, "--ring-w": `${p.ring[0]}px` } as CSSProperties
-      }
+      style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h }}
       onClick={onClick}
       aria-label={open ? `${place.name} 장소 인증하기` : `${place.name} (잠김)`}
     >
