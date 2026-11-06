@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <MobileFrame>
-      <Stage footer={<TabBar />} background='#f7ead8 url("/assets/home-bg.jpg") center bottom / cover no-repeat'>
+      <Stage footer={<TabBar />} background='#f7ead8 url("/assets/home-bg.webp") center bottom / cover no-repeat'>
         <h1 className={styles.heading} data-text={"진행 가능한\n에피소드"}>
           {"진행 가능한\n에피소드"}
         </h1>
@@ -51,7 +51,7 @@ export default function Home() {
         <div ref={scrollerRef} className={styles.carousel} onScroll={onScroll}>
           {/* 1번: 진행 가능한 에피소드 */}
           <div className={styles.slide}>
-            <img className={styles.frame} src="/assets/home-card-frame-single.png" alt="" draggable={false} />
+            <img className={styles.frame} src="/assets/home-card-frame-single.webp" alt="" draggable={false} />
             <Link to={detailPath} className={styles.card} aria-label={`${episode.badge} ${episode.title}`}>
               <img className={styles.cardArt} src={`/assets/${episode.cardImage}`} alt="" draggable={false} />
               <span className={styles.badge}>{episode.badge}</span>
@@ -64,13 +64,13 @@ export default function Home() {
                 <span className={styles.teaser}>{episode.teaser}</span>
               </span>
             </Link>
-            <img className={styles.mascots} src="/assets/home-mascots.png" alt="" draggable={false} />
+            <img className={styles.mascots} src="/assets/home-mascots.webp" alt="" draggable={false} />
           </div>
 
           {/* 2번부터: 공개 예정 */}
           {COMING_SOON_EPISODES.map(({ badge, message }) => (
             <div key={badge} className={styles.slide}>
-              <img className={styles.frame} src="/assets/home-card-frame-single.png" alt="" draggable={false} />
+              <img className={styles.frame} src="/assets/home-card-frame-single.webp" alt="" draggable={false} />
               <div className={`${styles.card} ${styles.locked}`} aria-label={`${badge} 공개 예정`}>
                 <img className={styles.cardArt} src={`/assets/${episode.cardImage}`} alt="" draggable={false} />
                 <span className={styles.lockedDim} />

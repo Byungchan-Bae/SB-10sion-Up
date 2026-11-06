@@ -126,7 +126,7 @@ export function CollectionCoupons({ episode }: { episode: Episode }) {
       </ul>
 
       <div className={styles.tip}>
-        <img src="/assets/quiz-mascot.png" alt="" draggable={false} />
+        <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
         <p>
           {data.coupons.some((c) => c.sample)
             ? "지금은 예시 쿠폰이에요.\n제휴 매장이 정해지면 바뀌어요"

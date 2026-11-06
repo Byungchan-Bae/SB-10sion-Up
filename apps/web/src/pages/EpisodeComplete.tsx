@@ -23,12 +23,12 @@ export default function EpisodeComplete() {
   return (
     <MobileFrame>
       <Stage background="#fdedba">
-        <img className={styles.ticket} src="/assets/complete-ticket.jpg" alt="" draggable={false} />
+        <img className={styles.ticket} src="/assets/complete-ticket.webp" alt="" draggable={false} />
         <BackButton to={`/episode/${episode.id}/secret`} />
 
-        <img className={styles.mascots} src="/assets/complete-mascots.png" alt="" draggable={false} />
+        <img className={styles.mascots} src="/assets/complete-mascots.webp" alt="" draggable={false} />
         <h1 className={styles.title}>수집 완료</h1>
-        <img className={styles.badge} src="/assets/complete-badge.png" alt={`${episode.badge} 배지`} draggable={false} />
+        <img className={styles.badge} src="/assets/complete-badge.webp" alt={`${episode.badge} 배지`} draggable={false} />
 
         <p className={styles.points}>
           <em>{episode.points} point</em> 획득

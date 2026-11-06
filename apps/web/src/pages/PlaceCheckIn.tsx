@@ -66,7 +66,7 @@ export default function PlaceCheckIn() {
   return (
     <MobileFrame>
       <Stage background={PLACE_BACKGROUND}>
-        <PlaceHero place={place} title="장소 도착 인증" back={<BackButton to="/map" />} />
+        <PlaceHero place={place} title="장소 도착 인증" back={<BackButton to="/map" />} mapButton />
 
         <div className={styles.box} />
         <p className={error ? styles.error : styles.guide} role={error ? "alert" : undefined}>
@@ -74,14 +74,14 @@ export default function PlaceCheckIn() {
         </p>
         <img
           className={styles.steps}
-          src="/assets/checkin-steps.png"
+          src="/assets/checkin-steps.webp"
           alt="위치 권한 허용(최초 1회) → 현재 위치 확인 → 도착 인증 완료"
         />
         <PrimaryButton size="md" className={styles.cta} disabled={checking} onClick={verify}>
           {checking ? "인증 대기중...." : error ? "다시 인증하기" : "지금 위치로 인증하기"}
         </PrimaryButton>
 
-        <img className={styles.mascots} src="/assets/checkin-mascots-bottom.png" alt="" draggable={false} />
+        <img className={styles.mascots} src="/assets/checkin-mascots-bottom.webp" alt="" draggable={false} />
         <img className={styles.bubble} src="/assets/icons/bubble.svg" alt="" />
         <p className={styles.bubbleText}>
           도착을 인증하면 이곳에 담긴

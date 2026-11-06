@@ -8,9 +8,9 @@ import styles from "./Onboarding.module.css";
 const DESCRIPTION = "성북동의 유서 깊은 장소를 직접 걸으며\n미스터리를 해결하는 야외 방탈출게임이에요";
 
 const SLIDES = [
-  { title: "친구와", subtitle: "성북의 역사 속\n이야기를 탐험해요!", image: "onboarding-friends.png", tone: "orange" },
-  { title: "연인과", subtitle: "성북의 역사 속\n이야기를 특별한 데이트로!", image: "onboarding-couple.png", tone: "green" },
-  { title: "가족과", subtitle: "성북의 역사 속\n이야기를 온 가족이 함께!", image: "onboarding-family.png", tone: "blue" },
+  { title: "친구와", subtitle: "성북의 역사 속\n이야기를 탐험해요!", image: "onboarding-friends.webp", tone: "orange" },
+  { title: "연인과", subtitle: "성북의 역사 속\n이야기를 특별한 데이트로!", image: "onboarding-couple.webp", tone: "green" },
+  { title: "가족과", subtitle: "성북의 역사 속\n이야기를 온 가족이 함께!", image: "onboarding-family.webp", tone: "blue" },
 ] as const;
 
 export default function Onboarding() {
@@ -22,8 +22,8 @@ export default function Onboarding() {
 
   return (
     <MobileFrame>
-      <Asset name="onboarding-bottom.png" alt="" className={styles.landscape} fit="cover" />
-      <Asset name="leaves-corner.png" alt="" className={styles.leaves} />
+      <Asset name="onboarding-bottom.webp" alt="" className={styles.landscape} fit="cover" />
+      <Asset name="leaves-corner.webp" alt="" className={styles.leaves} />
 
       <div className={styles.viewport}>
         <div className={styles.track} style={{ transform: `translateX(${-index * 100}%)` }}>

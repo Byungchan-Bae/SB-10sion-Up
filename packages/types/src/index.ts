@@ -105,7 +105,7 @@ export interface RankingEntry {
   rank: number;
   nickname: string;
   points: number;
-  /** 서버 기록 기준 소요 시간. 믿을 수 없는 기록(한 번에 몰아서 보냄)은 null이고 같은 점수에서 맨 뒤 */
+  /** 서버 기록 기준 소요 시간(수연산방 구간은 최대 10분까지만 셈). 믿을 수 없는 기록(한 번에 몰아서 보냄)은 null이고 같은 점수에서 맨 뒤 */
   durationMs: number | null;
   isMe: boolean;
 }
@@ -221,6 +221,12 @@ export type Place = {
   name: string;
   /** 지도 핀 이름 (줄바꿈은 \n) */
   pinLabel: string;
+  /**
+   * 인증 · 역사 화면 큰 이름 위 작은 줄 (Figma 136:3220 "한국순교복자성직수도회" / "구 본원").
+   * 있으면 heroName을 큰 글씨로, 없으면 name을 큰 글씨로 쓴다
+   */
+  heroSub?: string;
+  heroName?: string;
   address: string;
   /** 도착 인증용 좌표 */
   lat: number;

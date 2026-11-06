@@ -40,7 +40,7 @@ export default function Nickname() {
   return (
     <MobileFrame>
       <form className={styles.page} onSubmit={submit}>
-        <Asset name="logo-mascots.png" alt="성북 트레저" className={styles.logo} />
+        <Asset name="logo-mascots.webp" alt="성북 트레저" className={styles.logo} />
         <p className={styles.tagline}>
           성북의 역사 속
           <br />
