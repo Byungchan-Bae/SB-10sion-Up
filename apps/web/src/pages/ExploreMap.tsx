@@ -57,7 +57,10 @@ function Pin({
       onClick={onClick}
       aria-label={open ? `${place.name} 장소 인증하기` : `${place.name} (잠김)`}
     >
-      <span className={styles.label} style={box(...(open ? p.label : (p.lockedLabel ?? p.label)))} />
+      <span
+        className={p.drawnSign ? `${styles.label} ${styles.drawnSign}` : styles.label}
+        style={box(...(open ? p.label : (p.lockedLabel ?? p.label)))}
+      />
       <span className={styles.ring} style={box(0, 0, ...p.ring)} />
       <span className={styles.photo} style={box(...p.photo)}>
         <img src={`/assets/${place.pinPhoto}`} alt="" draggable={false} />
