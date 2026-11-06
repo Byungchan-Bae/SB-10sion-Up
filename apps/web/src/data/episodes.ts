@@ -76,10 +76,10 @@ export const EPISODES: Episode[] = [
         id: "martyrs",
         name: "한국순교복자성직수도회 구 본원",
         pinLabel: "한국순교복자성직\n수도회 구 본원",
-        // 도로명 번지는 공개 자료에서 못 찾음. 일반 공개 안 하는 곳이라 성북로 "동방대학원대학교" 정류장 근처로 안내
-        address: "서울 성북구 성북로 (성북동)",
-        lat: 37.59417,
-        lng: 126.99306,
+        // 지금 이름은 복자사랑 피정의 집. 3번지 건물 좌표는 지도에 없어서, 같은 이름의 따릉이 대여소와 성북로24길 4번지 사이로 잡음
+        address: "서울 성북구 성북로24길 3",
+        lat: 37.5945,
+        lng: 126.99545,
         radius: ARRIVAL_RADIUS,
         photo: "place-martyrs.jpg",
         pinPhoto: "pin-martyrs.png",
