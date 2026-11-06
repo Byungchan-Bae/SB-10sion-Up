@@ -77,6 +77,8 @@ export const EPISODES: Episode[] = [
         name: "한국순교복자성직수도회 구 본원",
         pinLabel: "한국순교복자성직\n수도회 구 본원",
         // 지금 이름은 복자사랑 피정의 집. 3번지 건물 좌표는 지도에 없어서, 같은 이름의 따릉이 대여소와 성북로24길 4번지 사이로 잡음
+        heroSub: "한국순교복자성직수도회",
+        heroName: "구 본원",
         address: "서울 성북구 성북로24길 3",
         lat: 37.5945,
         lng: 126.99545,
@@ -113,6 +115,8 @@ export const EPISODES: Episode[] = [
         id: "suyeonsanbang",
         name: "이태준가옥(수연산방)",
         pinLabel: "이태준 가옥\n(수연산방)",
+        heroSub: "이태준 가옥",
+        heroName: "수연산방",
         address: "서울 성북구 성북로26길 8",
         lat: 37.59498,
         lng: 126.99497,

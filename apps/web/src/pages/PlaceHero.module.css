@@ -51,30 +51,42 @@
   pointer-events: none;
 }
 
-/* 장소 이름 38px + 주소, 간격 19 */
+/*
+ * 이름 · 주소 · 지도 보기 336 × 103 (Figma 136:3220 Component 21, left 33 top 370).
+ * 작은 줄(heroSub) 15px, 큰 이름 35px, 주소 15px. 작은 줄이 없는 장소도 큰 이름 · 주소 자리는 같다
+ */
 .titleBlock {
-  left: 22px;
-  top: 360px;
+  left: 33px;
+  top: 370px;
   width: 336px;
-  display: flex;
-  flex-direction: column;
-  gap: 19px;
+  height: 103px;
 }
-.name,
-.nameLong {
+.titleBlock > * {
+  position: absolute;
+}
+.sub {
+  left: 4px;
+  top: 3px;
   margin: 0;
-  max-width: 190px; /* 마스코트와 겹치지 않게 */
-  font-size: 38px;
+  font-size: 15px;
   font-weight: 800;
   line-height: normal;
   color: var(--color-brown);
 }
-/* 긴 이름(한국순교복자성직수도회 구 본원)은 줄여서 두 줄 */
-.nameLong {
-  max-width: 200px;
-  white-space: pre-line;
-  font-size: 22px;
-  margin-bottom: -6px;
+.name {
+  left: 3px;
+  top: 21px;
+  margin: 0;
+  max-width: 170px; /* 마스코트와 겹치지 않게 */
+  font-size: 35px;
+  font-weight: 800;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--color-brown);
+}
+.subline {
+  left: 0;
+  top: 78px;
 }
 .address {
   margin: 0;
@@ -85,4 +97,29 @@
   font-weight: 800;
   line-height: normal;
   color: var(--color-brown);
+}
+
+/* 지도 보기 91 × 28, 테두리 1px, radius 20, 12px Bold */
+.mapButton {
+  left: 228px;
+  top: 75px;
+  width: 91px;
+  height: 28px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 10px;
+  border: 1px solid var(--color-brown);
+  border-radius: 20px;
+  background: #fdf6e9;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-brown);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.mapButton:active {
+  background: #f6e5ce;
 }
