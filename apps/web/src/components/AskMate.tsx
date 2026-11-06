@@ -97,19 +97,8 @@ export function AskMate({ place, onClose }: { place: Place; onClose: () => void 
             무엇이든 물어보세요!
           </p>
 
-          {/* 대화를 시작하기 전에만 보이는 감 · 참새 그림. 참새에 안경을 씌웠다 */}
-          {!started && (
-            <div className={styles.mascots} aria-hidden="true">
-              <img src="/assets/ask-mate-mascots.webp" alt="" draggable={false} />
-              <svg viewBox="0 0 266 166">
-                <g fill="rgb(255 255 255 / 0.25)" stroke="#2b1405" strokeOpacity="0.5" strokeWidth="3" strokeLinecap="round">
-                  <circle cx="166" cy="53" r="11" />
-                  <circle cx="196" cy="53" r="11" />
-                  <path d="M177 52 Q181 49 185 52" fill="none" />
-                </g>
-              </svg>
-            </div>
-          )}
+          {/* 대화를 시작하기 전에만 보이는 감 · 참새 그림 */}
+          {!started && <img className={styles.mascots} src="/assets/ask-mate-mascots.webp" alt="" draggable={false} />}
 
           {turns.map((turn, i) => (
             <div key={i} className={styles.turn}>
