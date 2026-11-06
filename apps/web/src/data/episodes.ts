@@ -15,9 +15,9 @@ export const EPISODES: Episode[] = [
     badge: "EP.01",
     title: "사라진 편지",
     teaser: "1937년, 성북동에서 사라진\n한 통의 편지를 찾아서!",
-    cardImage: "episode-ep01-card.webp",
-    photo: "episode-ep01-photo.webp",
-    mascots: "episode-ep01-mascots.webp",
+    cardImage: "episode-ep01-card.png",
+    photo: "episode-ep01-photo.jpg",
+    mascots: "episode-ep01-mascots.png",
     hook: "1937년, 성북동에서\n한 통의 {{“ 편지 “}}가 사라졌습니다",
     summary: "편지에 담긴 진실을 찾아내기 위해\n성북동의 {{네 곳}}을 탐험하고, 흩어진 기록을 모아\n편지의 수신인을 밝혀주세요.",
     intro: {
@@ -49,18 +49,20 @@ export const EPISODES: Episode[] = [
         lat: 37.59888,
         lng: 126.99389,
         radius: ARRIVAL_RADIUS,
-        photo: "place-gilsangsa.webp",
-        pinPhoto: "pin-gilsangsa.webp",
+        photo: "place-gilsangsa.jpg",
+        pinPhoto: "pin-gilsangsa.png",
         pin: { x: 29.74, y: 74.89, w: 147, h: 71, ring: [75, 71], photo: [1, 0, 69, 71], label: [61, 11, 86, 28], text: [88, 17, 0], fontSize: 15 },
         ordinal: "첫번째",
+        // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
           title: "대원각에서 길상사로,\n나눔의 마음이 깃든 절",
           body:
-            "1960년대부터 1980년대 말까지 이곳은 삼청각, 청운각과 함께 최고급 요정으로 손꼽히던 대원각이었어요. " +
-            "대원각의 주인이던 김영한 여사가 7천여 평의 대지와 건물 40여 동을 법정 스님에게 시주하면서 " +
-            "지금의 길상사가 되었답니다.\n\n" +
-            "현재는 불교체험, 템플스테이 등 다양한 행사가 열리는 도심 속 문화공간이에요.",
-          tip: "가진 것을 모두 내어준 마음, 편지와도 관련이 있을까요?",
+            "1960년대부터 1980년대 말까지\n" +
+            "최고급 요정이었던 대원각 자리에 세워졌어요.\n" +
+            "대원각의 주인이었던 고 김영한 여사가 7천여 평의 대지와 건물 40여 동을 법정 스님에게 시주하며 길상사로 탈바꿈하게 되었답니다.\n\n" +
+            "현재는 불교체험, 템플스테이 등 다양한\n" +
+            "행사가 열리는 도심 속 문화공간이기도 해요.",
+          tip: "화려한 요정이 수행과\n나눔의 공간이 된 이유, 정말 특별하죠?",
         },
         quiz: {
           question: "다음 설명이 가리키는\n장소는 어디일까요?",
@@ -83,17 +85,19 @@ export const EPISODES: Episode[] = [
         lat: 37.5945,
         lng: 126.99545,
         radius: ARRIVAL_RADIUS,
-        photo: "place-martyrs.webp",
-        pinPhoto: "pin-martyrs.webp",
+        photo: "place-martyrs.jpg",
+        pinPhoto: "pin-martyrs.png",
         pin: { x: 10.51, y: 53.18, w: 194, h: 67, ring: [70, 67], photo: [2, 2, 65, 65], label: [73, 9, 121, 37], lockedLabel: [40, 4, 167, 47], text: [87, 12, 93], fontSize: 13 },
         ordinal: "두번째",
+        // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
-          title: "한국 최초의 내국인\n남자 수도회 본원",
+          title: "한국 천주교의 발자취,\n믿음이 깃든 공간",
           body:
-            "1953년에 세워진 한국 가톨릭 최초의 내국인 남자 수도회, 한국순교복자성직수도회의 본원이었어요. " +
-            "방유룡 신부가 직접 설계했고, 라틴십자가 모양 평면에 타원형 후진과 돔을 갖춘 건물이에요.\n\n" +
-            "2015년 국가등록문화재 제655호로 지정되었답니다.",
-          tip: "건물의 모양을 잘 살펴보세요. 단서가 숨어 있을지도 몰라요!",
+            "1953년에 건립된 이곳은 한국 최초의 내국인 남자 수도회인 한국순교복자성직수도회의 옛 본원 건물이에요. " +
+            "방유룡 신부가 직접 설계했으며, 라틴 십자가 형태의 평면과 타원형 돔 등 독특한 건축적 특징을 지니고 있어요.\n\n" +
+            "이러한 역사적·건축적 가치를 인정받아\n" +
+            "2015년 국가등록문화유산으로 등록되었답니다.",
+          tip: "한국인 신부가 직접 설계한 건물이라니,\n특별하죠?",
         },
         quiz: {
           question: "이곳의 수도회 이름은\n무엇일까요?",
@@ -121,17 +125,20 @@ export const EPISODES: Episode[] = [
         lat: 37.59498,
         lng: 126.99497,
         radius: ARRIVAL_RADIUS,
-        photo: "place-suyeonsanbang.webp",
-        pinPhoto: "pin-suyeonsanbang.webp",
+        photo: "place-suyeonsanbang.jpg",
+        pinPhoto: "pin-suyeonsanbang.png",
         pin: { x: 38.46, y: 33.38, w: 160, h: 67, ring: [70, 67], photo: [3, 3, 63, 61], label: [77, 15, 83, 37], lockedLabel: [40, 9, 132, 46], text: [85, 16, 64], fontSize: 13 },
         ordinal: "세번째",
+        // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
-          title: "문장가 이태준의 집,\n수연산방",
+          title: "문학의 숨결이 머무는,\n이태준의 옛집",
           body:
-            "「문장강화」, 「무서록」을 쓴 소설가 상허 이태준이 살던 고택이에요. " +
-            "지금은 그의 손녀가 전통찻집 ‘수연산방’으로 운영하고 있어요.\n\n" +
-            "사랑방 문에는 한지 대신 유리를 끼워, 방 안에서도 북악산 자락이 보인답니다.",
-          tip: "문장가의 집이라니, 편지를 쓴 사람과 관련이 있을까요?",
+            "이곳은 『문장강화』와 『무서록』을 쓴 소설가 상허 이태준이 살았던 집이에요. " +
+            "현재는 전통 찻집인 수연산방으로 운영되고 있으며, 옛 한옥의 정취를 느낄 수 있는 공간이에요.\n\n" +
+            "특히 사랑방에서는 담장 너머 북악산\n" +
+            "자락을 바라볼 수 있어,\n" +
+            "전통차와 함께 문학과 여유를 즐길 수 있답니다.",
+          tip: "이태준은 어떤 이야기를 글로 남겼을까요?",
         },
         quiz: {
           question: "이 집의 원래 주인은\n누구일까요?",
@@ -157,17 +164,20 @@ export const EPISODES: Episode[] = [
         lat: 37.59361,
         lng: 126.99167,
         radius: ARRIVAL_RADIUS,
-        photo: "place-simujang.webp",
-        pinPhoto: "pin-simujang.webp",
+        photo: "place-simujang.jpg",
+        pinPhoto: "pin-simujang.png",
         pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [80, 20, 54, 25], lockedLabel: [40, 12, 112, 38], text: [86, 21, 41], fontSize: 15 },
         ordinal: "네번째",
+        // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
-          title: "만해 한용운이\n마지막까지 머문 집",
+          title: "만해 한용운이 머문,\n자유와 신념의 집",
           body:
-            "「님의 침묵」을 쓴 시인이자 민족대표 33인 중 한 명인 만해 한용운이 " +
-            "1933년부터 1944년 6월 세상을 떠날 때까지 살았던 집이에요.\n\n" +
-            "마당에는 만해가 직접 심은 향나무가 지금도 자라고 있어요.",
-          tip: "마지막 단서예요. 지금까지 모은 단서를 떠올려 보세요!",
+            "심우장은 독립운동가이자 시인인 만해 한용운 선생이 1933년부터 1944년까지 살았던 집이에요. " +
+            "한용운 선생은 민족대표 33인 중 한 명으로, 『님의 침묵』을 집필하고 불교 개혁에도 힘썼어요.\n\n" +
+            "이곳에서는 선생의 생활 흔적과\n" +
+            "직접 심었다고 전해지는 향나무를 만나며,\n" +
+            "독립을 향한 신념과 삶을 되새겨 볼 수 있어요.",
+          tip: "한용운 선생은 어떤 마음으로\n독립을 꿈꾸었을까요?",
         },
         quiz: {
           question: "이 집에 살았던\n인물은 누구일까요?",

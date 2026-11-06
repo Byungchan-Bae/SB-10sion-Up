@@ -1,94 +1,104 @@
-/* 역사 내용 — 시안(03-place-gilsangsa.webp)을 390 폭으로 환산한 좌표 */
+/*
+ * 역사 내용 — Figma 원본 136:3821 / 3848 / 3875 / 3907 (390 × 1120).
+ * 위쪽 이름 자리를 도착 인증 화면(136:3220)과 맞춰서, 라벨 아래 내용은 Figma 값 + 29px.
+ */
 
 .creamRest {
   left: -3px;
   top: 844px;
   width: 393px;
-  height: 196px;
+  height: 305px;
   background: var(--color-detail-bg);
 }
 
-/* "장소 이야기" 라벨 (이름 아래) */
+/* "장소 이야기" 라벨 105 × 29 (주소 자리) */
 .tag {
-  align-self: flex-start;
-  margin-top: -6px;
-  height: 26px;
+  width: 105px;
+  height: 29px;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 0 8px;
+  padding-left: 8px;
   border: 0.634px solid var(--color-tag-border);
   border-radius: 4.23px;
   background: var(--color-tag);
-  font-size: 13px;
+  font-size: 14.5px;
   font-weight: 800;
+  line-height: normal;
   color: var(--color-main);
 }
 
+/* 제목 28px Bold #562400 (Figma top 465) */
 .title {
-  left: 22px;
-  top: 478px;
-  width: 346px;
+  left: 33px;
+  top: 494px;
+  width: 340px;
   margin: 0;
   white-space: pre-line;
-  font-size: 22px;
-  font-weight: 900;
-  line-height: 1.35;
-  color: var(--color-brown);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: normal;
+  color: #562400;
 }
 
+/* 본문 18px Regular 검정 (Figma top 554). Figma처럼 글자 단위로 줄바꿈 (keep-all이면 줄이 늘어 팁과 겹침) */
 .body {
-  left: 22px;
-  top: 556px;
-  width: 346px;
+  left: 31px;
+  top: 583px;
+  width: 345px; /* Figma 327 + 두 번째 문단 상자가 더 넓어서(593) 마지막 글자가 혼자 넘어가지 않게 */
   margin: 0;
+  white-space: pre-line;
+  word-break: normal;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+  color: #000;
+}
+
+/* 팁: 주황 박스 340 × 60 + 엄지 척 부엉이 84 × 93 + 15px Bold (Figma top 776) */
+.tipBox {
+  left: 18px;
+  top: 826px;
+  width: 340px;
+  height: 60px;
+  border-radius: 16px;
+  background: rgb(255 162 62 / 0.21);
+}
+.tipMascot {
+  left: 13px;
+  top: 805px;
+  width: 84px;
+  height: 93px;
+  pointer-events: none;
+}
+.tipText {
+  left: 103px;
+  top: 826px;
+  width: 245px;
+  height: 60px;
+  margin: 0;
+  display: flex;
+  align-items: center;
   white-space: pre-line;
   word-break: keep-all;
   font-size: 15px;
   font-weight: 700;
-  line-height: 1.75;
-  color: rgb(105 44 0 / 0.85);
-}
-
-/* 마스코트 + 말풍선 박스 */
-.tip {
-  left: 22px;
-  top: 776px;
-  width: 346px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-right: 14px;
-  border-radius: 16px;
-  background: #fde6c6;
-}
-.tip img {
-  width: 62px;
-  height: 67px;
-  margin: -14px 0 0 -6px;
-  flex: none;
-}
-.tip p {
-  margin: 0;
-  word-break: keep-all;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.4;
+  line-height: normal;
   color: var(--color-brown);
 }
 
+/* 버튼 270 × 52 (Figma top 904, 979) */
 .findClue,
 .ask {
-  left: 60px;
+  left: 55px;
   width: 270px;
 }
 .findClue {
-  top: 870px;
+  top: 933px;
 }
 .ask {
-  top: 938px;
+  top: 1008px;
   border: none;
   background: #fefefe;
 }
-
