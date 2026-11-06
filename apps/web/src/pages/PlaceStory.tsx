@@ -36,7 +36,7 @@ export default function PlaceStory() {
       <Stage scrollHeight={PAGE_H} background="var(--color-detail-bg)">
         <PlaceHero
           place={place}
-          title="장소 도착 인증"
+          title="장소 소개"
           back={<BackButton to="/map" />}
           subline={
             <span className={styles.tag}>

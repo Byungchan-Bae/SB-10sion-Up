@@ -72,7 +72,7 @@
 - 장소 화면 위쪽 마스코트(`checkin-mascots.webp`) 오른쪽 끝에 옆 그림 조각(검은 점)이 잘려 들어가 있어서 지움. 장소 네 곳의 인증 · 역사 화면이 같은 그림을 써서 한 번에 적용 (`fix/checkin-mascot-dot`)
 - 온보딩: 페이지 점과 손으로 밀어 넘기기를 없애고 "다음" 버튼으로만 넘어감. 점 자리만큼 띄워서 설명 박스 위치는 그대로 (`fix/onboarding-next-only`)
 - 장소 이름 · 주소 자리(`PlaceHero`)는 디자이너가 고친 Figma 136:3220(구 본원, 원본 파일 JH6kcRQoSPwOctYO15z5YM) 기준으로 네 장소 통일. 작은 줄 + 큰 이름은 `place.heroSub` / `heroName` (구 본원, 수연산방). 도착 인증 화면엔 주소 오른쪽 "지도 보기" → 카카오맵 웹 링크(`map.kakao.com/link/map/이름,위도,경도`)를 새 탭으로 (`feat/place-hero-map-button`)
-- 역사 화면(`/place/:id/story`)은 원본 Figma 136:3821 · 3848 · 3875 · 3907 기준: 제목 28px, 본문 18px Regular 검정(글자 단위 줄바꿈), 팁 박스 + 부엉이(`story-tip-mascot.webp`), 문구는 `place.story`. 이름 자리를 도착 인증과 맞춰서 아래 내용은 Figma + 29px, 페이지 1149 (`fix/place-story-figma`). Figma 길상사 화면 오른쪽의 헤드셋 복숭아 마스코트는 다른 세 곳엔 없어서 안 넣음
+- 역사 화면(`/place/:id/story`, 머리 제목 "장소 소개")은 원본 Figma 136:3821 · 3848 · 3875 · 3907 기준: 제목 28px, 본문 18px Regular 검정(글자 단위 줄바꿈), 팁 박스 + 부엉이(`story-tip-mascot.webp`), 문구는 `place.story`. 이름 자리를 도착 인증과 맞춰서 아래 내용은 Figma + 29px, 페이지 1149 (`fix/place-story-figma`). Figma 길상사 화면 오른쪽의 헤드셋 복숭아 마스코트는 다른 세 곳엔 없어서 안 넣음
 - 수집 완료: 티켓 그림 윗색과 바탕(#fdedba)이 달라 top 113에 줄이 보여서, 바탕을 #feeaad로 맞추고 `.ticketFade`(40px)로 이어지게 함 (`fix/complete-top-blend`)
 - 수집 완료 등장 효과 (`feat/complete-reveal`, 약 2.5초): 액자 네 귀퉁이 장식에서 이번 에피소드 편지 조각(`clue-<장소id>.webp`) 4개가 나와 배지 자리로 모임 → 금빛이 번지며 배지가 나타나고 반짝임 → 포인트 0 → 100 (`useCountUp`) → 소요 시간 · 질문이 차례로. 버튼은 처음부터 누를 수 있음. 움직임 줄이기 설정이면 효과 없이 끝난 화면. 타이밍은 `EpisodeComplete.module.css`의 animation delay와 `EpisodeComplete.tsx`의 useCountUp(1600, 850)
 - 단서 발견(`/place/:id/clue`)을 수집물 탭에서 열면(`navigate(..., { state: { from: "collection" } })`) 게임용 "다음" 버튼을 숨기고 "수집물 보기"를 그 자리로, 뒤로 가기도 수집물로. 퀴즈를 맞히고 들어오면 전처럼 "다음"이 있음 (`fix/clue-from-collection`)
