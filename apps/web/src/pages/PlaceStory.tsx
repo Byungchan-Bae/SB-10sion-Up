@@ -10,13 +10,14 @@ import { AskSheet } from "../components/AskSheet";
 import { PlaceHero } from "./PlaceHero";
 import styles from "./PlaceStory.module.css";
 
-/** 페이지 길이 (한 화면보다 길어서 스크롤) */
-const PAGE_H = 1040;
+/** 페이지 길이 (한 화면보다 길어서 스크롤). Figma 1120 + 장소 이름 자리를 도착 인증 화면과 맞춘 만큼(29) */
+const PAGE_H = 1149;
 
 /**
  * 역사 내용 (/place/:id/story).
- * Figma "최종"에는 이 화면 프레임이 없어서 docs/design/03-place-gilsangsa.webp "역사 내용" 시안 기준.
- * 위쪽은 장소 도착 인증(136:3108)과 같은 값.
+ * Figma 원본(JH6kcRQoSPwOctYO15z5YM) 136:3821 길상사 · 136:3848 구 본원 · 136:3875 수연산방 · 136:3907 심우장.
+ * 위쪽 이름 자리는 도착 인증(136:3220)과 같고, "장소 이야기" 라벨이 주소 자리에 와서
+ * 아래 내용은 Figma보다 29px 내려가 있다.
  */
 export default function PlaceStory() {
   const { placeId } = useParams();
@@ -39,7 +40,7 @@ export default function PlaceStory() {
           back={<BackButton to="/map" />}
           subline={
             <span className={styles.tag}>
-              <img src="/assets/icons/book.svg" alt="" width={11} height={14} />
+              <img src="/assets/icons/book.svg" alt="" width={13} height={17} />
               장소 이야기
             </span>
           }
@@ -49,10 +50,9 @@ export default function PlaceStory() {
         <h3 className={styles.title}>{place.story.title}</h3>
         <p className={styles.body}>{place.story.body}</p>
 
-        <div className={styles.tip}>
-          <img src="/assets/checkin-mascots-bottom.webp" alt="" draggable={false} />
-          <p>{place.story.tip}</p>
-        </div>
+        <div className={styles.tipBox} />
+        <img className={styles.tipMascot} src="/assets/story-tip-mascot.png" alt="" draggable={false} />
+        <p className={styles.tipText}>{place.story.tip}</p>
 
         <PrimaryButton size="md" className={styles.findClue} onClick={() => navigate(`/place/${place.id}/quiz`)}>
           {place.ordinal} 단서 찾기
