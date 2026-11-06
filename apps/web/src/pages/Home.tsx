@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate, useNavigationType } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
 import { PrimaryButton } from "../components/Button";
 import { COMING_SOON_EPISODES, EPISODES } from "../data/episodes";
 import { useProgress } from "../lib/progress";
+import { clearSelectedEpisode } from "../lib/selection";
 import styles from "./Home.module.css";
 
 /** 카드 간격: 카드 폭 326 + 사이 11 (Figma 다음 카드 위치 기준) */
@@ -19,6 +20,13 @@ export default function Home() {
   const total = 1 + COMING_SOON_EPISODES.length;
   // 최종 클리어 = 밝혀진 비밀에서 "완료"를 눌러 남긴 completedAt (이 기기 기록 + 서버 기록을 합친 값)
   const cleared = Boolean(useProgress(episode.id).completedAt);
+
+  // 폰이나 브라우저의 뒤로가기로 홈에 오면 에피소드에서 나온 것으로 본다 (처음 연 주소는 빼고)
+  const navigationType = useNavigationType();
+  const { key: locationKey } = useLocation();
+  useEffect(() => {
+    if (navigationType === "POP" && locationKey !== "default") clearSelectedEpisode();
+  }, [navigationType, locationKey]);
 
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);
@@ -57,6 +65,7 @@ export default function Home() {
             <img className={styles.frame} src="/assets/home-card-frame-single.webp" alt="" draggable={false} />
             <Link
               to={detailPath}
+              onClick={clearSelectedEpisode}
               className={styles.card}
               aria-label={`${episode.badge} ${episode.title}${cleared ? " (완료)" : ""}`}
             >
@@ -116,7 +125,10 @@ export default function Home() {
           ))}
         </div>
 
-        <PrimaryButton size="md" className={styles.cta} disabled={!isOpen} onClick={() => navigate(detailPath)}>
+        <PrimaryButton size="md" className={styles.cta} disabled={!isOpen} onClick={() => {
+            clearSelectedEpisode();
+            navigate(detailPath);
+          }}>
           {isOpen ? "에피소드 보기" : "공개 예정"}
         </PrimaryButton>
       </Stage>

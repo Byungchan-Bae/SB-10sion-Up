@@ -129,7 +129,8 @@ export default function ExploreMap({ episodeId: chosenId }: { episodeId?: string
         <BackButton
           onClick={() => {
             clearSelectedEpisode();
-            navigate("/map");
+            // 폰의 뒤로가기로 이 지도에 돌아오지 않게 기록을 바꿔치기한다
+            navigate("/map", { replace: true });
           }}
         />
         <h1 className={styles.header}>탐험 지도</h1>
