@@ -4,6 +4,7 @@ import { MobileFrame } from "../components/MobileFrame";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { EPISODES } from "../data/episodes";
 import { resetEpisode } from "../lib/progress";
+import { clearSelectedEpisode } from "../lib/selection";
 import styles from "./Reset.module.css";
 
 /**
@@ -22,6 +23,7 @@ export default function Reset() {
     setError(null);
     try {
       await resetEpisode(episode.id);
+      clearSelectedEpisode();
       // 진행 중이던 동기화와 타이머가 남지 않게 새로 불러온다
       window.location.replace("/home");
     } catch (err) {
