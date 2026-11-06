@@ -6,7 +6,7 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { useProgress } from "../lib/progress";
-import { AskSheet } from "../components/AskSheet";
+import { AskMate } from "../components/AskMate";
 import { DoctorMascot } from "../components/DoctorMascot";
 import { PlaceHero } from "./PlaceHero";
 import styles from "./PlaceStory.module.css";
@@ -59,11 +59,11 @@ export default function PlaceStory() {
           {place.ordinal} 단서 찾기
         </PrimaryButton>
         <SecondaryButton size="md" className={styles.ask} onClick={() => setAsking(true)}>
-          참새 박사에게 물어보기
+          AI 질문하기
         </SecondaryButton>
 
       </Stage>
-      {asking && <AskSheet place={place} onClose={() => setAsking(false)} />}
+      {asking && <AskMate place={place} onClose={() => setAsking(false)} />}
     </MobileFrame>
   );
 }

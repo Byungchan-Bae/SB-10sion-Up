@@ -1,7 +1,7 @@
 import styles from "./DoctorMascot.module.css";
 
 /**
- * 안경 쓴 참새 박사. 참새 그림(story-tip-mascot.webp, 130 × 143) 위에 안경을 그려 얹는다.
+ * 안경 쓴 참새 (역사 화면 안내). 참새 그림(story-tip-mascot.webp, 130 × 143) 위에 안경을 그려 얹는다.
  * 그림 파일을 새로 만들지 않아서 크기를 바꿔도 안경 위치가 그대로다. 크기는 className으로 폭만 정한다.
  */
 export function DoctorMascot({ className }: { className?: string }) {
