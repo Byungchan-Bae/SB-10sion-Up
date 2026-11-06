@@ -3,14 +3,14 @@ import { useNavigate, useSearchParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
-import { COMING_SOON_EPISODES, EPISODES } from "../data/episodes";
+import { COMING_SOON_EPISODES, EPISODES, placeName } from "../data/episodes";
 import { hasAllClues, useProgress } from "../lib/progress";
 import { CollectionCoupons } from "./CollectionCoupons";
 import styles from "./Collection.module.css";
 
 /**
- * 수집물 탭 (/collection) — 모은 단서(편지 조각) 카드와 쿠폰(?tab=coupons, CollectionCoupons).
- * Figma "최종"에 이 화면 프레임이 없어서 단서 발견 화면(136:4524)의 카드 · 편지 조각 그림으로 구성.
+ * 수집물 탭 (/collection) — 모은 단서(편지 조각) 카드(Figma 242:3980)와 쿠폰(?tab=coupons, CollectionCoupons).
+ * 찾은 단서 카드를 누르면 그 장소에서 남긴 한 줄 기록(/place/:id/note)을 보여 준다.
  */
 export default function Collection() {
   const navigate = useNavigate();
@@ -58,65 +58,66 @@ export default function Collection() {
           <CollectionCoupons episode={episode} overlayHost={overlayHost} />
         ) : (
           <>
-            <p className={styles.episodeLabel}>에피소드</p>
+            <img className={styles.bush} src="/assets/coupon-bush.webp" alt="" draggable={false} />
+            <p className={styles.episodeLabel}>
+              <svg viewBox="0 0 11 14" aria-hidden="true">
+                <path
+                  d="M2 0h8a1 1 0 0 1 1 1v9.5a.5.5 0 0 1-.5.5H2.2a.9.9 0 0 0 0 1.8h8.3a.5.5 0 0 1 0 1H2.2A2.2 2.2 0 0 1 0 11.6V2a2 2 0 0 1 2-2Zm1 2.2v1.3h5.5V2.2H3Z"
+                  fill="currentColor"
+                />
+              </svg>
+              에피소드
+            </p>
             <button
               type="button"
               className={styles.episodePicker}
               aria-haspopup="listbox"
               aria-expanded={picking}
+              aria-label={`에피소드: ${episode.title} (단서 ${count} / ${episode.places.length})`}
               onClick={() => setPicking((open) => !open)}
             >
               {episode.title}
               <span className={styles.chevron} aria-hidden="true" />
             </button>
-            <p className={styles.count}>
-              단서 <b>{count}</b> / {episode.places.length}
-            </p>
+            <img className={styles.mascot} src="/assets/collection-mascot.webp" alt="" draggable={false} />
 
             <ul className={styles.grid}>
               {episode.places.map((place) => {
                 const found = progress.clues.includes(place.id);
-                const note = progress.notes?.[place.id];
                 return (
                   <li key={place.id}>
                     <button
                       type="button"
                       className={[styles.card, !found && styles.locked].filter(Boolean).join(" ")}
                       disabled={!found}
-                      onClick={() => navigate(`/place/${place.id}/clue`, { state: { from: "collection" } })}
-                      aria-label={found ? `${place.ordinal} 단서 “${place.clue.word}” — ${place.name}` : `${place.ordinal} 단서 — 아직 찾지 못했어요`}
+                      // 문제 2에서 남긴 한 줄 기록을 보여 준다
+                      onClick={() => navigate(`/place/${place.id}/note`)}
+                      aria-label={
+                        found
+                          ? `${place.ordinal} 단서 “${place.clue.word}” — ${placeName(place)}. 눌러서 남긴 기록 보기`
+                          : `${place.ordinal} 단서 — 아직 찾지 못했어요`
+                      }
                     >
+                      <img className={styles.thumb} src={`/assets/${place.pinPhoto}`} alt="" draggable={false} />
+                      <span className={styles.place}>{found ? placeName(place) : "???"}</span>
                       <span className={styles.fragment}>
                         <img src={`/assets/clue-${place.id}.webp`} alt="" draggable={false} />
                         {!found && <img className={styles.lock} src="/assets/icons/lock.svg" alt="" />}
                       </span>
                       <span className={styles.ordinal}>{place.ordinal} 단서</span>
                       <span className={styles.word}>{found ? `“${place.clue.word}”` : "???"}</span>
-                      <span className={styles.place}>{found ? place.clue.foundAt : "아직 찾지 못했어요"}</span>
-                      {found && note && <span className={styles.note}>“{note}”</span>}
                     </button>
                   </li>
                 );
               })}
             </ul>
 
-            {hasAllClues(episode, progress) ? (
-              <button
-                type="button"
-                className={[styles.tip, styles.tipLink].join(" ")}
-                onClick={() => navigate(`/episode/${episode.id}/secret`)}
-              >
+            {hasAllClues(episode, progress) && (
+              <button type="button" className={styles.secret} onClick={() => navigate(`/episode/${episode.id}/secret`)}>
                 <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
                 <p>{"단서를 모두 모았어요!\n눌러서 편지의 비밀을 확인해 보세요"}</p>
-                <span className={styles.arrow} aria-hidden="true">
-                  ›
-                </span>
+                <span className={styles.arrow} aria-hidden="true" />
               </button>
-            ) : (
-              <div className={styles.tip}>
-                <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
-                <p>{"네 개의 단서를 모두 모으면\n편지의 수신인이 밝혀져요!"}</p>
-              </div>
             )}
           </>
         )}
