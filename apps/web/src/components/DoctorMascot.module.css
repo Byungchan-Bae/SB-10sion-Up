@@ -1,0 +1,13 @@
+.wrap {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  aspect-ratio: 130 / 143;
+}
+.wrap img,
+.wrap svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

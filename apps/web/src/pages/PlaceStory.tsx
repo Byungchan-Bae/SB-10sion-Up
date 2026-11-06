@@ -58,7 +58,7 @@ export default function PlaceStory() {
           {place.ordinal} 단서 찾기
         </PrimaryButton>
         <SecondaryButton size="md" className={styles.ask} onClick={() => setAsking(true)}>
-          AI 질문하기
+          참새 박사에게 물어보기
         </SecondaryButton>
 
       </Stage>
