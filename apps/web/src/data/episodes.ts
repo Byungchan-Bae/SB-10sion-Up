@@ -39,7 +39,7 @@ export const EPISODES: Episode[] = [
     duration: "1시간 30분",
     // 순서: 성북동 A 인문산책 코스 (https://www.sb.go.kr/tour/contents.do?key=6582)
     // 좌표 출처 (2026-11-05 확인): 길상사 · 수연산방은 OpenStreetMap, 심우장 · 수도회 구 본원은 한국어 위키백과 문화유산 좌표.
-    // 시연은 ?demo=1로 위치 확인 생략
+    // 시연 단계에는 위치 확인 생략 (data/stage.ts)
     places: [
       {
         id: "gilsangsa",

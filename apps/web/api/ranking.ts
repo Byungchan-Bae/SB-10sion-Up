@@ -1,5 +1,6 @@
 import type { RankingEntry, RankingResponse } from "@sb/types";
 import { getEpisode } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
+import { DEMO_STAGE } from "../src/data/stage.js";
 import { connect, ensureProgressTables, error, sha256 } from "../server/db.js";
 
 /** 목록에 보여 주는 인원 */
@@ -9,7 +10,7 @@ const TOP = 50;
  * 도보 경로 1,324m 중 인증 반경 150m씩을 뺀 618m를 달리듯(8km/h) 약 4.6분 + 문제 4개 약 1.4분 = 6분.
  * 장소나 문제를 바꾸면 다시 계산할 것.
  */
-const MIN_TRUSTED_SECONDS = 360;
+const MIN_TRUSTED_SECONDS = DEMO_STAGE ? 0 : 360; // 시연 단계에는 걷지 않고 빨리 끝내므로 시간을 그대로 보여 준다
 /**
  * 수연산방에서 차를 마셔도 순위에서 손해 보지 않게, 수연산방 인증 ~ 심우장 인증 구간은 이 시간까지만 센다.
  * 걷기 약 7분(카카오맵) + 문제 풀기 약 2분에 여유를 둔 값.

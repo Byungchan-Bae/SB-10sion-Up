@@ -5,6 +5,7 @@ import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
+import { DEMO_STAGE } from "../data/stage";
 import { formatDistance, getCurrentPosition, type PositionError } from "../lib/geo";
 import { checkIn } from "../lib/api";
 import { applyServerProgress, getProgress, isPlaceOpen } from "../lib/progress";
@@ -31,12 +32,13 @@ export default function PlaceCheckIn() {
   const { episode, place, index } = found;
   if (!isPlaceOpen(episode, index, getProgress(episode.id))) return <Navigate to="/map" replace />;
 
-  const demo = search.get("demo") === "1";
+  const demoParam = search.get("demo") === "1";
+  const demo = DEMO_STAGE || demoParam;
 
   const verify = async () => {
     setError(null);
     setChecking(true);
-    // 1) 현재 위치 받기 — 개발 · 시연용 ?demo=1 이면 생략
+    // 1) 현재 위치 받기 — 시연 단계나 ?demo=1 이면 생략
     let where: { lat: number; lng: number } | "demo" = "demo";
     if (!demo) {
       try {
@@ -53,7 +55,7 @@ export default function PlaceCheckIn() {
       const res = await checkIn(place.id, where);
       applyServerProgress(res.episodeId, res.progress);
       if (res.ok) {
-        navigate(`/place/${place.id}/story${demo ? "?demo=1" : ""}`, { replace: true });
+        navigate(`/place/${place.id}/story${demoParam ? "?demo=1" : ""}`, { replace: true });
         return;
       }
       setError(`${place.name}까지 ${formatDistance(res.distance ?? 0)} 남았어요.\n${res.radius}m 안으로 와주세요!`);
@@ -70,7 +72,7 @@ export default function PlaceCheckIn() {
 
         <div className={styles.box} />
         <p className={error ? styles.error : styles.guide} role={error ? "alert" : undefined}>
-          {error ?? "GPS로 현장에 도착했는지 확인할게요!"}
+          {error ?? (DEMO_STAGE ? "시연 중이라 위치 확인 없이 바로 인증돼요!" : "GPS로 현장에 도착했는지 확인할게요!")}
         </p>
         <img
           className={styles.steps}
@@ -78,7 +80,7 @@ export default function PlaceCheckIn() {
           alt="위치 권한 허용(최초 1회) → 현재 위치 확인 → 도착 인증 완료"
         />
         <PrimaryButton size="md" className={styles.cta} disabled={checking} onClick={verify}>
-          {checking ? "인증 대기중...." : error ? "다시 인증하기" : "지금 위치로 인증하기"}
+          {checking ? "인증 대기중...." : error ? "다시 인증하기" : DEMO_STAGE ? "도착 인증하기" : "지금 위치로 인증하기"}
         </PrimaryButton>
 
         <img className={styles.mascots} src="/assets/checkin-mascots-bottom.webp" alt="" draggable={false} />

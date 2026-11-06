@@ -63,7 +63,7 @@ export interface CheckInRequest {
   /** 현재 위치. demo면 없어도 됨 */
   lat?: number;
   lng?: number;
-  /** 시연 모드(?demo=1): 거리 확인을 건너뛰는 대신 랭킹에서 빠진다 */
+  /** 시연 모드: 거리 확인을 건너뛴다. 시연 단계(DEMO_STAGE)가 아니면 랭킹에서도 빠진다 */
   demo?: boolean;
 }
 
