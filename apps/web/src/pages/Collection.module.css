@@ -116,7 +116,7 @@
   padding: 0;
   border: none;
   border-radius: 10px;
-  background: #fbddb3;
+  background: #fef3da; /* Figma 259:4747 "배경" */
   box-shadow: 0 4px 4px rgb(105 44 0 / 0.2);
   font-family: var(--font-sans);
   color: var(--color-brown);
