@@ -4,6 +4,7 @@ import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
+import type { Rect } from "@sb/types";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
 import { checkQuiz } from "../lib/api";
@@ -11,6 +12,11 @@ import { applyServerProgress, getProgress, useProgress } from "../lib/progress";
 import styles from "./PlaceQuiz.module.css";
 
 const MAX_NOTE = 30;
+
+/** 힌트 카드 위치 (PlaceQuiz.module.css .hintBox와 같은 값) */
+const HINT_BOX = { left: 33, top: 240 };
+/** data의 힌트 그림 좌표(무대 기준)를 카드 안 좌표로 */
+const inHintBox = ([left, top, width, height]: Rect): Rect => [left - HINT_BOX.left, top - HINT_BOX.top, width, height];
 
 /**
  * 문제 풀이 (/place/:id/quiz).
@@ -105,14 +111,16 @@ export default function PlaceQuiz() {
 
         {step === 1 ? (
           <>
-            <div className={styles.hintBox} />
-            <img
-              className={styles.hintImage}
-              style={rectStyle(quiz.hintImage)}
-              src={`/assets/hint-${place.id}.png`}
-              alt={quiz.hint}
-              draggable={false}
-            />
+            {/* 힌트 그림은 카드 안에 넣어 카드의 둥근 모서리로 잘리게 한다 (카드 왼쪽 끝에 붙은 그림이 모서리 밖으로 안 나오게) */}
+            <div className={styles.hintBox}>
+              <img
+                className={styles.hintImage}
+                style={rectStyle(inHintBox(quiz.hintImage))}
+                src={`/assets/hint-${place.id}.png`}
+                alt={quiz.hint}
+                draggable={false}
+              />
+            </div>
             <img
               className={styles.mascot}
               style={{ left: quiz.mascot[0], top: quiz.mascot[1] }}
