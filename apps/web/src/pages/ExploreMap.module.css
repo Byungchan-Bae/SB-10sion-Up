@@ -191,3 +191,88 @@
   color: #fff;
   z-index: 5;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.header {
+  composes: fade from "../styles/motion.module.css";
+}
+.status {
+  composes: drop from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.mapImage {
+  composes: fade from "../styles/motion.module.css";
+}
+
+/* 핀이 차례로 튀어나온다 (--d는 화면에서 넘긴다) */
+.pin,
+.pinLocked {
+  animation: pinPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) backwards;
+}
+/* 다음 목적지: 통통 튀고 둘레가 퍼져 나간다 */
+.pinCurrent {
+  animation:
+    pinPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) backwards,
+    pinBob 1.4s ease-in-out calc(var(--d, 0s) + 0.6s) infinite;
+}
+.pinCurrent .ring {
+  animation: ringPulse 1.4s ease-out calc(var(--d, 0s) + 0.6s) infinite;
+}
+/* 잠긴 핀을 누르면 흔들린다. 핀 전체 애니메이션을 건드리지 않도록 안쪽을 흔든다 */
+.shaking .photo,
+.shaking .label,
+.shaking .ring,
+.shaking .name {
+  animation: pinShake 0.4s ease;
+}
+.toast {
+  animation: toastIn 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+@keyframes pinPop {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+@keyframes pinBob {
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes ringPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(253 111 3 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 16px rgb(253 111 3 / 0);
+  }
+}
+@keyframes pinShake {
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pin,
+  .pinLocked,
+  .pinCurrent,
+  .pinCurrent .ring,
+  .shaking .photo,
+  .shaking .label,
+  .shaking .ring,
+  .shaking .name,
+  .toast {
+    animation: none;
+  }
+}

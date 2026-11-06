@@ -202,3 +202,50 @@
   top: 759px;
   width: 270px;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.paper {
+  composes: fade from "../styles/motion.module.css";
+}
+.leaves {
+  composes: leavesIn from "../styles/motion.module.css";
+}
+.header {
+  composes: fade from "../styles/motion.module.css";
+}
+.photoCard {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.05s;
+}
+.mascots {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.25s;
+}
+.title {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.15s;
+}
+.tag {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.2s;
+}
+.hook {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.25s;
+}
+.summary {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.3s;
+}
+.infoBox {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.info {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.cta {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.45s;
+}

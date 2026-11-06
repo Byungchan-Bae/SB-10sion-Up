@@ -93,3 +93,21 @@
   font-weight: 800;
   color: #d6342c;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.logo {
+  composes: drop from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.tagline {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.25s;
+}
+.field {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.submit {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.45s;
+}

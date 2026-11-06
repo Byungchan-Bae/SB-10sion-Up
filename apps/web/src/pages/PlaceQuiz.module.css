@@ -238,3 +238,98 @@
   line-height: normal;
   color: #978a83;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.leavesLeft {
+  composes: leavesIn from "../styles/motion.module.css";
+}
+.leavesRight {
+  composes: hanokIn from "../styles/motion.module.css";
+}
+.landscape {
+  composes: rise from "../styles/motion.module.css";
+}
+.header {
+  composes: fade from "../styles/motion.module.css";
+}
+.progress {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.05s;
+}
+.qLabel {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.question {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.15s;
+}
+.hintBox {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.2s;
+}
+.mascot {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.3s;
+}
+.options {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.3s;
+}
+.confirm {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.paper {
+  composes: unfold from "../styles/motion.module.css";
+  --d: 0.15s;
+}
+.line {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.note {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.counter {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+
+/* 정답: 초록으로 커졌다 돌아옴. 진행 바는 왼쪽부터 차오름 */
+.correct {
+  border-color: #6fb83a;
+  background: #e5f6d3;
+  animation: correctPop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.barOn {
+  transform-origin: 0 50%;
+  animation: barFill 0.5s ease-out 0.15s backwards;
+}
+.feedback {
+  animation: feedbackIn 0.3s ease-out;
+}
+@keyframes correctPop {
+  50% {
+    transform: scale(1.05);
+  }
+}
+@keyframes barFill {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes feedbackIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .correct,
+  .barOn,
+  .feedback {
+    animation: none;
+  }
+}

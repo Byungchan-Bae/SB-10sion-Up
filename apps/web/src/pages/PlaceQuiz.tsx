@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
+import { Stamp, STAMP_MS } from "../components/Stamp";
 import type { Rect } from "@sb/types";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
@@ -38,6 +39,17 @@ export default function PlaceQuiz() {
     found ? (getProgress(found.episode.id).notes?.[found.place.id] ?? "") : "",
   );
 
+  /** 정답 도장을 보여 주는 중. 끝나면 문제 2로 */
+  const [celebrating, setCelebrating] = useState(false);
+  useEffect(() => {
+    if (!celebrating) return;
+    const t = setTimeout(() => {
+      setCelebrating(false);
+      setStep(2);
+    }, STAMP_MS);
+    return () => clearTimeout(t);
+  }, [celebrating]);
+
   if (!found) return <Navigate to="/map" replace />;
   const { episode, place } = found;
   if (!progress.verified.includes(place.id)) return <Navigate to={`/place/${place.id}`} replace />;
@@ -45,14 +57,14 @@ export default function PlaceQuiz() {
 
   // 정답은 서버(/api/quiz)에서 확인한다
   const submitChoice = async () => {
-    if (!selected || busy) return;
+    if (!selected || busy || celebrating) return;
     setBusy(true);
     setError(null);
     try {
       const { correct } = await checkQuiz(place.id, selected);
       if (correct) {
         setSolved(selected);
-        setStep(2);
+        setCelebrating(true);
       } else {
         // 틀리면 흔들고 선택을 풀어 다시 고르게 한다
         setWrong(selected);
@@ -106,8 +118,10 @@ export default function PlaceQuiz() {
           <span className={styles.count}>문제 {step}/2</span>
         </div>
 
-        <p className={styles.qLabel}>Q{step}</p>
-        <h2 className={styles.question}>{step === 1 ? quiz.question : quiz.reflection}</h2>
+        <p key={`q${step}`} className={styles.qLabel}>
+          Q{step}
+        </p>
+        <h2 key={`t${step}`} className={styles.question}>{step === 1 ? quiz.question : quiz.reflection}</h2>
 
         {step === 1 ? (
           <>
@@ -138,7 +152,7 @@ export default function PlaceQuiz() {
                   aria-checked={selected === option}
                   className={[
                     styles.option,
-                    selected === option && styles.selected,
+                    selected === option && (celebrating ? styles.correct : styles.selected),
                     wrong === option && styles.wrong,
                   ]
                     .filter(Boolean)
@@ -160,7 +174,7 @@ export default function PlaceQuiz() {
               </p>
             )}
 
-            <PrimaryButton size="md" className={styles.confirm} disabled={!selected || busy} onClick={submitChoice}>
+            <PrimaryButton size="md" className={styles.confirm} disabled={!selected || busy || celebrating} onClick={submitChoice}>
               {busy ? "확인 중…" : "확인"}
             </PrimaryButton>
           </>
@@ -199,6 +213,7 @@ export default function PlaceQuiz() {
             </PrimaryButton>
           </>
         )}
+        {celebrating && <Stamp text="정답!" />}
       </Stage>
     </MobileFrame>
   );

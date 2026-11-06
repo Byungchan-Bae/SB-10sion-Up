@@ -518,3 +518,93 @@
 .episodeSoon .badge {
   background: var(--color-gray2);
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.header {
+  composes: fade from "../styles/motion.module.css";
+}
+.tabs {
+  composes: rise from "../styles/motion.module.css";
+}
+.episodeLabel {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.05s;
+}
+.episodePicker {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.05s;
+}
+.count {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.tip {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.couponCount {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.dialog {
+  composes: pop from "../styles/motion.module.css";
+}
+.dialogBack {
+  composes: fade from "../styles/motion.module.css";
+}
+.message {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+
+/* 단서 카드는 뒤집히며, 쿠폰은 옆에서 차례로 들어온다 */
+.grid li {
+  animation: cardIn 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15) backwards;
+}
+.grid li:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.grid li:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.grid li:nth-child(4) {
+  animation-delay: 0.24s;
+}
+.tickets li {
+  animation: ticketIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1) backwards;
+}
+.tickets li:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.tickets li:nth-child(3) {
+  animation-delay: 0.18s;
+}
+.episodeMenu {
+  transform-origin: 0 0;
+  animation: menuIn 0.2s ease-out;
+}
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: perspective(600px) rotateY(70deg);
+  }
+}
+@keyframes ticketIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid li,
+  .tickets li,
+  .episodeMenu {
+    animation: none;
+  }
+}

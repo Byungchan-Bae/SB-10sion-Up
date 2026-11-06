@@ -1,0 +1,139 @@
+/*
+ * 화면들이 함께 쓰는 등장 애니메이션. 화면 CSS에서 이렇게 쓴다:
+ *   .title { composes: rise from "../styles/motion.module.css"; --d: 0.2s; }
+ * --d = 시작 지연. 끝나면 원래 스타일로 돌아가도록 backwards만 쓴다 (forwards는 겹침 순서를 바꾼다).
+ */
+.fade {
+  animation: fade 0.45s ease-out var(--d, 0s) backwards;
+}
+.rise {
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) backwards;
+}
+/* 위에서 떨어져 살짝 튕김 */
+.drop {
+  animation: drop 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) var(--d, 0s) backwards;
+}
+/* 작았다가 커지며 튀어나옴 */
+.pop {
+  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) backwards;
+}
+/* 카드를 나눠 주듯 옆에서 들어옴 */
+.deal {
+  animation: deal 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1) var(--d, 0s) backwards;
+}
+/* 종이가 위에서 아래로 펼쳐짐 */
+.unfold {
+  transform-origin: 50% 0;
+  animation: unfold 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) backwards;
+}
+/* 뒤집히며 나타남 (단서 조각) */
+.flip {
+  animation: flip 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) var(--d, 0s) backwards;
+}
+.leavesIn {
+  transform-origin: 0 0;
+  animation: leavesIn 0.7s ease-out var(--d, 0s) backwards;
+}
+.hanokIn {
+  animation: hanokIn 0.6s ease-out var(--d, 0s) backwards;
+}
+/* 튀어나온 뒤 계속 둥실둥실 (마스코트) */
+.float {
+  animation:
+    pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) backwards,
+    float 3s ease-in-out calc(var(--d, 0s) + 0.5s) infinite;
+}
+/* 올라온 뒤 "눌러 보세요"처럼 빛남 (주요 버튼). 비활성 버튼은 빛나지 않는다 */
+.riseGlow {
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) backwards;
+}
+.riseGlow:not(:disabled) {
+  animation:
+    rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) backwards,
+    glow 2.2s ease-out calc(var(--d, 0s) + 0.8s) infinite;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.9);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translateX(60px) rotate(4deg);
+  }
+}
+@keyframes unfold {
+  from {
+    opacity: 0;
+    transform: scaleY(0.2);
+  }
+}
+@keyframes flip {
+  from {
+    opacity: 0;
+    transform: perspective(600px) rotateY(100deg) scale(0.7);
+  }
+}
+@keyframes leavesIn {
+  from {
+    opacity: 0;
+    transform: translate(-16px, -16px) rotate(-6deg);
+  }
+}
+@keyframes hanokIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 0 rgb(255 162 62 / 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 12px rgb(255 162 62 / 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade,
+  .rise,
+  .drop,
+  .pop,
+  .deal,
+  .unfold,
+  .flip,
+  .leavesIn,
+  .hanokIn,
+  .float,
+  .riseGlow,
+  .riseGlow:not(:disabled) {
+    animation: none;
+  }
+}

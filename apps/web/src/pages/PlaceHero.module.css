@@ -123,3 +123,20 @@
 .mapButton:active {
   background: #f6e5ce;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.header {
+  composes: fade from "../styles/motion.module.css";
+}
+.photoCard {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.05s;
+}
+.mascots {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.2s;
+}
+.titleBlock {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.1s;
+}

@@ -102,3 +102,33 @@
   border: none;
   background: #fefefe;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.title {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.2s;
+}
+.body {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.28s;
+}
+.tipBox {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.tipMascot {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.tipText {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.findClue {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.45s;
+}
+.ask {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.5s;
+}
