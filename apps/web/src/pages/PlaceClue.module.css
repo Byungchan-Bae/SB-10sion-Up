@@ -93,3 +93,7 @@
   border: none;
   background: #fefefe;
 }
+/* 수집물에서 열었을 때: 다음 버튼 자리로 올림 */
+.collectionOnly {
+  top: 663px;
+}
