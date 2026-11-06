@@ -10,12 +10,19 @@ const TOP = 50;
  * 장소나 문제를 바꾸면 다시 계산할 것.
  */
 const MIN_TRUSTED_SECONDS = 360;
+/**
+ * 수연산방에서 차를 마셔도 순위에서 손해 보지 않게, 수연산방 인증 ~ 심우장 인증 구간은 이 시간까지만 센다.
+ * 걷기 약 7분(카카오맵) + 문제 풀기 약 2분에 여유를 둔 값.
+ */
+const REST_FROM_PLACE = "suyeonsanbang";
+const REST_TO_PLACE = "simujang";
+const MAX_REST_LEG_SECONDS = 600;
 /** Postgres: 테이블이 없음 */
 const UNDEFINED_TABLE = "42P01";
 
 // GET /api/ranking?episodeId=&userId=  (내 순위도 받으려면 헤더 Authorization: Bearer <token>)
 // 순서: 포인트 많은 순 → 소요 시간 짧은 순 → 먼저 끝낸 순. 시연 모드(demo_users)를 쓴 사용자는 뺀다.
-// 소요 시간은 서버가 기록한 시각(첫 인증 ~ 마지막 단서)으로 계산한다. 기기가 보낸 시각은 쓰지 않는다.
+// 소요 시간은 서버가 기록한 시각(첫 인증 ~ 마지막 단서)으로 계산하고, 수연산방 구간의 초과분을 뺀다. 기기가 보낸 시각은 쓰지 않는다.
 export async function GET(request: Request): Promise<Response> {
   const sql = connect();
   if (!sql) return error(500, "DATABASE_URL이 설정되지 않았어요");
@@ -31,7 +38,12 @@ export async function GET(request: Request): Promise<Response> {
   try {
     await ensureProgressTables(sql);
     rows = await sql`WITH timing AS (
-        SELECT user_id, EXTRACT(EPOCH FROM MAX(clue_at) - MIN(verified_at)) AS seconds
+        SELECT user_id,
+          EXTRACT(EPOCH FROM MAX(clue_at) - MIN(verified_at))
+            - GREATEST(0, COALESCE(EXTRACT(EPOCH FROM
+                MAX(verified_at) FILTER (WHERE place_id = ${REST_TO_PLACE})
+                - MAX(verified_at) FILTER (WHERE place_id = ${REST_FROM_PLACE})
+              ), 0) - ${MAX_REST_LEG_SECONDS}) AS seconds
         FROM place_progress
         WHERE episode_id = ${episode.id}
         GROUP BY user_id
