@@ -111,7 +111,7 @@ export function deleteProgress(episodeId: string) {
   });
 }
 
-/** 장소 도착 인증 — 서버가 거리를 계산한다. demo면 거리 확인을 건너뛰고 랭킹에서 빠진다 */
+/** 장소 도착 인증 — 서버가 거리를 계산한다. demo면 거리 확인을 건너뛴다 (시연 단계가 아니면 랭킹에서도 빠진다) */
 export const checkIn = (placeId: string, where: { lat: number; lng: number } | "demo") =>
   postAsUser<CheckInRequest, CheckInResponse>("/api/checkin", (userId) =>
     where === "demo" ? { userId, placeId, demo: true } : { userId, placeId, ...where },

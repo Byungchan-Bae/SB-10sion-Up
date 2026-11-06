@@ -1,5 +1,6 @@
 import type { CheckInRequest, CheckInResponse } from "@sb/types";
 import { findPlace } from "../src/data/episodes.js"; // Node ESM은 확장자가 필요
+import { DEMO_STAGE } from "../src/data/stage.js";
 import { distanceMeters } from "../src/lib/geo.js";
 import { connect, ensureProgressTables, error, isUser, loadProgress, markStarted } from "../server/db.js";
 
@@ -7,7 +8,8 @@ const isCoord = (v: unknown, max: number): v is number => typeof v === "number" 
 
 // POST /api/checkin  { userId, placeId, lat, lng, demo? } → { ok, distance, radius, episodeId, progress }
 // 장소 도착 인증. 서버가 거리를 계산해서 반경 안이면 인증을 기록한다.
-// 시연 모드(demo: true, 화면 주소 ?demo=1)는 거리 확인을 건너뛰는 대신 랭킹에서 빠진다 (심사 · 시연용).
+// 시연 단계(DEMO_STAGE)에는 모두 거리 확인을 건너뛰고 랭킹에도 오른다.
+// 시연 단계가 아닐 때 demo: true(화면 주소 ?demo=1)는 거리 확인을 건너뛰는 대신 랭킹에서 빠진다.
 export async function POST(request: Request): Promise<Response> {
   const sql = connect();
   if (!sql) return error(500, "DATABASE_URL이 설정되지 않았어요");
@@ -40,14 +42,14 @@ export async function POST(request: Request): Promise<Response> {
   };
 
   let distance: number | undefined;
-  if (input.demo !== true) {
+  if (!DEMO_STAGE && input.demo !== true) {
     if (!isCoord(input.lat, 90) || !isCoord(input.lng, 180)) return error(400, "현재 위치 값이 없어요");
     distance = Math.round(distanceMeters(input.lat, input.lng, place.lat, place.lng));
     if (distance > place.radius) return reply(false, distance);
   }
 
   // 시연 모드를 쓴 사용자는 랭킹에서 뺀다
-  if (input.demo === true) {
+  if (!DEMO_STAGE && input.demo === true) {
     await sql`INSERT INTO demo_users (user_id) VALUES (${userId}::uuid) ON CONFLICT (user_id) DO NOTHING`;
   }
 
