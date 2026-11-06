@@ -9,16 +9,16 @@ import { EPISODES, getEpisode } from "../data/episodes";
 import { isPlaceOpen, useProgress } from "../lib/progress";
 import styles from "./ExploreMap.module.css";
 
-/** 시작 후 흐른 시간 "08:56" / "1:08:56" */
-function useElapsed(startedAt?: number) {
+/** 시작 후 흐른 시간 "08:56" / "1:08:56". 에피소드를 끝냈으면 끝낸 시각에서 멈춘다 */
+function useElapsed(startedAt?: number, completedAt?: number) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
-    if (!startedAt) return;
+    if (!startedAt || completedAt) return;
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
-  }, [startedAt]);
+  }, [startedAt, completedAt]);
   if (!startedAt) return "00:00";
-  const s = Math.max(0, Math.floor((now - startedAt) / 1000));
+  const s = Math.max(0, Math.floor(((completedAt ?? now) - startedAt) / 1000));
   const pad = (n: number) => String(n).padStart(2, "0");
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
@@ -58,7 +58,7 @@ export default function ExploreMap() {
   const navigate = useNavigate();
   const episode = episodeId ? getEpisode(episodeId) : EPISODES[0];
   const progress = useProgress(episode?.id ?? "");
-  const elapsed = useElapsed(progress.startedAt);
+  const elapsed = useElapsed(progress.startedAt, progress.completedAt);
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
