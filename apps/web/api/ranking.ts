@@ -4,8 +4,12 @@ import { connect, ensureProgressTables, error, sha256 } from "../server/db.js";
 
 /** 목록에 보여 주는 인원 */
 const TOP = 50;
-/** 이보다 짧으면 한 번에 몰아서 보낸 기록(오프라인 · 조작)이라 시간을 믿을 수 없다 */
-const MIN_TRUSTED_SECONDS = 60;
+/**
+ * 이보다 짧으면 실제로 걸어서 문제를 풀었다고 볼 수 없어 시간을 믿지 않는다 ("시간 기록 없음", 같은 점수에서 맨 뒤).
+ * 코스 직선거리 1,048m에서 인증 반경을 뺀 257m를 빠른 걸음(5km/h)으로 약 3분 + 문제 4개 약 1분 = 4분.
+ * 장소나 문제를 바꾸면 다시 계산할 것.
+ */
+const MIN_TRUSTED_SECONDS = 240;
 /** Postgres: 테이블이 없음 */
 const UNDEFINED_TABLE = "42P01";
 
