@@ -22,8 +22,9 @@ export default function EpisodeComplete() {
 
   return (
     <MobileFrame>
-      <Stage background="#fdedba">
+      <Stage background="#feeaad">
         <img className={styles.ticket} src="/assets/complete-ticket.webp" alt="" draggable={false} />
+        <span className={styles.ticketFade} aria-hidden="true" />
         <BackButton to={`/episode/${episode.id}/secret`} />
 
         <img className={styles.mascots} src="/assets/complete-mascots.webp" alt="" draggable={false} />
