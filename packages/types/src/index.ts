@@ -105,7 +105,7 @@ export interface RankingEntry {
   rank: number;
   nickname: string;
   points: number;
-  /** 서버 기록 기준 소요 시간. 믿을 수 없는 기록(한 번에 몰아서 보냄)은 null이고 같은 점수에서 맨 뒤 */
+  /** 서버 기록 기준 소요 시간(수연산방 구간은 최대 10분까지만 셈). 믿을 수 없는 기록(한 번에 몰아서 보냄)은 null이고 같은 점수에서 맨 뒤 */
   durationMs: number | null;
   isMe: boolean;
 }
