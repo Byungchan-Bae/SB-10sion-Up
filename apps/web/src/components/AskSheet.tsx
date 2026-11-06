@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import type { Place } from "@sb/types";
 import { askAi } from "../lib/api";
 import { DoctorMascot } from "./DoctorMascot";
 import styles from "./AskSheet.module.css";
 
 const MAX_QUESTION = 200;
-/** 눌러서 바로 물어볼 수 있는 질문 */
-const SUGGESTIONS = ["이곳은 언제 만들어졌어요?", "왜 유명한 곳이에요?", "여기서 어떤 일이 있었어요?"];
+/** 자동응답도 잠깐 생각하는 모습을 보여 준다 */
+const FAQ_DELAY_MS = 500;
 
 type Turn = { question: string; answer?: string; error?: string };
 
@@ -20,7 +21,8 @@ function Doctor({ children, error = false }: { children: ReactNode; error?: bool
 }
 
 /** 장소 이야기 화면의 "참새 박사에게 물어보기" 아래 시트. 답은 AI가 만들고, 참새 박사가 알려 주는 모습으로 보여 준다 */
-export function AskSheet({ placeId, placeName, onClose }: { placeId: string; placeName: string; onClose: () => void }) {
+export function AskSheet({ place, onClose }: { place: Place; onClose: () => void }) {
+  const { id: placeId, faq } = place;
   const [question, setQuestion] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +36,7 @@ export function AskSheet({ placeId, placeName, onClose }: { placeId: string; pla
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
-  }, [turns]);
+  }, [turns, loading]);
 
   const ask = async (text: string) => {
     const q = text.trim();
@@ -43,7 +45,10 @@ export function AskSheet({ placeId, placeName, onClose }: { placeId: string; pla
     setLoading(true);
     setTurns((t) => [...t, { question: q }]);
     try {
-      const { answer } = await askAi(placeId, q);
+      // 자주 묻는 질문은 AI를 쓰지 않는다 (하루 질문 수에서도 빠짐)
+      const saved = faq.find((f) => f.question === q);
+      if (saved) await new Promise((r) => setTimeout(r, FAQ_DELAY_MS));
+      const answer = saved ? saved.answer : (await askAi(placeId, q)).answer;
       setTurns((t) => t.map((turn, i) => (i === t.length - 1 ? { ...turn, answer } : turn)));
     } catch (err) {
       const message = err instanceof Error ? err.message : "답을 받지 못했어요";
@@ -57,6 +62,8 @@ export function AskSheet({ placeId, placeName, onClose }: { placeId: string; pla
     e.preventDefault();
     ask(question);
   };
+
+  const remaining = faq.filter((f) => !turns.some((turn) => turn.question === f.question));
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
@@ -79,17 +86,8 @@ export function AskSheet({ placeId, placeName, onClose }: { placeId: string; pla
           <Doctor>
             안녕하세요, 참새 박사예요!
             <br />
-            {placeName}에 대해 궁금한 게 있나요?
+            {place.heroName ?? place.name}에 대해 궁금한 게 있나요?
           </Doctor>
-          {turns.length === 0 && (
-            <div className={styles.suggestions}>
-              {SUGGESTIONS.map((s) => (
-                <button key={s} type="button" className={styles.suggestion} onClick={() => ask(s)}>
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
           {turns.map((turn, i) => (
             <div key={i} className={styles.turn}>
               <p className={styles.q}>{turn.question}</p>
@@ -106,6 +104,16 @@ export function AskSheet({ placeId, placeName, onClose }: { placeId: string; pla
               )}
             </div>
           ))}
+          {/* 아직 안 물어본 자주 묻는 질문 */}
+          {!loading && remaining.length > 0 && (
+            <div className={styles.suggestions}>
+              {remaining.map((f) => (
+                <button key={f.question} type="button" className={styles.suggestion} onClick={() => ask(f.question)}>
+                  {f.question}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <form className={styles.form} onSubmit={submit}>

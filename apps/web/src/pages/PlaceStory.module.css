@@ -66,6 +66,7 @@
   background: rgb(255 162 62 / 0.21);
 }
 .tipMascot {
+  position: absolute;
   left: 13px;
   top: 805px;
   width: 84px;

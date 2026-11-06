@@ -252,6 +252,8 @@ export type Place = {
     /** 마스코트 말풍선 */
     tip: string;
   };
+  /** 자주 묻는 질문. 눌러서 물으면 AI를 쓰지 않고 이 답을 바로 보여 준다. 문제 정답은 넣지 말 것 */
+  faq: { question: string; answer: string }[];
   quiz: Quiz;
   clue: Clue;
 };

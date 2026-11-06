@@ -7,6 +7,7 @@ import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { useProgress } from "../lib/progress";
 import { AskSheet } from "../components/AskSheet";
+import { DoctorMascot } from "../components/DoctorMascot";
 import { PlaceHero } from "./PlaceHero";
 import styles from "./PlaceStory.module.css";
 
@@ -51,7 +52,7 @@ export default function PlaceStory() {
         <p className={styles.body}>{place.story.body}</p>
 
         <div className={styles.tipBox} />
-        <img className={styles.tipMascot} src="/assets/story-tip-mascot.webp" alt="" draggable={false} />
+        <DoctorMascot className={styles.tipMascot} />
         <p className={styles.tipText}>{place.story.tip}</p>
 
         <PrimaryButton size="md" className={styles.findClue} onClick={() => navigate(`/place/${place.id}/quiz`)}>
@@ -62,7 +63,7 @@ export default function PlaceStory() {
         </SecondaryButton>
 
       </Stage>
-      {asking && <AskSheet placeId={place.id} placeName={place.name} onClose={() => setAsking(false)} />}
+      {asking && <AskSheet place={place} onClose={() => setAsking(false)} />}
     </MobileFrame>
   );
 }
