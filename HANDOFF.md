@@ -12,7 +12,7 @@
 
 - Turborepo + React + TypeScript + Vite 기본 구조, Vercel 자동 배포 (https://sb-10sion-up.vercel.app)
 - 1단계: 디자인 토큰(`apps/web/src/styles/tokens.css`), 공통 컴포넌트(MobileFrame, Button, PageHeader, Asset),
-  라우팅(`/` → `/onboarding` → `/nickname` → `/home`), 스플래시 · 온보딩 3장(스와이프 지원) · 닉네임 화면
+  라우팅(`/` → `/onboarding` → `/nickname` → `/home`), 스플래시 · 온보딩 3장("다음" 버튼으로 넘김) · 닉네임 화면
 - 닉네임 등록은 `POST /api/users`. 받은 사용자 정보는 localStorage(`sb-treasure:user`)에 저장하고, 저장돼 있으면 스플래시 후 바로 `/home`
 - 1단계 화면을 Figma "최종" 섹션과 1px 단위로 맞춤. 에셋 10개를 Figma MCP로 가져옴 (`docs/design/ASSETS.md`에 노드 ID 정리)
 - 색상, 글꼴, 버튼 크기를 Figma 실제 값으로 교체 (`tokens.css`)
@@ -71,12 +71,13 @@
 - 탐험 지도 잠긴 장소: 지도 그림(`map-ep01.jpg`)에 크림색 이름표가 그려져 있어서, 잠겼을 땐 `pin.lockedLabel`(Figma 프레임 5, 136:2806 크기)로 회색 이름표를 크게 덮음. 잠긴 사진은 흑백 + 회색 덮개 (`fix/map-locked-pins`)
 - 탐험 지도 하늘: 지도 그림 맨 위 하늘색이 화면 배경(#aee0fe)보다 진해서 경계가 줄로 보였음. `.skyFade`(32px 그라데이션)로 이어지게 덮음 (`fix/map-sky-gradient`)
 - 장소 화면 위쪽 마스코트(`checkin-mascots.png`) 오른쪽 끝에 옆 그림 조각(검은 점)이 잘려 들어가 있어서 지움. 장소 네 곳의 인증 · 역사 화면이 같은 그림을 써서 한 번에 적용 (`fix/checkin-mascot-dot`)
+- 온보딩: 페이지 점과 손으로 밀어 넘기기를 없애고 "다음" 버튼으로만 넘어감. 점 자리만큼 띄워서 설명 박스 위치는 그대로 (`fix/onboarding-next-only`)
 - 탐험 지도 타이머: 에피소드를 끝내면(`completedAt`) 끝낸 시각에서 멈춤. 전에는 끝낸 뒤에도 계속 올라갔음 (`fix/map-timer-stop`). 랭킹 시간은 서버 기록(첫 인증 ~ 마지막 단서)이라 이 타이머와 다를 수 있음
 - 색상 코드와 크기는 Figma 값. 바꿀 땐 `apps/web/src/styles/tokens.css`만 수정.
 - PC에서 창 높이가 짧으면 Stage가 줄어드는 만큼 앱 틀(MobileFrame) 폭도 같이 줄임 (`fix/pc-frame-width`). Stage 루트의 `data-stage`(full / tab / scroll)를 `MobileFrame.module.css`의 `:has()`가 읽음. 휴대폰(430px 이하)은 그대로
 - 화면 수치는 390 × 844(Figma 프레임) 기준. 버튼 316 × 61, 좌우 여백 37px.
 - Figma `download_assets`로 받은 이미지는 투명도가 사라짐. 로고, 마스코트 같은 투명 에셋은 원본 이미지를 crop해야 함 (`docs/design/ASSETS.md`).
-- Figma 온보딩 1번 프레임(136:2309)엔 설명 박스와 점이 빠져 있어서 2, 3번 프레임 값으로 통일함.
+- Figma 온보딩 1번 프레임(136:2309)엔 설명 박스가 빠져 있어서 2, 3번 프레임 값으로 통일함. 페이지 점은 없앰.
 - 4단계 이후 화면 프레임 노드 ID는 `docs/design/ASSETS.md` 아래쪽 표 참고.
 - 역사 내용 화면은 Figma "최종"에 프레임이 없어서 컨셉 이미지(03-place-gilsangsa.webp) 기준으로 만듦. 위쪽은 인증 화면과 같음.
 - Figma 길상사 주소 "성북로 131"은 실제 주소(선잠로5길 68)와 달라서 실제 주소를 씀.

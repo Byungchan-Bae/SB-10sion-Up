@@ -1,4 +1,4 @@
-import { useRef, useState, type PointerEvent } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Asset } from "../components/Asset";
@@ -13,62 +13,25 @@ const SLIDES = [
   { title: "가족과", subtitle: "성북의 역사 속\n이야기를 온 가족이 함께!", image: "onboarding-family.png", tone: "blue" },
 ] as const;
 
-const SWIPE_THRESHOLD = 50;
-
 export default function Onboarding() {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
-  const [dragX, setDragX] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const startX = useRef(0);
 
+  // 넘김은 "다음" 버튼으로만 (손으로 밀어서 넘기지 않음). 마지막 장에서 누르면 닉네임 입력으로
   const goNext = () => (index < SLIDES.length - 1 ? setIndex(index + 1) : navigate("/nickname"));
-
-  const onPointerDown = (e: PointerEvent) => {
-    startX.current = e.clientX;
-    setDragging(true);
-  };
-  const onPointerMove = (e: PointerEvent) => {
-    if (dragging) setDragX(e.clientX - startX.current);
-  };
-  const onPointerEnd = () => {
-    if (!dragging) return;
-    if (dragX < -SWIPE_THRESHOLD && index < SLIDES.length - 1) setIndex(index + 1);
-    if (dragX > SWIPE_THRESHOLD && index > 0) setIndex(index - 1);
-    setDragging(false);
-    setDragX(0);
-  };
 
   return (
     <MobileFrame>
       <Asset name="onboarding-bottom.png" alt="" className={styles.landscape} fit="cover" />
       <Asset name="leaves-corner.png" alt="" className={styles.leaves} />
 
-      <div
-        className={styles.viewport}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerEnd}
-        onPointerCancel={onPointerEnd}
-        onPointerLeave={onPointerEnd}
-      >
-        <div
-          className={styles.track}
-          style={{
-            transform: `translateX(calc(${-index * 100}% + ${dragX}px))`,
-            transition: dragging ? "none" : undefined,
-          }}
-        >
+      <div className={styles.viewport}>
+        <div className={styles.track} style={{ transform: `translateX(${-index * 100}%)` }}>
           {SLIDES.map((s, i) => (
             <section key={s.title} className={styles.slide} aria-hidden={i !== index}>
               <h1 className={styles.title}>{s.title}</h1>
               <p className={styles.subtitle}>{s.subtitle}</p>
               <Asset name={s.image} alt={`${s.title} 성북 트레저를 즐기는 모습`} className={styles.photo} />
-              <div className={styles.dots} aria-hidden="true">
-                {SLIDES.map((_, d) => (
-                  <span key={d} className={d === i ? styles.dotActive : styles.dot} />
-                ))}
-              </div>
               <div className={styles.spacer} />
               <p className={`${styles.description} ${styles[s.tone]}`}>{DESCRIPTION}</p>
             </section>
