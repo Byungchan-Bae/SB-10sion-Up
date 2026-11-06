@@ -5,12 +5,14 @@ import type {
   CheckInRequest,
   CheckInResponse,
   CompleteRequest,
+  CouponsResponse,
   CreateUserRequest,
   CreateUserResponse,
   ProgressResponse,
   QuizRequest,
   QuizResponse,
   RankingResponse,
+  UseCouponRequest,
 } from "@sb/types";
 import { clearPlayer, getUser } from "./storage";
 
@@ -122,6 +124,21 @@ export const checkQuiz = (placeId: string, choice: string, note?: string) =>
 /** 에피소드 완료 — 서버가 단서를 모두 찾았는지 확인한다 */
 export const completeOnServer = (episodeId: string) =>
   postAsUser<CompleteRequest, ProgressResponse>("/api/complete", (userId) => ({ userId, episodeId }));
+
+/** 쿠폰 목록과 내 사용 기록 */
+export function getCoupons(episodeId: string, signal?: AbortSignal) {
+  const user = getUser();
+  if (!user) return Promise.reject(new Error(NOT_REGISTERED));
+  const params = new URLSearchParams({ episodeId, userId: user.userId });
+  return request<CouponsResponse>(`/api/coupons?${params}`, {
+    signal,
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+}
+
+/** 쿠폰 사용 처리 — 서버가 완주 여부를 확인하고 한 번만 기록한다 */
+export const redeemCoupon = (episodeId: string, couponId: string) =>
+  postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({ userId, episodeId, couponId }));
 
 /** 랭킹. 닉네임을 등록한 사용자면 내 순위도 함께 받는다 */
 export function getRanking(episodeId: string, signal?: AbortSignal) {

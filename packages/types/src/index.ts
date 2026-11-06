@@ -120,6 +120,38 @@ export interface RankingResponse {
   me: RankingEntry | null;
 }
 
+// GET /api/coupons?userId=&episodeId=, POST /api/coupons  (헤더 Authorization: Bearer <token>)
+export interface Coupon {
+  id: string;
+  /** "빵집", "카페", "식당" */
+  category: string;
+  shop: string;
+  /** 할인 크기: "10%", "1,000원" */
+  benefit: string;
+  /** 쓸 수 있는 조건 */
+  condition: string;
+  /** 제휴 전 예시 쿠폰 */
+  sample?: boolean;
+}
+
+export interface CouponStatus extends Coupon {
+  /** 사용한 시각(ms). 안 썼으면 없음 */
+  usedAt?: number;
+}
+
+export interface CouponsResponse {
+  episodeId: string;
+  /** 서버에 완주 기록이 있으면 true */
+  unlocked: boolean;
+  coupons: CouponStatus[];
+}
+
+export interface UseCouponRequest {
+  userId: string;
+  episodeId: string;
+  couponId: string;
+}
+
 // ---- 에피소드 데이터 (apps/web/src/data/episodes.ts, GET /api/episodes) ----
 
 /** [left, top, width, height] — Stage(390 × 844) 좌표 */
