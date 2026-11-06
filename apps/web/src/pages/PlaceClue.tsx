@@ -2,6 +2,7 @@ import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
+import { LeafBurst } from "../components/LeafBurst";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
@@ -70,6 +71,9 @@ export default function PlaceClue() {
             다음 에피소드 보기
           </PrimaryButton>
         )}
+        {/* 문제를 맞히고 단서를 막 찾았을 때만 단풍이 터짐 (수집물에서 다시 볼 땐 없음). 터지는 곳은 편지 조각 가운데 */}
+        {!fromCollection && <LeafBurst x={clue.image[0] + clue.image[2] / 2} y={clue.image[1] + clue.image[3] / 2} />}
+
         <SecondaryButton
           size="md"
           className={fromCollection ? `${styles.collection} ${styles.collectionOnly}` : styles.collection}

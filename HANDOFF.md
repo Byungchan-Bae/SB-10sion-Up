@@ -75,6 +75,7 @@
 - 역사 화면(`/place/:id/story`)은 원본 Figma 136:3821 · 3848 · 3875 · 3907 기준: 제목 28px, 본문 18px Regular 검정(글자 단위 줄바꿈), 팁 박스 + 부엉이(`story-tip-mascot.webp`), 문구는 `place.story`. 이름 자리를 도착 인증과 맞춰서 아래 내용은 Figma + 29px, 페이지 1149 (`fix/place-story-figma`). Figma 길상사 화면 오른쪽의 헤드셋 복숭아 마스코트는 다른 세 곳엔 없어서 안 넣음
 - 수집 완료: 티켓 그림 윗색과 바탕(#fdedba)이 달라 top 113에 줄이 보여서, 바탕을 #feeaad로 맞추고 `.ticketFade`(40px)로 이어지게 함 (`fix/complete-top-blend`)
 - 단서 발견(`/place/:id/clue`)을 수집물 탭에서 열면(`navigate(..., { state: { from: "collection" } })`) 게임용 "다음" 버튼을 숨기고 "수집물 보기"를 그 자리로, 뒤로 가기도 수집물로. 퀴즈를 맞히고 들어오면 전처럼 "다음"이 있음 (`fix/clue-from-collection`)
+- 단서 발견 단풍 효과: `components/LeafBurst.tsx`가 편지 조각 가운데서 단풍잎 · 은행잎 · 낙엽 42장(크기 12~48px)을 높이 터뜨린 뒤 중력처럼 빠르게 떨어뜨림 (SVG + CSS 애니메이션만, 약 2초). 퀴즈를 맞히고 들어올 때만, 수집물에서 열면 없음. 움직임 줄이기 설정이면 안 보임 (`feat/clue-leaf-burst`)
 - 탐험 지도 타이머: 에피소드를 끝내면(`completedAt`) 끝낸 시각에서 멈춤. 전에는 끝낸 뒤에도 계속 올라갔음 (`fix/map-timer-stop`). 랭킹 시간은 서버 기록(첫 인증 ~ 마지막 단서)이라 이 타이머와 다를 수 있음
 - 색상 코드와 크기는 Figma 값. 바꿀 땐 `apps/web/src/styles/tokens.css`만 수정.
 - PC에서 창 높이가 짧으면 Stage가 줄어드는 만큼 앱 틀(MobileFrame) 폭도 같이 줄임 (`fix/pc-frame-width`). Stage 루트의 `data-stage`(full / tab / scroll)를 `MobileFrame.module.css`의 `:has()`가 읽음. 휴대폰(430px 이하)은 그대로
