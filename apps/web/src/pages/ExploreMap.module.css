@@ -60,6 +60,19 @@
   border-radius: 20px;
   background: #fdf4db;
 }
+/*
+ * 지도 그림에서 원래 팻말을 지우고 코드로 그리는 이름표 (pin.drawnSign: 길상사 · 수도회 구 본원).
+ * 그림 속 다른 팻말처럼 아래로 옅게 퍼지는 갈색 그림자와 얇은 테두리를 붙인다.
+ */
+.drawnSign {
+  box-shadow:
+    0 0 0 0.5px rgb(214 186 128 / 0.8),
+    0 3px 3px rgb(96 72 16 / 0.42);
+}
+/* 잠긴 회색 이름표엔 크림색 테두리 없이 그림자만 (다른 잠긴 팻말과 같게) */
+.pinLocked .drawnSign {
+  box-shadow: 0 3px 3px rgb(96 72 16 / 0.42);
+}
 .photo {
   overflow: hidden;
   border-radius: 50%;
