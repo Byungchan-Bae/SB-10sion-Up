@@ -3,7 +3,7 @@ import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
 import { PrimaryButton } from "../components/Button";
-import { EPISODES, getEpisode } from "../data/episodes";
+import { EPISODES } from "../data/episodes";
 import { hasAnyProgress, useProgress, useProgressSettled } from "../lib/progress";
 import { NO_EPISODE, useSelectedEpisode } from "../lib/selection";
 import ExploreMap from "./ExploreMap";
@@ -26,8 +26,9 @@ export default function MapHome() {
 
   if (selected === NO_EPISODE) return <MapEmpty />;
 
-  const chosen =
-    (selected && getEpisode(selected)?.id) ?? EPISODES.find((_, i) => hasAnyProgress(progresses[i]))?.id;
+  // 예전 버전은 "에피소드 보기"만 눌러도 저장했으므로, 시작 기록이 없는 선택은 고른 것으로 치지 않는다
+  const started = EPISODES.filter((_, i) => hasAnyProgress(progresses[i]));
+  const chosen = (started.find((ep) => ep.id === selected) ?? started[0])?.id;
   if (chosen) return <ExploreMap episodeId={chosen} />;
   if (!settled) return <MapLoading />;
   return <MapEmpty />;
