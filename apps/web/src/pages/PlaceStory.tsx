@@ -51,7 +51,7 @@ export default function PlaceStory() {
         <p className={styles.body}>{place.story.body}</p>
 
         <div className={styles.tipBox} />
-        <img className={styles.tipMascot} src="/assets/story-tip-mascot.png" alt="" draggable={false} />
+        <img className={styles.tipMascot} src="/assets/story-tip-mascot.webp" alt="" draggable={false} />
         <p className={styles.tipText}>{place.story.tip}</p>
 
         <PrimaryButton size="md" className={styles.findClue} onClick={() => navigate(`/place/${place.id}/quiz`)}>

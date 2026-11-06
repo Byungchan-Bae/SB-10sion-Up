@@ -67,12 +67,12 @@
 
 - 글꼴은 Figma와 같은 NanumHuman(jsDelivr CDN, 400/800/900). 없으면 Pretendard로 대체.
 - 장소 도착 인증의 "○○까지 N km 남았어요" 안내는 두 줄(남은 거리 / 반경 안내)로 고정하고 단계 그림 위(top 492)에 둠 (`fix/checkin-message`). 전에는 둘째 줄이 그림에 가려졌음
-- 탐험 지도 잠긴 장소: 지도 그림(`map-ep01.jpg`)에 크림색 이름표가 그려져 있어서, 잠겼을 땐 `pin.lockedLabel`(Figma 프레임 5, 136:2806 크기)로 회색 이름표를 크게 덮음. 잠긴 사진은 흑백 + 회색 덮개 (`fix/map-locked-pins`)
+- 탐험 지도 잠긴 장소: 지도 그림(`map-ep01.webp`)에 크림색 이름표가 그려져 있어서, 잠겼을 땐 `pin.lockedLabel`(Figma 프레임 5, 136:2806 크기)로 회색 이름표를 크게 덮음. 잠긴 사진은 흑백 + 회색 덮개 (`fix/map-locked-pins`)
 - 탐험 지도 하늘: 지도 그림 맨 위 하늘색이 화면 배경(#aee0fe)보다 진해서 경계가 줄로 보였음. `.skyFade`(32px 그라데이션)로 이어지게 덮음 (`fix/map-sky-gradient`)
-- 장소 화면 위쪽 마스코트(`checkin-mascots.png`) 오른쪽 끝에 옆 그림 조각(검은 점)이 잘려 들어가 있어서 지움. 장소 네 곳의 인증 · 역사 화면이 같은 그림을 써서 한 번에 적용 (`fix/checkin-mascot-dot`)
+- 장소 화면 위쪽 마스코트(`checkin-mascots.webp`) 오른쪽 끝에 옆 그림 조각(검은 점)이 잘려 들어가 있어서 지움. 장소 네 곳의 인증 · 역사 화면이 같은 그림을 써서 한 번에 적용 (`fix/checkin-mascot-dot`)
 - 온보딩: 페이지 점과 손으로 밀어 넘기기를 없애고 "다음" 버튼으로만 넘어감. 점 자리만큼 띄워서 설명 박스 위치는 그대로 (`fix/onboarding-next-only`)
 - 장소 이름 · 주소 자리(`PlaceHero`)는 디자이너가 고친 Figma 136:3220(구 본원, 원본 파일 JH6kcRQoSPwOctYO15z5YM) 기준으로 네 장소 통일. 작은 줄 + 큰 이름은 `place.heroSub` / `heroName` (구 본원, 수연산방). 도착 인증 화면엔 주소 오른쪽 "지도 보기" → 카카오맵 웹 링크(`map.kakao.com/link/map/이름,위도,경도`)를 새 탭으로 (`feat/place-hero-map-button`)
-- 역사 화면(`/place/:id/story`)은 원본 Figma 136:3821 · 3848 · 3875 · 3907 기준: 제목 28px, 본문 18px Regular 검정(글자 단위 줄바꿈), 팁 박스 + 부엉이(`story-tip-mascot.png`), 문구는 `place.story`. 이름 자리를 도착 인증과 맞춰서 아래 내용은 Figma + 29px, 페이지 1149 (`fix/place-story-figma`). Figma 길상사 화면 오른쪽의 헤드셋 복숭아 마스코트는 다른 세 곳엔 없어서 안 넣음
+- 역사 화면(`/place/:id/story`)은 원본 Figma 136:3821 · 3848 · 3875 · 3907 기준: 제목 28px, 본문 18px Regular 검정(글자 단위 줄바꿈), 팁 박스 + 부엉이(`story-tip-mascot.webp`), 문구는 `place.story`. 이름 자리를 도착 인증과 맞춰서 아래 내용은 Figma + 29px, 페이지 1149 (`fix/place-story-figma`). Figma 길상사 화면 오른쪽의 헤드셋 복숭아 마스코트는 다른 세 곳엔 없어서 안 넣음
 - 탐험 지도 타이머: 에피소드를 끝내면(`completedAt`) 끝낸 시각에서 멈춤. 전에는 끝낸 뒤에도 계속 올라갔음 (`fix/map-timer-stop`). 랭킹 시간은 서버 기록(첫 인증 ~ 마지막 단서)이라 이 타이머와 다를 수 있음
 - 색상 코드와 크기는 Figma 값. 바꿀 땐 `apps/web/src/styles/tokens.css`만 수정.
 - PC에서 창 높이가 짧으면 Stage가 줄어드는 만큼 앱 틀(MobileFrame) 폭도 같이 줄임 (`fix/pc-frame-width`). Stage 루트의 `data-stage`(full / tab / scroll)를 `MobileFrame.module.css`의 `:has()`가 읽음. 휴대폰(430px 이하)은 그대로
@@ -88,8 +88,8 @@
 - Figma 제목 글꼴 "Jalnan 2"는 CDN에 없어서 "Jalnan"(잘난체, fonts-archive)으로 대체. 인용 부호 글꼴 KFAGothic은 NanumHuman으로 대체.
 - 상세 화면 인용문 뒤 흰 사각형(136:2449)은 Figma 렌더에 안 보여서 뺐음.
 - 홈 에피소드 카드는 가로로 넘김: 한 장씩 멈추고 페이지 점이 따라감. EP.02 · EP.03은 `data/episodes.ts`의 `COMING_SOON_EPISODES`로 "공개 예정" 카드 표시 (PR #6).
-- 힌트 카드 글은 Figma에서 글자가 들어간 그림이라 그림(`hint-<장소id>.png`)을 쓰고, 같은 글을 `quiz.hint`에 넣어 대체 텍스트로 씀. 문구를 바꾸면 그림도 다시 만들어야 함.
-- 단서 발견의 편지 조각도 글자가 그림 안에 있음 (`clue-<장소id>.png`).
+- 힌트 카드 글은 Figma에서 글자가 들어간 그림이라 그림(`hint-<장소id>.webp`)을 쓰고, 같은 글을 `quiz.hint`에 넣어 대체 텍스트로 씀. 문구를 바꾸면 그림도 다시 만들어야 함.
+- 단서 발견의 편지 조각도 글자가 그림 안에 있음 (`clue-<장소id>.webp`).
 - Figma 단서 문구의 "첫번재"는 오타라 "첫번째"로, 심우장 "“자유”이"는 "“자유”가"로 고침 (`lib/korean.ts`에서 받침 보고 조사 고름).
 - Figma 문제 화면 헤더는 4곳 모두 "EP.01 사라진 편지"라 그대로 둠 (UI 키트 시안의 "EP.02 구 본원의 이야기"는 안 씀).
 - 문제 2 점선은 Figma에서 -0.41° 기울어 있는데, 축소된 화면에서 1px 점선이 끊겨 보여서 수평으로 둠.
