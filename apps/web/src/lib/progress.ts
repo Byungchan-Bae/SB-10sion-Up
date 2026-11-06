@@ -146,7 +146,35 @@ async function syncNow(episodeId: string) {
     // 끝낸 기록은 랭킹에 올라가야 하므로, 신호 없이 약한 통신이 이어져도 스스로 다시 시도한다.
     if (completionPending(episodeId)) scheduleSync(episodeId, RETRY_MS);
   }
+  if (!settled.has(episodeId)) {
+    settled.add(episodeId);
+    listeners.forEach((l) => l());
+  }
 }
+
+/** 서버 기록 불러오기를 (성공이든 실패든) 한 번 마친 에피소드 */
+const settled = new Set<string>();
+
+/**
+ * 이 에피소드의 기록을 믿고 화면을 정해도 되는지.
+ * 서버에 등록 안 된 사용자는 기기 기록뿐이라 바로 true, 등록된 사용자는 첫 불러오기가 끝난 뒤 true.
+ */
+export function useProgressSettled(episodeId: string): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      listeners.add(cb);
+      return () => listeners.delete(cb);
+    },
+    () => {
+      pullOnce(episodeId);
+      return !getUser() || settled.has(episodeId);
+    },
+  );
+}
+
+/** 시작 · 인증 · 단서 · 완료 중 하나라도 있으면 이미 고른(진행한) 에피소드 */
+export const hasAnyProgress = (p: EpisodeProgress) =>
+  Boolean(p.startedAt || p.completedAt || p.verified.length || p.clues.length);
 
 /** 기기에서는 끝냈는데 서버 확인(포인트)을 아직 못 받았는지 */
 function completionPending(episodeId: string) {

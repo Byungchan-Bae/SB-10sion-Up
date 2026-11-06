@@ -7,6 +7,7 @@ import EpisodeDetail from "./pages/EpisodeDetail";
 import EpisodeIntro from "./pages/EpisodeIntro";
 import Ranking from "./pages/Ranking";
 import ExploreMap from "./pages/ExploreMap";
+import MapHome from "./pages/MapHome";
 import PlaceCheckIn from "./pages/PlaceCheckIn";
 import PlaceStory from "./pages/PlaceStory";
 import PlaceQuiz from "./pages/PlaceQuiz";
@@ -29,7 +30,7 @@ export default function App() {
       <Route path="/episode/:episodeId/map" element={<ExploreMap />} />
       <Route path="/episode/:episodeId/secret" element={<EpisodeSecret />} />
       <Route path="/episode/:episodeId/complete" element={<EpisodeComplete />} />
-      <Route path="/map" element={<ExploreMap />} />
+      <Route path="/map" element={<MapHome />} />
       <Route path="/place/:placeId" element={<PlaceCheckIn />} />
       <Route path="/place/:placeId/story" element={<PlaceStory />} />
       <Route path="/place/:placeId/quiz" element={<PlaceQuiz />} />
