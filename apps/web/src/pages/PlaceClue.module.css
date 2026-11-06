@@ -98,3 +98,44 @@
 .collectionOnly {
   top: 663px;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.card {
+  composes: rise from "../styles/motion.module.css";
+}
+.title {
+  composes: drop from "../styles/motion.module.css";
+  --d: 0.15s;
+}
+.thumb {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.3s;
+}
+.subLabel {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.foundAt {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.fragment {
+  composes: flip from "../styles/motion.module.css";
+  --d: 0.45s;
+}
+.desc {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.7s;
+}
+.summary {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.8s;
+}
+.next {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.9s;
+}
+.collection {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.95s;
+}

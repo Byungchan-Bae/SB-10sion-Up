@@ -85,3 +85,32 @@
   top: 742px;
   width: 270px;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.letter {
+  composes: unfold from "../styles/motion.module.css";
+}
+.title {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.25s;
+}
+.lead {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.body {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.45s;
+}
+.tag {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.55s;
+}
+.mission {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.6s;
+}
+.cta {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.7s;
+}

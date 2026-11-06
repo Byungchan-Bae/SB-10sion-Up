@@ -60,3 +60,18 @@
 .active .icon {
   background: var(--color-primary);
 }
+
+/* 지금 탭 아이콘이 통통 튄다 */
+.active .icon {
+  animation: tabBounce 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+@keyframes tabBounce {
+  40% {
+    transform: translateY(-6px) scale(1.15);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .active .icon {
+    animation: none;
+  }
+}

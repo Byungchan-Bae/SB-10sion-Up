@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams, useSearchParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
+import { Stamp, STAMP_MS } from "../components/Stamp";
 import { findPlace } from "../data/episodes";
 import { DEMO_STAGE } from "../data/stage";
 import { formatDistance, getCurrentPosition, type PositionError } from "../lib/geo";
@@ -26,14 +27,22 @@ export default function PlaceCheckIn() {
   const navigate = useNavigate();
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /** 인증 성공: 도장을 보여 준 뒤 역사 이야기로 */
+  const [arrived, setArrived] = useState(false);
+  const storyPath = `/place/${placeId}/story${search.get("demo") === "1" ? "?demo=1" : ""}`;
+
+  useEffect(() => {
+    if (!arrived) return;
+    const t = setTimeout(() => navigate(storyPath, { replace: true }), STAMP_MS);
+    return () => clearTimeout(t);
+  }, [arrived, navigate, storyPath]);
 
   const found = findPlace(placeId);
   if (!found) return <Navigate to="/map" replace />;
   const { episode, place, index } = found;
   if (!isPlaceOpen(episode, index, getProgress(episode.id))) return <Navigate to="/map" replace />;
 
-  const demoParam = search.get("demo") === "1";
-  const demo = DEMO_STAGE || demoParam;
+  const demo = DEMO_STAGE || search.get("demo") === "1";
 
   const verify = async () => {
     setError(null);
@@ -55,7 +64,7 @@ export default function PlaceCheckIn() {
       const res = await checkIn(place.id, where);
       applyServerProgress(res.episodeId, res.progress);
       if (res.ok) {
-        navigate(`/place/${place.id}/story${demoParam ? "?demo=1" : ""}`, { replace: true });
+        setArrived(true);
         return;
       }
       setError(`${place.name}까지 ${formatDistance(res.distance ?? 0)} 남았어요.\n${res.radius}m 안으로 와주세요!`);
@@ -90,6 +99,7 @@ export default function PlaceCheckIn() {
           <br />
           <span className={styles.em}>역사이야기</span>를 볼 수 있어요!
         </p>
+        {arrived && <Stamp text="도착!" />}
       </Stage>
     </MobileFrame>
   );

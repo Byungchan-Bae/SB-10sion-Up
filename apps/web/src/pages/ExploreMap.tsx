@@ -25,14 +25,35 @@ function useElapsed(startedAt?: number, completedAt?: number) {
   return h ? `${h}:${pad(m)}:${pad(s % 60)}` : `${pad(m)}:${pad(s % 60)}`;
 }
 
-function Pin({ place, open, onClick }: { place: Place; open: boolean; onClick: () => void }) {
+function Pin({
+  place,
+  open,
+  current,
+  shaking,
+  order,
+  onClick,
+}: {
+  place: Place;
+  open: boolean;
+  /** 다음 목적지 */
+  current: boolean;
+  /** 잠긴 핀을 눌러서 흔들리는 중 */
+  shaking: boolean;
+  /** 튀어나오는 순서 */
+  order: number;
+  onClick: () => void;
+}) {
   const p = place.pin;
   const box = (x: number, y: number, w: number, h: number): CSSProperties => ({ left: x, top: y, width: w, height: h });
   return (
     <button
       type="button"
-      className={open ? styles.pin : styles.pinLocked}
-      style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h }}
+      className={[open ? styles.pin : styles.pinLocked, current && styles.pinCurrent, shaking && styles.shaking]
+        .filter(Boolean)
+        .join(" ")}
+      style={
+        { left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h, "--d": `${0.2 + order * 0.12}s` } as CSSProperties
+      }
       onClick={onClick}
       aria-label={open ? `${place.name} 장소 인증하기` : `${place.name} (잠김)`}
     >
@@ -60,6 +81,7 @@ export default function ExploreMap() {
   const progress = useProgress(episode?.id ?? "");
   const elapsed = useElapsed(progress.startedAt, progress.completedAt);
   const [toast, setToast] = useState<string | null>(null);
+  const [shakingId, setShakingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!toast) return;
@@ -67,11 +89,23 @@ export default function ExploreMap() {
     return () => clearTimeout(t);
   }, [toast]);
 
+  useEffect(() => {
+    if (!shakingId) return;
+    const t = setTimeout(() => setShakingId(null), 400);
+    return () => clearTimeout(t);
+  }, [shakingId]);
+
   if (!episode) return <Navigate to="/home" replace />;
+
+  // 다음 목적지 = 열려 있고 아직 단서를 못 찾은 첫 장소
+  const currentIndex = episode.places.findIndex(
+    (place, i) => isPlaceOpen(episode, i, progress) && !progress.clues.includes(place.id),
+  );
 
   const openPlace = (place: Place, index: number) => {
     if (!isPlaceOpen(episode, index, progress)) {
       setToast(`${episode.places[index - 1].name}에서 단서를 먼저 찾아야 열려요!`);
+      setShakingId(place.id);
       return;
     }
     navigate(progress.verified.includes(place.id) ? `/place/${place.id}/story` : `/place/${place.id}`);
@@ -98,7 +132,15 @@ export default function ExploreMap() {
           <img className={styles.mapImage} src="/assets/map-ep01.webp" alt="성북동 탐험 지도" draggable={false} />
           <span className={styles.skyFade} aria-hidden="true" />
           {episode.places.map((place, i) => (
-            <Pin key={place.id} place={place} open={isPlaceOpen(episode, i, progress)} onClick={() => openPlace(place, i)} />
+            <Pin
+              key={place.id}
+              place={place}
+              open={isPlaceOpen(episode, i, progress)}
+              current={i === currentIndex}
+              shaking={shakingId === place.id}
+              order={i}
+              onClick={() => openPlace(place, i)}
+            />
           ))}
 
           <div className={styles.status}>

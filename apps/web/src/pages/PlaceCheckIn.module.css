@@ -77,3 +77,52 @@
 .em {
   color: var(--color-main);
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.box {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.15s;
+}
+.guide {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.25s;
+}
+.steps {
+  composes: rise from "../styles/motion.module.css";
+  --d: 0.25s;
+}
+.cta {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.3s;
+}
+.mascots {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.35s;
+}
+.bubble {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.bubbleText {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+
+/* 위치 인증 실패 안내는 흔들며 나타난다 */
+.error {
+  animation: errorShake 0.4s ease;
+}
+@keyframes errorShake {
+  25%,
+  75% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .error {
+    animation: none;
+  }
+}

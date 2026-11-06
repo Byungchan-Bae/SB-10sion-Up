@@ -253,3 +253,24 @@
   top: 669px;
   width: 270px;
 }
+
+/* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
+.heading {
+  composes: drop from "../styles/motion.module.css";
+}
+.carousel {
+  composes: deal from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.mascots {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.45s;
+}
+.dots {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.4s;
+}
+.cta {
+  composes: riseGlow from "../styles/motion.module.css";
+  --d: 0.45s;
+}
