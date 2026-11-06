@@ -121,35 +121,46 @@ export interface RankingResponse {
 }
 
 // GET /api/coupons?userId=&episodeId=, POST /api/coupons  (헤더 Authorization: Bearer <token>)
+// 에피소드를 완주해 모은 포인트로 쿠폰을 교환(buy)하고, 가게에서 직원에게 보여 준 뒤 사용(use)한다.
 export interface Coupon {
   id: string;
-  /** "빵집", "카페", "식당" */
+  /** "빵집", "카페", "김밥집", "치킨집" */
   category: string;
   shop: string;
   /** 할인 크기: "10%", "1,000원" */
   benefit: string;
   /** 쓸 수 있는 조건 */
   condition: string;
+  /** 교환에 드는 포인트 */
+  price: number;
   /** 제휴 전 예시 쿠폰 */
   sample?: boolean;
 }
 
 export interface CouponStatus extends Coupon {
+  /** 포인트로 교환한 시각(ms). 안 바꿨으면 없음 */
+  boughtAt?: number;
   /** 사용한 시각(ms). 안 썼으면 없음 */
   usedAt?: number;
 }
 
 export interface CouponsResponse {
   episodeId: string;
-  /** 서버에 완주 기록이 있으면 true */
+  /** 서버에 이 에피소드 완주 기록이 있으면 true */
   unlocked: boolean;
+  /** 지금 남은 포인트 = 완주한 에피소드 포인트 합 − 교환한 쿠폰 값 */
+  points: number;
   coupons: CouponStatus[];
 }
+
+/** buy: 포인트로 교환, use: 사용 완료 (생략하면 use) */
+export type CouponAction = "buy" | "use";
 
 export interface UseCouponRequest {
   userId: string;
   episodeId: string;
   couponId: string;
+  action?: CouponAction;
 }
 
 // ---- 에피소드 데이터 (apps/web/src/data/episodes.ts, GET /api/episodes) ----

@@ -1,0 +1,654 @@
+/*
+ * 수집물 · 쿠폰 탭 — Figma 311:8212(목록) · 311:9881(교환한 쿠폰) · 311:10424(사용 완료)
+ * 목록은 390 × 764 무대 좌표. 창(.dim)은 Stage overlay에 그려서 탭바까지 덮고,
+ * 창 크기는 --stage-scale(무대 배율)로 무대와 같이 맞춘다.
+ */
+
+/* 아래쪽 초록 덤불 (Figma y 604, 무대 끝 764에서 자름) */
+.bush {
+  left: -1px;
+  top: 604px;
+  width: 391px;
+  height: 160px;
+  object-fit: cover;
+  object-position: top;
+  pointer-events: none;
+}
+
+/* 쿠폰 마스코트 + "현재 point" 말풍선 */
+.mascot {
+  left: 50px;
+  top: 174px;
+  width: 120px;
+  height: 80px;
+  pointer-events: none;
+}
+.bubble {
+  left: 186px;
+  top: 175px;
+  width: 167px;
+  height: 68px;
+  margin: 0;
+  padding-right: 15px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f6e5ce;
+  border-radius: 34px;
+  background: #fdfbf7;
+  filter: drop-shadow(0 3px 4px rgb(105 44 0 / 0.14));
+  font-size: 14.733px;
+  font-weight: 800;
+  color: var(--color-brown);
+  font-variant-numeric: tabular-nums;
+}
+/* 말풍선 꼬리: 마스코트 쪽(왼쪽 아래) */
+.bubble::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  bottom: 3px;
+  width: 22px;
+  height: 16px;
+  background: #fdfbf7;
+  clip-path: polygon(0 100%, 55% 0, 100% 40%);
+}
+
+/* ===== 쿠폰 표 342 × 104 ===== */
+.tickets {
+  left: 24px;
+  top: 268px;
+  width: 342px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.tickets li {
+  position: relative;
+}
+
+.ticket {
+  position: relative;
+  width: 100%;
+  height: 104px;
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: none;
+  border-radius: 12px;
+  background: #fbddb3;
+  box-shadow: 0 4px 4px rgb(105 44 0 / 0.2);
+  font-family: var(--font-sans);
+  text-align: left;
+  color: var(--color-brown);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.5s ease,
+    opacity 0.6s ease 0.1s,
+    filter 0.6s ease 0.1s,
+    transform 0.1s ease;
+}
+.ticket:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+.ticket:disabled {
+  cursor: default;
+}
+/* 절취선 위아래 홈 (16px, 배경색) */
+.ticket::before,
+.ticket::after {
+  content: "";
+  position: absolute;
+  left: 92px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-detail-bg);
+  z-index: 1;
+}
+.ticket::before {
+  top: -8px;
+}
+.ticket::after {
+  bottom: -8px;
+}
+
+.benefit {
+  flex: none;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px dashed rgb(255 255 255 / 0.7);
+  background: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: normal;
+  color: #fff;
+  transition: background-color 0.5s ease;
+}
+.benefit b {
+  font-size: 22px;
+  font-weight: 900;
+}
+.body {
+  flex: none;
+  width: 149px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  padding-left: 16px;
+  box-sizing: border-box;
+  line-height: normal;
+  white-space: nowrap;
+}
+.category {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #fff1cd;
+  font-size: 11px;
+  font-weight: 700;
+}
+.shop {
+  font-size: 17px;
+  font-weight: 900;
+}
+.condition {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgb(105 44 0 / 0.75);
+}
+.food {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+}
+/* 교환에 드는 포인트 70 × 29 */
+.price {
+  position: absolute;
+  right: 14px;
+  top: 7px;
+  width: 70px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: #fff1cd;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fd6f03;
+}
+.arrow {
+  position: absolute;
+  right: 17px;
+  top: 49px;
+  width: 9px;
+  height: 9px;
+  box-sizing: border-box;
+  border-top: 3px solid #fd6f03;
+  border-right: 3px solid #fd6f03;
+  transform: rotate(45deg);
+}
+
+/* 교환한 쿠폰: 초록 표 (Figma 311:9881) */
+.bought {
+  background: #ccd861;
+}
+.bought .benefit {
+  background: #8b9c00;
+}
+
+/* 사용 완료: 뿌옇게 + 도장 (Figma 311:10424) */
+.used {
+  opacity: 0.7;
+  filter: saturate(0.85);
+}
+.used .benefit,
+.used .body {
+  opacity: 0.75;
+  transition: opacity 0.6s ease 0.1s;
+}
+.stamp {
+  position: absolute;
+  left: 121px;
+  top: -2px;
+  width: 108px;
+  height: 108px;
+  pointer-events: none;
+}
+.stamp img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* 도장이 닿는 순간 퍼지는 잉크 테두리 */
+.stampIn::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 3px solid rgb(253 111 3 / 0.55);
+  border-radius: 50%;
+  opacity: 0;
+  animation: ink 0.5s ease-out 0.56s;
+}
+
+/* ===== 창 (변경 확인 → 사용 / 포인트 부족) ===== */
+.inStage {
+  left: 0;
+  top: 0;
+  width: 390px;
+  height: 764px;
+  z-index: 10;
+}
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(30 30 30 / 0.5);
+  animation: dimIn 0.25s ease-out;
+}
+.dimClose {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+/* 창 자체: Figma 311:8648(342 × 435) · 311:8352(342 × 415) */
+.sheet {
+  position: relative;
+  flex: none;
+  width: 342px;
+  height: 435px;
+  scale: var(--stage-scale, 1);
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fef5e7;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.18);
+  transition: height 0.45s cubic-bezier(0.3, 0.9, 0.3, 1);
+  /* 바탕이 비치지 않게 빨리 나타나고, 올라오는 건 살짝 튕기며 */
+  animation:
+    dimIn 0.12s ease-out,
+    sheetIn 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+.sheet[data-step="use"] {
+  height: 415px;
+}
+.sheet[data-step="short"] {
+  height: 390px;
+}
+.sheet > * {
+  position: absolute;
+}
+
+/* 단계마다 보이는 부분이 바뀐다: 사라질 때는 빨리, 나타날 때는 조금 늦게 */
+.top,
+.info,
+.sheetTicket,
+.secondary {
+  transition:
+    top 0.45s cubic-bezier(0.3, 0.9, 0.3, 1),
+    opacity 0.3s ease 0.2s,
+    visibility 0s linear 0s;
+}
+.sheet[data-step="use"] .top,
+.sheet[data-step="exchange"] .info,
+.sheet[data-step="short"] .sheetTicket,
+.sheet[data-step="short"] .secondary {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    top 0.45s cubic-bezier(0.3, 0.9, 0.3, 1),
+    opacity 0.2s ease,
+    visibility 0s linear 0.2s;
+}
+
+.top {
+  inset: 0;
+  pointer-events: none;
+}
+.top > * {
+  position: absolute;
+  margin: 0;
+}
+/* 상자 위로 고개를 내민 마스코트 69 × 43 */
+.peek {
+  left: 133px;
+  top: 23px;
+  width: 69px;
+  height: 43px;
+  z-index: 1;
+}
+.pointBox {
+  left: 62px;
+  top: 53px;
+  width: 207px;
+  height: 63px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 6px;
+  border: 3px solid rgb(246 229 206 / 0.72);
+  border-radius: 20px;
+  background: #fdf6e9;
+  font-size: 14.733px;
+  font-weight: 800;
+  color: var(--color-brown);
+  font-variant-numeric: tabular-nums;
+}
+.pointBox b {
+  margin-left: 0.25em;
+  font-weight: 800;
+  color: #fd6f03;
+}
+.question {
+  left: 0;
+  top: 124px;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: normal;
+  color: var(--color-brown);
+}
+
+/* 창 속 쿠폰 표 310 × 104: 변경 확인 y 169 → 사용 y 25 */
+.sheet > .sheetTicket {
+  position: absolute;
+  left: 16px;
+  top: 169px;
+  width: 310px;
+  box-shadow: none;
+  cursor: default;
+}
+.sheet[data-step="use"] > .sheetTicket {
+  top: 25px;
+}
+.sheetTicket::before,
+.sheetTicket::after {
+  background: #fef5e7;
+}
+/* 변경하는 순간: 표를 꾹 눌렀다 놓은 듯 튕기고 빛이 한 번 지나간다 */
+.pressed {
+  animation: press 0.5s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.65) 50%, transparent 70%);
+  transform: translateX(-110%);
+  animation: shine 0.8s ease-out 0.15s forwards;
+  pointer-events: none;
+}
+
+/* 감 마스코트 안내 상자 298 × 128 (Component 32) */
+.info {
+  left: 22px;
+  top: 144px;
+  width: 298px;
+  height: 128px;
+  box-sizing: border-box;
+  border: 3px solid rgb(246 229 206 / 0.72);
+  border-radius: 20px;
+  background: #fdf6e9;
+}
+.sheet[data-step="short"] > .info {
+  top: 169px;
+}
+.info img {
+  position: absolute;
+  left: 13px;
+  top: 23px;
+  width: 58px;
+  height: 74.5px;
+}
+.info p {
+  position: absolute;
+  left: 71px;
+  top: 29px;
+  margin: 0;
+  white-space: pre;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-brown);
+}
+
+.sheet > .primary,
+.sheet > .secondary {
+  left: 36px;
+  width: 270px;
+  transition:
+    top 0.45s cubic-bezier(0.3, 0.9, 0.3, 1),
+    opacity 0.3s ease 0.2s,
+    visibility 0s linear 0s,
+    transform 0.08s ease,
+    background-color 0.15s ease;
+}
+.sheet > .primary {
+  top: 300px;
+}
+.sheet[data-step="use"] > .primary {
+  top: 287px;
+}
+.sheet[data-step="short"] > .primary {
+  top: 316px;
+}
+.sheet > .secondary {
+  top: 359px;
+}
+.sheet[data-step="use"] > .secondary {
+  top: 346px;
+}
+/* 변경 완료 순간: 버튼도 표와 같은 초록으로 */
+.sheet > .done:disabled {
+  background: #8b9c00;
+}
+
+.error {
+  left: 50%;
+  top: 10px;
+  z-index: 3;
+  max-width: 300px;
+  margin: 0;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 800;
+  color: #d6342c;
+}
+
+/* 닫힐 때 */
+.closing {
+  animation: dimOut 0.22s ease-in forwards;
+}
+.closing .sheet {
+  animation: sheetOut 0.22s ease-in forwards;
+}
+
+/* 불러오기 · 실패 */
+.message {
+  left: 24px;
+  top: 300px;
+  width: 342px;
+  margin: 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-brown);
+}
+.message p {
+  margin: 0 0 12px;
+}
+.retry {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ---- 움직임 ---- */
+.mascot {
+  composes: float from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+.bubble {
+  composes: pop from "../styles/motion.module.css";
+  --d: 0.25s;
+  transform-origin: 0 100%;
+}
+.bush {
+  composes: fade from "../styles/motion.module.css";
+}
+.message {
+  composes: fade from "../styles/motion.module.css";
+  --d: 0.1s;
+}
+/* 표는 옆에서 한 장씩 */
+.tickets li {
+  animation: ticketIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1) calc(var(--i, 0) * 0.08s + 0.1s) backwards;
+}
+/* 방금 쓴 쿠폰: 창이 닫힌 뒤 도장이 위에서 쾅 → 표가 살짝 흔들림 */
+.stampIn img {
+  animation: stamp 0.5s cubic-bezier(0.35, 0, 0.5, 1) 0.3s backwards;
+}
+.justUsed {
+  animation: thud 0.35s ease-out 0.62s;
+}
+
+@keyframes ticketIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+@keyframes dimIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes dimOut {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes sheetIn {
+  from {
+    transform: translateY(28px) scale(0.96);
+  }
+}
+@keyframes sheetOut {
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+@keyframes press {
+  30% {
+    transform: scale(0.95);
+  }
+  65% {
+    transform: scale(1.03);
+  }
+}
+@keyframes shine {
+  to {
+    transform: translateX(110%);
+  }
+}
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(2.2) rotate(-18deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.08) rotate(-4deg);
+  }
+  75% {
+    transform: scale(0.94) rotate(1deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes ink {
+  from {
+    opacity: 1;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+@keyframes thud {
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  45% {
+    transform: translate(2px, 0);
+  }
+  70% {
+    transform: translate(-1px, 1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tickets li,
+  .stampIn img,
+  .stampIn::before,
+  .justUsed,
+  .pressed,
+  .shine,
+  .dim,
+  .sheet,
+  .closing,
+  .closing .sheet {
+    animation: none;
+  }
+  .stampIn::before {
+    display: none;
+  }
+  .ticket,
+  .benefit,
+  .sheet,
+  .top,
+  .info,
+  .sheetTicket,
+  .sheet > .primary,
+  .sheet > .secondary {
+    transition: none;
+  }
+  .shine {
+    display: none;
+  }
+}
