@@ -5,13 +5,14 @@ import { TabBar } from "../components/TabBar";
 import { PrimaryButton } from "../components/Button";
 import { EPISODES, getEpisode } from "../data/episodes";
 import { hasAnyProgress, useProgress, useProgressSettled } from "../lib/progress";
-import { useSelectedEpisode } from "../lib/selection";
+import { NO_EPISODE, useSelectedEpisode } from "../lib/selection";
 import ExploreMap from "./ExploreMap";
 import styles from "./MapHome.module.css";
 
 /**
  * 하단 탭 "지도" (/map).
- * 1) 홈에서 고른 에피소드가 있으면 그 지도
+ * 0) 뒤로가기로 고른 것을 해제했으면 진행 기록이 있어도 에피소드 선택 안내
+ * 1) 시작해서 고른 에피소드가 있으면 그 지도
  * 2) 고른 기록은 없어도 진행 기록(시작 · 인증 · 단서 · 완료)이 있는 에피소드가 있으면 그 지도
  * 3) 서버 기록을 아직 불러오는 중이면 아무것도 그리지 않음 (잘못된 화면이 잠깐 보이지 않게)
  * 4) 그 밖에는 에피소드 선택 안내 (Figma 221:3534)
@@ -22,6 +23,8 @@ export default function MapHome() {
   // 에피소드 목록은 고정이라 훅 호출 순서가 바뀌지 않는다
   const progresses = EPISODES.map((ep) => useProgress(ep.id));
   const settled = EPISODES.map((ep) => useProgressSettled(ep.id)).every(Boolean);
+
+  if (selected === NO_EPISODE) return <MapEmpty />;
 
   const chosen =
     (selected && getEpisode(selected)?.id) ?? EPISODES.find((_, i) => hasAnyProgress(progresses[i]))?.id;

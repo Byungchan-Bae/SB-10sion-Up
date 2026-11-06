@@ -7,6 +7,7 @@ import { BackButton } from "../components/BackButton";
 import type { Place } from "@sb/types";
 import { EPISODES, getEpisode } from "../data/episodes";
 import { isPlaceOpen, useProgress } from "../lib/progress";
+import { clearSelectedEpisode } from "../lib/selection";
 import styles from "./ExploreMap.module.css";
 
 /** 시작 후 흐른 시간 "08:56" / "1:08:56". 에피소드를 끝냈으면 끝낸 시각에서 멈춘다 */
@@ -125,7 +126,12 @@ export default function ExploreMap({ episodeId: chosenId }: { episodeId?: string
           )
         }
       >
-        <BackButton to="/home" />
+        <BackButton
+          onClick={() => {
+            clearSelectedEpisode();
+            navigate("/map");
+          }}
+        />
         <h1 className={styles.header}>탐험 지도</h1>
 
         <div className={styles.map}>

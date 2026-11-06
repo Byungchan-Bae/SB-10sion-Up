@@ -5,6 +5,7 @@ import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
 import { Emphasis } from "../components/Emphasis";
 import { getEpisode } from "../data/episodes";
+import { clearSelectedEpisode } from "../lib/selection";
 import styles from "./EpisodeDetail.module.css";
 
 /** Figma 136:2411 에피소드 상세 */
@@ -27,7 +28,12 @@ export default function EpisodeDetail() {
         <img className={styles.paper} src="/assets/detail-paper.webp" alt="" draggable={false} />
         <img className={styles.leaves} src="/assets/leaves-corner.webp" alt="" draggable={false} />
 
-        <BackButton to="/home" />
+        <BackButton
+          onClick={() => {
+            clearSelectedEpisode();
+            navigate("/home");
+          }}
+        />
         <h1 className={styles.header}>에피소드 상세</h1>
 
         <div className={styles.photoCard}>
