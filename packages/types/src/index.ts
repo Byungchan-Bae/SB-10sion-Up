@@ -189,6 +189,12 @@ export type Place = {
   name: string;
   /** 지도 핀 이름 (줄바꿈은 \n) */
   pinLabel: string;
+  /**
+   * 인증 · 역사 화면 큰 이름 위 작은 줄 (Figma 136:3220 "한국순교복자성직수도회" / "구 본원").
+   * 있으면 heroName을 큰 글씨로, 없으면 name을 큰 글씨로 쓴다
+   */
+  heroSub?: string;
+  heroName?: string;
   address: string;
   /** 도착 인증용 좌표 */
   lat: number;

@@ -63,6 +63,7 @@ Figma의 장식 이미지(편지지, 마스코트, 사진 테두리)는 대부�
 | `checkin-mascots-bottom.png` | 131 × 141 | 인증 | 아래 지도 든 마스코트 (136:3122) | 예 |
 | `checkin-steps.png` | 239 × 71 | 인증 | 위치 권한 → 현재 위치 → 인증 완료 3단계 (136:3125) | 예 |
 | `icons/bubble.svg`, `icons/location-20.svg`, `icons/lock.svg` | | | 말풍선(40:1715), 주소 핀, 자물쇠(직접 그림) | 예 |
+| `icons/map-14.svg` | 14 × 14 | 인증 | "지도 보기" 버튼 지도 아이콘 (Figma 136:3220 Component 20 대신 같은 모양으로 그림) | 예 |
 
 ## 4단계: 문제 풀이 · 단서 발견
 

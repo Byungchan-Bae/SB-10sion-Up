@@ -19,6 +19,11 @@ export const TAB_BAR_H = 80;
  * - 배율은 CSS 변수 --stage-scale, 탭바 높이(안전 영역 포함)는 --tabbar-h로 넘긴다.
  * - 아이폰 하단 안전 영역(safe-area-inset-bottom)은 배율과 상관없이 탭바 아래에 더한다.
  * - PC 넓은 창에서는 MobileFrame이 앱 폭을 (화면 높이 × 390 / 844)로 줄여서 스크롤 없이 한 화면에 들어간다.
+ *
+ * footer가 없는 "전체 화면"도 같은 방식이다.
+ * - 무대는 늘 화면 폭에 맞춘다. 아이폰 SE처럼 짧은 화면에서 높이에 맞춰 줄이면 양옆에 배경만 남아서,
+ *   대신 무대를 폭에 꽉 채우고 넘치는 만큼 세로로 스크롤한다.
+ * - 화면이 길면 무대는 아래에 붙고 위쪽은 배경이 채운다.
  */
 export function Stage({
   background,
@@ -48,11 +53,8 @@ export function Stage({
     if (!el) return;
     const update = () => {
       setSafeBottom(safeRef.current?.offsetHeight ?? 0);
-      setScale(
-        scrollHeight || isTab
-          ? el.clientWidth / STAGE_W
-          : Math.min(el.clientWidth / STAGE_W, el.clientHeight / height),
-      );
+      // 모든 화면에서 폭에 맞춘다 (PC 넓은 창은 MobileFrame이 앱 폭을 미리 줄여 둠)
+      setScale(el.clientWidth / STAGE_W);
     };
     update();
     // 화면 크기, 주소창 · 툴바, 안전 영역이 바뀌면 다시 계산
@@ -78,7 +80,10 @@ export function Stage({
   if (!isTab) {
     const rootStyle: CSSProperties = {
       ...(background ? { background } : {}),
-      ...(scrollHeight ? { height: Math.ceil(height * scale), flex: "none" } : {}),
+      ...(scrollHeight
+        ? { height: Math.ceil(height * scale), flex: "none" }
+        : // 무대가 화면보다 길면(짧은 휴대폰) 그만큼 늘려서 페이지가 세로로 스크롤되게
+          { minHeight: `max(100dvh, ${Math.floor(height * scale)}px)` }),
     };
     return (
       <div

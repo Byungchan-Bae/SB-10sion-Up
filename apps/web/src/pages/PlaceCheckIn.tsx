@@ -66,7 +66,7 @@ export default function PlaceCheckIn() {
   return (
     <MobileFrame>
       <Stage background={PLACE_BACKGROUND}>
-        <PlaceHero place={place} title="장소 도착 인증" back={<BackButton to="/map" />} />
+        <PlaceHero place={place} title="장소 도착 인증" back={<BackButton to="/map" />} mapButton />
 
         <div className={styles.box} />
         <p className={error ? styles.error : styles.guide} role={error ? "alert" : undefined}>
