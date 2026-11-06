@@ -104,8 +104,11 @@
   height: 142px;
   border-radius: 23px;
   background: #f6f8d9;
+  overflow: hidden; /* 힌트 그림을 카드의 둥근 모서리로 자른다 */
 }
+/* 힌트 그림 바탕은 카드색(#f6f8d9)과 같은 단색이라 카드와 경계 없이 이어진다 */
 .hintImage {
+  position: absolute;
   object-fit: cover;
   pointer-events: none;
 }
