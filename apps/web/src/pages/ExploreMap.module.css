@@ -56,8 +56,12 @@
   border-radius: 50%;
   background: #fdf4db;
 }
+/*
+ * 팻말 끝은 높이와 상관없이 반원(캡슐). 20px로 고정하면 높이가 40px를 넘는 팻말(수도회 47 · 이태준 가옥 44.8)
+ * 끝 가운데에 짧은 세로 직선이 남는다. 큰 값을 주면 브라우저가 높이의 절반으로 줄여 그린다.
+ */
 .label {
-  border-radius: 20px;
+  border-radius: 999px;
   background: #fdf4db;
 }
 /*
