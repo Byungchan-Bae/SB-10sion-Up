@@ -234,6 +234,10 @@
 .shaking .lock {
   animation: lockShake 0.4s ease;
 }
+/* 발표 시연: 자물쇠만 흔들리다 위로 사라진다. 핀은 지도 그림과 겹치므로 움직이지 않는다 */
+.unlocking .lock {
+  animation: lockOpen 0.7s ease forwards;
+}
 .toast {
   animation: toastIn 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
@@ -255,6 +259,20 @@
     transform: translate(calc(-50% + 4px), -50%) rotate(10deg);
   }
 }
+@keyframes lockOpen {
+  15%,
+  45% {
+    transform: translate(calc(-50% - 3px), -50%) rotate(-10deg);
+  }
+  30%,
+  60% {
+    transform: translate(calc(-50% + 3px), -50%) rotate(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -110%) scale(1.25);
+  }
+}
 @keyframes toastIn {
   from {
     opacity: 0;
@@ -264,6 +282,7 @@
 @media (prefers-reduced-motion: reduce) {
   .pinCurrent .ring,
   .shaking .lock,
+  .unlocking .lock,
   .toast {
     animation: none;
   }

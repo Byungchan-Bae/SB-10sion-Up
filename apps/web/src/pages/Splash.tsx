@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Asset } from "../components/Asset";
-import { getUser } from "../lib/storage";
+import { EPISODES } from "../data/episodes";
+import { getUser, isDemoLink } from "../lib/storage";
 import styles from "./Splash.module.css";
 
 const SPLASH_MS = 2000;
 /** 사라지는 애니메이션 시간 (Splash.module.css의 .leaving과 맞출 것) */
 const LEAVE_MS = 400;
 // DB에 등록된 사용자만 홈으로 바로 간다. 처음이거나 등록 전이면 온보딩 → 닉네임
+// 발표 시연 링크(/demo)는 의문의 편지로 바로 간다
 
 export default function Splash() {
   const navigate = useNavigate();
@@ -22,7 +24,8 @@ export default function Splash() {
   // 사라지는 애니메이션이 끝나면 다음 화면으로 (시간이 다 되거나 화면을 눌렀을 때)
   useEffect(() => {
     if (!leaving) return;
-    const t = setTimeout(() => navigate(getUser() ? "/home" : "/onboarding", { replace: true }), LEAVE_MS);
+    const next = isDemoLink() ? `/episode/${EPISODES[0].id}/intro` : getUser() ? "/home" : "/onboarding";
+    const t = setTimeout(() => navigate(next, { replace: true }), LEAVE_MS);
     return () => clearTimeout(t);
   }, [leaving, navigate]);
 

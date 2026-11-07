@@ -8,7 +8,13 @@ import type { Place } from "@sb/types";
 import { EPISODES, getEpisode } from "../data/episodes";
 import { isPlaceOpen, useProgress } from "../lib/progress";
 import { clearSelectedEpisode } from "../lib/selection";
+import { isDemoLink } from "../lib/storage";
 import styles from "./ExploreMap.module.css";
+
+/** 발표 시연: 자물쇠가 풀리는 시간 (ExploreMap.module.css lockOpen과 맞출 것) */
+const DEMO_UNLOCK_MS = 700;
+/** 발표 시연: 풀린 핀을 보여 준 뒤 다음 화면으로 넘어가기까지 */
+const DEMO_OPENED_MS = 650;
 
 /** 시작 후 흐른 시간 "08:56" / "1:08:56". 에피소드를 끝냈으면 끝낸 시각에서 멈춘다 */
 function useElapsed(startedAt?: number, completedAt?: number) {
@@ -31,6 +37,7 @@ function Pin({
   open,
   current,
   shaking,
+  unlocking,
   onClick,
 }: {
   place: Place;
@@ -39,6 +46,8 @@ function Pin({
   current: boolean;
   /** 잠긴 핀을 눌러서 흔들리는 중 */
   shaking: boolean;
+  /** 발표 시연: 자물쇠가 풀리는 중 */
+  unlocking: boolean;
   onClick: () => void;
 }) {
   const p = place.pin;
@@ -46,7 +55,7 @@ function Pin({
   return (
     <button
       type="button"
-      className={[open ? styles.pin : styles.pinLocked, current && styles.pinCurrent, shaking && styles.shaking]
+      className={[open ? styles.pin : styles.pinLocked, current && styles.pinCurrent, shaking && styles.shaking, unlocking && styles.unlocking]
         .filter(Boolean)
         .join(" ")}
       style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.w, height: p.h }}
@@ -83,6 +92,23 @@ export default function ExploreMap({ episodeId: chosenId }: { episodeId?: string
   const elapsed = useElapsed(progress.startedAt, progress.completedAt);
   const [toast, setToast] = useState<string | null>(null);
   const [shakingId, setShakingId] = useState<string | null>(null);
+  // 발표 시연: 마지막 장소는 잠겨 보이다가, 누르면 자물쇠가 풀리고 다음 화면으로 넘어간다
+  const [demoStep, setDemoStep] = useState<"locked" | "unlocking" | "opened">("locked");
+  const demoPlace = episode?.places.at(-1);
+  const demoLocked =
+    isDemoLink() && !!demoPlace && !progress.verified.includes(demoPlace.id) && demoStep !== "opened";
+
+  useEffect(() => {
+    if (demoStep === "locked" || !demoPlace) return;
+    const t =
+      demoStep === "unlocking"
+        ? setTimeout(() => {
+            setDemoStep("opened");
+            setToast(`${demoPlace.name}의 잠금이 풀렸어요!`);
+          }, DEMO_UNLOCK_MS)
+        : setTimeout(() => navigate(`/place/${demoPlace.id}`), DEMO_OPENED_MS);
+    return () => clearTimeout(t);
+  }, [demoStep, demoPlace, navigate]);
 
   useEffect(() => {
     if (!toast) return;
@@ -104,6 +130,10 @@ export default function ExploreMap({ episodeId: chosenId }: { episodeId?: string
   );
 
   const openPlace = (place: Place, index: number) => {
+    if (demoLocked && place.id === demoPlace?.id) {
+      setDemoStep("unlocking");
+      return;
+    }
     if (!isPlaceOpen(episode, index, progress)) {
       setToast(`${episode.places[index - 1].name}에서 단서를 먼저 찾아야 열려요!`);
       setShakingId(place.id);
@@ -142,9 +172,10 @@ export default function ExploreMap({ episodeId: chosenId }: { episodeId?: string
             <Pin
               key={place.id}
               place={place}
-              open={isPlaceOpen(episode, i, progress)}
-              current={i === currentIndex}
+              open={isPlaceOpen(episode, i, progress) && !(demoLocked && place.id === demoPlace?.id)}
+              current={i === currentIndex && !(demoLocked && place.id === demoPlace?.id)}
               shaking={shakingId === place.id}
+              unlocking={demoStep === "unlocking" && place.id === demoPlace?.id}
               onClick={() => openPlace(place, i)}
             />
           ))}
