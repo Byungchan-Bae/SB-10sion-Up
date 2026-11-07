@@ -210,8 +210,11 @@ export type MapPin = {
   y: number;
   w: number;
   h: number;
-  /** 사진 뒤 크림색 원 [w, h] */
-  ring: [number, number];
+  /**
+   * 사진 뒤 크림색 원. [w, h]면 핀 왼쪽 위(0, 0)에서 시작, [left, top, w, h]면 그 자리에.
+   * 지도 그림에 그려진 크림색 원과 같은 자리 · 크기여야 한다. 다음 목적지일 때 퍼지는 빛도 이 원을 기준으로 퍼진다.
+   */
+  ring: [number, number] | [number, number, number, number];
   /** 원형 사진 [left, top, w, h] */
   photo: [number, number, number, number];
   /** 이름표 [left, top, w, h] */
