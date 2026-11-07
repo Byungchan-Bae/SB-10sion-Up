@@ -20,6 +20,7 @@
 - 에피소드 데이터: `apps/web/src/data/episodes.ts`, 타입(Episode, Place, Quiz, Clue 등): `packages/types/src/index.ts`. `GET /api/episodes`로도 받을 수 있음 (정답 없음. 화면은 아직 episodes.ts를 바로 씀)
 - `Stage` 컴포넌트: Figma 390 × 844 좌표를 그대로 absolute로 쓰고 화면 크기에 맞게 확대/축소. 탭 화면은 `<Stage footer={<TabBar />}>`
 - 3단계: 탐험 지도(`/map`, `/episode/ep01/map`), 장소 도착 인증(`/place/:id`), 역사 내용(`/place/:id/story`)
+- 파비콘 · 앱 아이콘: Figma "성북 트레저 마스코트 로고"(640:5475)로 교체. `favicon.ico`(16·32·48), `favicon-32.png`, `apple-touch-icon.png`(180, 모서리 크림색으로 채움), manifest용 `icon-192.png` · `icon-512.png`. 예전 `icon.svg`("10" 글자) 삭제 (`fix/favicon`)
 - 역사 내용 본문 줄바꿈: 길상사 · 구 본원은 본문을 줄마다 직접 끊어 단어 중간이 잘리지 않게 함 (NanumHuman 18px로 폭을 재서 345px 안, 8줄 유지). 수연산방 · 심우장은 다른 팀원이 같은 방식으로 맞출 예정 (`fix/story-text-linebreak`)
 - 지도의 다음 목적지 핀에서 퍼지는 빛: 아이폰 사파리에서 box-shadow 애니메이션이 네모로 퍼져서, 링 뒤 주황 원(`.ring::before`)을 키우며 흐리게 하는 방식으로 바꿈. 길상사 핀은 링이 지도 그림의 원보다 오른쪽으로 2.5px 치우쳐 있어서 빛 중심이 어긋났음 → 링에 자리값을 받을 수 있게 하고(`ring: [left, top, w, h]`) 그림 원에 맞춤, 이름표는 위로 2px 늘려 그림의 주황 "1" 배지를 덮음 (`fix/map-pulse-round-ios`)
 - 발표 시연 링크(`/demo`): 누를 때마다 심우장만 남은 상태로 시작 화면 → 의문의 편지 순서로 진행. 지도에서 심우장은 잠겨 보이고, 누르면 자물쇠가 풀린 뒤 도착 인증으로 넘어감. 서버로 보내지 않고 그 탭(sessionStorage)에만 저장해서 실제 랭킹과 섞이지 않음. 문제는 어떤 보기를 골라도 정답 처리 (`lib/demoLink.ts`, 쿠폰 목록은 `data/coupons.ts`로 옮김)
