@@ -14,13 +14,17 @@ import type {
   RankingResponse,
   UseCouponRequest,
 } from "@sb/types";
-import { clearPlayer, getUser } from "./storage";
+import { demoBuyCoupon, demoCheckIn, demoCoupons, demoQuiz, demoRedeemCoupon } from "./demoLink";
+import { clearPlayer, getUser, isDemoLink } from "./storage";
 
 /** 통신 자체가 실패했을 때(오프라인 등) 화면에 보여 줄 문구 */
 const NETWORK_ERROR = "인터넷 연결을 확인하고 다시 시도해 주세요";
 /** 응답이 너무 늦을 때 문구. 약한 통신에서 버튼이 멈춰 있지 않게 한다 */
 const TIMEOUT_ERROR = "응답이 늦어요. 잠시 후 다시 시도해 주세요";
 const NOT_REGISTERED = "닉네임을 먼저 등록해 주세요";
+
+/** 발표 시연 탭에서는 서버 대신 이 함수의 결과를 돌려준다 (lib/demoLink.ts). 거절도 서버처럼 실패로 전한다 */
+const fromDemo = async <Res>(answer: () => Res) => answer();
 
 const TIMEOUT_MS = 15_000;
 /** AI 답변은 오래 걸릴 수 있다 */
@@ -88,7 +92,9 @@ export const createUser = (nickname: string) =>
   post<CreateUserRequest, CreateUserResponse>("/api/users", { nickname });
 
 export const askAi = (placeId: string, question: string) =>
-  postAsUser<AskRequest, AskResponse>("/api/ask", (userId) => ({ userId, placeId, question }), ASK_TIMEOUT_MS);
+  isDemoLink()
+    ? Promise.reject<AskResponse>(new Error("시연에서는 위의 자주 묻는 질문으로 안내해 드려요"))
+    : postAsUser<AskRequest, AskResponse>("/api/ask", (userId) => ({ userId, placeId, question }), ASK_TIMEOUT_MS);
 
 /** 서버에 저장된 내 진행 상태 */
 export function fetchProgress(episodeId: string) {
@@ -113,13 +119,17 @@ export function deleteProgress(episodeId: string) {
 
 /** 장소 도착 인증 — 서버가 거리를 계산한다. demo면 거리 확인을 건너뛴다 (시연 단계가 아니면 랭킹에서도 빠진다) */
 export const checkIn = (placeId: string, where: { lat: number; lng: number } | "demo") =>
-  postAsUser<CheckInRequest, CheckInResponse>("/api/checkin", (userId) =>
-    where === "demo" ? { userId, placeId, demo: true } : { userId, placeId, ...where },
-  );
+  isDemoLink()
+    ? fromDemo(() => demoCheckIn(placeId))
+    : postAsUser<CheckInRequest, CheckInResponse>("/api/checkin", (userId) =>
+        where === "demo" ? { userId, placeId, demo: true } : { userId, placeId, ...where },
+      );
 
 /** 문제 1 정답 확인. note(문제 2 기록)까지 보내면 정답일 때 단서로 저장된다 */
 export const checkQuiz = (placeId: string, choice: string, note?: string) =>
-  postAsUser<QuizRequest, QuizResponse>("/api/quiz", (userId) => ({ userId, placeId, choice, note }));
+  isDemoLink()
+    ? fromDemo(() => demoQuiz(placeId, note))
+    : postAsUser<QuizRequest, QuizResponse>("/api/quiz", (userId) => ({ userId, placeId, choice, note }));
 
 /** 에피소드 완료 — 서버가 단서를 모두 찾았는지 확인한다 */
 export const completeOnServer = (episodeId: string) =>
@@ -127,6 +137,7 @@ export const completeOnServer = (episodeId: string) =>
 
 /** 쿠폰 목록과 내 사용 기록 */
 export function getCoupons(episodeId: string, signal?: AbortSignal) {
+  if (isDemoLink()) return fromDemo(() => demoCoupons(episodeId));
   const user = getUser();
   if (!user) return Promise.reject(new Error(NOT_REGISTERED));
   const params = new URLSearchParams({ episodeId, userId: user.userId });
@@ -138,21 +149,25 @@ export function getCoupons(episodeId: string, signal?: AbortSignal) {
 
 /** 포인트로 쿠폰 교환 — 서버가 남은 포인트를 확인한다 (모자라면 "포인트가 부족해요") */
 export const buyCoupon = (episodeId: string, couponId: string) =>
-  postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({
-    userId,
-    episodeId,
-    couponId,
-    action: "buy",
-  }));
+  isDemoLink()
+    ? fromDemo(() => demoBuyCoupon(episodeId, couponId))
+    : postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({
+        userId,
+        episodeId,
+        couponId,
+        action: "buy",
+      }));
 
 /** 쿠폰 사용 처리 — 교환한 쿠폰만, 한 번만 기록한다 */
 export const redeemCoupon = (episodeId: string, couponId: string) =>
-  postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({
-    userId,
-    episodeId,
-    couponId,
-    action: "use",
-  }));
+  isDemoLink()
+    ? fromDemo(() => demoRedeemCoupon(episodeId, couponId))
+    : postAsUser<UseCouponRequest, CouponsResponse>("/api/coupons", (userId) => ({
+        userId,
+        episodeId,
+        couponId,
+        action: "use",
+      }));
 
 /** 랭킹. 닉네임을 등록한 사용자면 내 순위도 함께 받는다 */
 export function getRanking(episodeId: string, signal?: AbortSignal) {

@@ -17,6 +17,7 @@ import Collection from "./pages/Collection";
 import EpisodeSecret from "./pages/EpisodeSecret";
 import EpisodeComplete from "./pages/EpisodeComplete";
 import Reset from "./pages/Reset";
+import Demo from "./pages/Demo";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
       <Route path="/collection" element={<Collection />} />
       <Route path="/ranking" element={<Ranking />} />
       <Route path="/reset" element={<Reset />} />
+      <Route path="/demo" element={<Demo />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
