@@ -7,7 +7,7 @@ import { useSyncExternalStore } from "react";
 import type { Episode, EpisodeProgress } from "@sb/types";
 import { getEpisode } from "../data/episodes";
 import { completeOnServer, deleteProgress, fetchProgress } from "./api";
-import { getUser, PROGRESS_KEY as KEY } from "./storage";
+import { appStorage, getUser, PROGRESS_KEY as KEY } from "./storage";
 
 export type { EpisodeProgress };
 
@@ -22,7 +22,7 @@ let cache: State | null = null;
 function read(): State {
   if (cache) return cache;
   try {
-    cache = JSON.parse(localStorage.getItem(KEY) ?? "{}") as State;
+    cache = JSON.parse(appStorage().getItem(KEY) ?? "{}") as State;
   } catch {
     cache = {};
   }
@@ -32,7 +32,7 @@ function read(): State {
 function write(next: State, episodeId?: string) {
   cache = next;
   try {
-    localStorage.setItem(KEY, JSON.stringify(next));
+    appStorage().setItem(KEY, JSON.stringify(next));
   } catch {
     /* 저장 실패해도 화면 상태는 유지 */
   }
@@ -76,6 +76,12 @@ export async function resetEpisode(episodeId: string) {
   const next = { ...read() };
   delete next[episodeId];
   write(next);
+}
+
+/** 발표 시연 링크: 이 탭의 진행 기록을 정해진 상태로 바꾼다 */
+export function resetProgress(episodeId: string, progress: EpisodeProgress) {
+  cache = null;
+  write({ [episodeId]: progress });
 }
 
 /** 첫 장소는 항상 열림. 그 다음은 바로 앞 장소의 단서를 찾아야 열린다. */

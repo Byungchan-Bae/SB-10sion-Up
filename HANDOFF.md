@@ -4,7 +4,7 @@
 
 ## 현재 작업
 
-- 브랜치: `fix/map-always-picker` (에피소드에 들어가 있을 때만 지도 탭에 지도가 나오게 함). 백엔드 인수인계 항목은 코드까지 끝났고, 남은 일은 아래 "다음 할 일"
+- 브랜치: `feat/demo-link` (발표용 시연 링크 `/demo` 추가). 백엔드 인수인계 항목은 코드까지 끝났고, 남은 일은 아래 "다음 할 일"
 - 작업자: Byungchan-Bae, 양원우 + Claude Code
 - 마지막 갱신: 2026-11-06
 
@@ -20,6 +20,7 @@
 - 에피소드 데이터: `apps/web/src/data/episodes.ts`, 타입(Episode, Place, Quiz, Clue 등): `packages/types/src/index.ts`. `GET /api/episodes`로도 받을 수 있음 (정답 없음. 화면은 아직 episodes.ts를 바로 씀)
 - `Stage` 컴포넌트: Figma 390 × 844 좌표를 그대로 absolute로 쓰고 화면 크기에 맞게 확대/축소. 탭 화면은 `<Stage footer={<TabBar />}>`
 - 3단계: 탐험 지도(`/map`, `/episode/ep01/map`), 장소 도착 인증(`/place/:id`), 역사 내용(`/place/:id/story`)
+- 발표 시연 링크(`/demo`): 누를 때마다 심우장만 남은 상태로 의문의 편지부터 시작. 서버로 보내지 않고 그 탭(sessionStorage)에만 저장해서 실제 랭킹과 섞이지 않음. 문제는 어떤 보기를 골라도 정답 처리 (`lib/demoLink.ts`, 쿠폰 목록은 `data/coupons.ts`로 옮김)
 - 지도 탭(`/map`): 의문의 편지에서 "다음"을 눌러 에피소드에 들어가 있을 때만 지도가 나오고, 그 밖에는 진행 기록이 있어도 에피소드 선택 안내가 나옴. 지도에서 뒤로가기, 뒤로 가서 홈에 도착, 홈에서 에피소드 열기를 하면 나온 것으로 봄. 진행 기록과 타이머는 유지 (`lib/selection.ts`)
 - 진행 상태: `apps/web/src/lib/progress.ts`. 화면은 localStorage(`sb-treasure:progress`)를 바로 쓰고 서버와 맞춤 (아래 "서버 확인"). 앞 장소 단서를 찾아야 다음 장소가 열림
 - 위치 인증: 서버(`POST /api/checkin`)가 `lib/geo.ts` 하버사인 거리로 150m 이내인지 확인. URL에 `?demo=1`이면 거리 확인을 건너뛰는 대신 그 사용자는 랭킹에서 빠짐 (시연용, `demo_users` 테이블)
