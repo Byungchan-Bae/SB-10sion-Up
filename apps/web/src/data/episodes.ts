@@ -51,7 +51,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-gilsangsa.webp",
         pinPhoto: "pin-gilsangsa.webp",
-        pin: { x: 29.74, y: 74.89, w: 147, h: 71, ring: [75, 71], photo: [1, 0, 69, 71], label: [40, 17, 117, 37], drawnSign: true, text: [88, 27, 0], fontSize: 15 },
+        pin: { x: 29.74, y: 74.89, w: 147, h: 71, ring: [75, 71], photo: [1, 0, 69, 71], label: [40, 17, 117, 37], drawnSign: true, text: [88, 25.08, 0], fontSize: 15 },
         ordinal: "첫번째",
         // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
@@ -92,7 +92,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-martyrs.webp",
         pinPhoto: "pin-martyrs.webp",
-        pin: { x: 10.51, y: 53.18, w: 194, h: 67, ring: [70, 67], photo: [2, 2, 65, 65], label: [40, 10, 167, 47], lockedLabel: [40, 10, 167, 47], drawnSign: true, text: [87, 18, 93], fontSize: 13 },
+        pin: { x: 10.51, y: 53.18, w: 194, h: 67, ring: [70, 67], photo: [2, 2, 65, 65], label: [40, 10, 167, 47], lockedLabel: [40, 10, 167, 47], drawnSign: true, text: [87, 15.08, 93], fontSize: 13 },
         ordinal: "두번째",
         // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
@@ -137,7 +137,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-suyeonsanbang.webp",
         pinPhoto: "pin-suyeonsanbang.webp",
-        pin: { x: 38.46, y: 33.38, w: 160, h: 67, ring: [70, 67], photo: [3, 3, 63, 61], label: [77, 15, 83, 37], lockedLabel: [40, 9, 132, 46], text: [85, 16, 64], fontSize: 13 },
+        pin: { x: 38.46, y: 33.38, w: 160, h: 67, ring: [70, 67], photo: [3, 3, 63, 61], label: [40, 11.1, 130.5, 44.8], lockedLabel: [40, 11.1, 130.5, 44.8], drawnSign: true, text: [85, 15.08, 64], fontSize: 13 },
         ordinal: "세번째",
         // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
@@ -181,7 +181,7 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-simujang.webp",
         pinPhoto: "pin-simujang.webp",
-        pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [80, 20, 54, 25], lockedLabel: [40, 12, 112, 38], text: [86, 21, 41], fontSize: 15 },
+        pin: { x: 37.69, y: 16.4, w: 134, h: 67, ring: [70, 67], photo: [3, 3, 63, 62.07], label: [40, 14.85, 109.8, 37.3], lockedLabel: [40, 14.85, 109.8, 37.3], drawnSign: true, text: [86, 23.08, 41], fontSize: 15 },
         ordinal: "네번째",
         // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {
