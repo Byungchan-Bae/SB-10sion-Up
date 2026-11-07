@@ -281,9 +281,47 @@
   composes: deal from "../styles/motion.module.css";
   --d: 0.1s;
 }
+/*
+ * 카드 위 마스코트 전용 (다른 화면의 공용 float는 그대로).
+ * 그림 속 아래 직선(상자 위에서 64.8~66.7px)이 카드 윗선(상자 위에서 65.68px)에 걸쳐 있으므로
+ * 세로는 움직이지 않는다: 등장할 때는 카드 윗선을 기준점으로 커지고, 그 뒤엔 좌우로만 ±3px 왕복 (3초 주기).
+ */
 .mascots {
-  composes: float from "../styles/motion.module.css";
   --d: 0.45s;
+  transform-origin: 50% 65.68px;
+  animation:
+    mascotPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d) backwards,
+    mascotSway 3s calc(var(--d) + 0.5s) infinite;
+}
+@keyframes mascotPop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+/* 사인 곡선처럼: 가운데에서 가장 빠르고 양 끝에서 멈칫. 가운데(0)에서 시작해 끊김 없이 이어진다 */
+@keyframes mascotSway {
+  0%,
+  50% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.61, 1, 0.88, 1);
+  }
+  25% {
+    transform: translateX(3px);
+    animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
+  }
+  75% {
+    transform: translateX(-3px);
+    animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mascots {
+    animation: none;
+  }
 }
 .dots {
   composes: fade from "../styles/motion.module.css";
