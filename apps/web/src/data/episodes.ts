@@ -51,7 +51,10 @@ export const EPISODES: Episode[] = [
         radius: ARRIVAL_RADIUS,
         photo: "place-gilsangsa.webp",
         pinPhoto: "pin-gilsangsa.webp",
-        pin: { x: 29.74, y: 74.89, w: 147, h: 71, ring: [75, 71], photo: [1, 0, 69, 71], label: [40, 17, 117, 37], drawnSign: true, text: [88, 25.08, 0], fontSize: 15 },
+        // 링: 지도 그림의 크림색 원(가운데 35, 35 · 반지름 37)에 맞춤. 예전 [75, 71]은 오른쪽으로 2.5px 치우쳐서
+        // 원 둘레가 한쪽만 두껍게 보이고, 다음 목적지일 때 퍼지는 빛도 중심이 어긋났다
+        // 이름표: 위로 2px 늘려 지도 그림의 주황 "1" 배지 윗부분이 비치지 않게 덮음 (글자는 가운데 그대로)
+        pin: { x: 29.74, y: 74.89, w: 147, h: 71, ring: [-2, -2, 74, 74], photo: [1, 0, 69, 71], label: [40, 15, 117, 39], drawnSign: true, text: [88, 24.08, 0], fontSize: 15 },
         ordinal: "첫번째",
         // Figma 원본 136:3821 · 3848 · 3875 · 3907 문구 (오타 "요청" → "요정", 마침표 뒤 띄어쓰기, NanumHuman에 없는 한자 "故" 빼기만 고침)
         story: {

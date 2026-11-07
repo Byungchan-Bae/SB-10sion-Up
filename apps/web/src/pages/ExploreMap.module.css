@@ -226,8 +226,23 @@
  * 그림이 뒤에서 드러나 글자가 두 겹으로 보인다. 그림에는 사진도 있어서 천천히 나타나게 해도
  * 잠긴 장소가 잠깐 열린 것처럼 보인다. 그래서 핀에는 등장 애니메이션을 넣지 않는다.
  */
-/* 다음 목적지: 둘레에 빛이 퍼진다 */
-.pinCurrent .ring {
+/*
+ * 다음 목적지: 둘레에 빛이 퍼진다.
+ * 예전엔 링의 box-shadow를 키웠는데, 아이폰 사파리가 움직이는 그림자의 둥근 모서리를 놓쳐서
+ * 네모로 퍼졌다. 그래서 링 뒤에 같은 크기의 주황 원(::before)을 하나 두고 그 원을 키우며 흐리게 한다.
+ * 버튼에 isolation을 줘서 z-index:-1인 원이 링 바로 뒤(지도 그림 앞)에 그려지게 한다.
+ */
+.pinCurrent {
+  isolation: isolate;
+}
+.pinCurrent .ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: rgb(253 111 3 / 0.6);
+  opacity: 0;
   animation: ringPulse 1.4s ease-out calc(var(--d, 0s) + 0.4s) infinite;
 }
 /* 잠긴 핀을 누르면 자물쇠만 흔들린다 */
@@ -241,12 +256,15 @@
 .toast {
   animation: toastIn 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
+/* 링(약 70px)에서 둘레로 16px쯤 퍼지는 크기 = 1.46배 */
 @keyframes ringPulse {
   0% {
-    box-shadow: 0 0 0 0 rgb(253 111 3 / 0.6);
+    opacity: 1;
+    transform: scale(1);
   }
   100% {
-    box-shadow: 0 0 0 16px rgb(253 111 3 / 0);
+    opacity: 0;
+    transform: scale(1.46);
   }
 }
 @keyframes lockShake {
@@ -280,7 +298,7 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pinCurrent .ring,
+  .pinCurrent .ring::before,
   .shaking .lock,
   .unlocking .lock,
   .toast {

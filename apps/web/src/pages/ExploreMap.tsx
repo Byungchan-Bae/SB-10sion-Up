@@ -66,7 +66,7 @@ function Pin({
         className={p.drawnSign ? `${styles.label} ${styles.drawnSign}` : styles.label}
         style={box(...(open ? p.label : (p.lockedLabel ?? p.label)))}
       />
-      <span className={styles.ring} style={box(0, 0, ...p.ring)} />
+      <span className={styles.ring} style={p.ring.length === 4 ? box(...p.ring) : box(0, 0, ...p.ring)} />
       <span className={styles.photo} style={box(...p.photo)}>
         <img src={`/assets/${place.pinPhoto}`} alt="" draggable={false} />
         {!open && <img className={styles.lock} src="/assets/icons/lock.svg" alt="" />}
