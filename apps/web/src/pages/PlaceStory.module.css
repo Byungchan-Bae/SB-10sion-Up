@@ -42,18 +42,32 @@
   color: #562400;
 }
 
-/* 본문 18px Regular 검정 (Figma top 554). Figma처럼 글자 단위로 줄바꿈 (keep-all이면 줄이 늘어 팁과 겹침) */
+/*
+ * 본문 18px Regular 검정 (Figma top 554). 데이터의 \n(문단 사이 등)은 지키고,
+ * 문단 안은 칸 폭에 맞춰 자동으로 넘기되 어절 중간에서 갈라지지 않게 keep-all. 8줄을 넘으면 아래 요소가 내려간다 (.lower)
+ */
 .body {
   left: 31px;
   top: 583px;
   width: 345px; /* Figma 327 + 두 번째 문단 상자가 더 넓어서(593) 마지막 글자가 혼자 넘어가지 않게 */
   margin: 0;
   white-space: pre-line;
-  word-break: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere; /* 칸보다 긴 한 어절이 생길 때만 마지막 수단으로 끊어 가로 넘침을 막음 */
   font-size: 18px;
   font-weight: 400;
   line-height: normal;
   color: #000;
+}
+
+/* 팁 · 버튼 묶음: 무대 좌표 그대로 두고, 본문이 길어진 만큼 top(push)만 내려감 */
+.lower {
+  left: 0;
+  width: 390px;
+  height: 0;
+}
+.lower > * {
+  position: absolute;
 }
 
 /* 팁: 주황 박스 340 × 60 + 엄지 척 부엉이 84 × 93 + 15px Bold (Figma top 776) */
