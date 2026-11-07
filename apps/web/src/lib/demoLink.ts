@@ -9,7 +9,7 @@ import { appStorage, PROGRESS_KEY } from "./storage";
 const COUPON_KEY = "sb-treasure:demo-coupons";
 /** 시연의 소요 시간: 앞의 세 장소를 이미 돌아본 것처럼 보이게 한다 (수집 완료 화면 약 1시간 9분) */
 const ELAPSED_MS = 68 * 60 * 1000;
-/** 앞 장소에 남긴 것으로 할 기록. 시연하는 장소는 입력칸에 미리 채워 둔다 */
+/** 앞 세 장소에 남긴 것으로 할 기록. 시연하는 장소는 입력칸에 미리 채워 둔다 */
 const NOTES: Record<string, string> = {
   gilsangsa: "고요해서 마음이 편안해지는 곳이에요",
   martyrs: "오래된 건물에서 깊은 믿음이 느껴져요",
@@ -17,17 +17,12 @@ const NOTES: Record<string, string> = {
   simujang: "곧은 신념이 느껴지는 조용한 집이에요",
 };
 
-/** 시연을 시작하는 장소 */
-const START_PLACE = "suyeonsanbang";
-
-/** 시연 시작 상태: 시작 장소 앞의 단서를 모두 찾았고, 한 줄 기록은 뒤 장소까지 미리 적어 둔 진행 기록 */
-export function demoStartProgress(): { episodeId: string; startPlace: string; progress: EpisodeProgress } {
+/** 시연 시작 상태: 마지막 장소만 남기고 앞 장소의 단서를 모두 찾은 진행 기록 */
+export function demoStartProgress(): { episodeId: string; progress: EpisodeProgress } {
   const episode = EPISODES[0];
-  const start = episode.places.findIndex((p) => p.id === START_PLACE);
-  const done = episode.places.slice(0, start).map((p) => p.id);
+  const done = episode.places.slice(0, -1).map((p) => p.id);
   return {
     episodeId: episode.id,
-    startPlace: START_PLACE,
     progress: { startedAt: Date.now() - ELAPSED_MS, verified: done, clues: done, notes: NOTES },
   };
 }
