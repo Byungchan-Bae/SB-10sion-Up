@@ -6,7 +6,7 @@
 
 - 브랜치: `fix/onboarding-family-first` (온보딩을 가족과부터, 닉네임 문구 뒤 흰색 블러 추가). 백엔드 인수인계 항목은 코드까지 끝났고, 남은 일은 아래 "다음 할 일"
 - 작업자: Byungchan-Bae, 양원우 + Claude Code
-- 마지막 갱신: 2026-11-06
+- 마지막 갱신: 2026-11-11 (랭킹 시상대, VeeSong + Claude)
 
 ## 끝난 것
 
@@ -50,6 +50,8 @@
 - 닉네임 검사: `POST /api/users`가 `server/nickname.ts`로 길이(1~10자), 안 보이는 글자, 금칙어를 확인(400)하고, 대소문자 · 띄어쓰기를 무시하고 중복이면 409. 금칙어는 파일 위쪽 목록에 추가. 겹치는 옛 기록이 있을 수 있어 DB UNIQUE 제약은 없고, 동시에 같은 이름을 등록하면 드물게 겹칠 수 있음
 - 랭킹: `GET /api/ranking?episodeId=&userId=`(token을 보내면 내 순위 포함), 탭 화면 `/ranking`. 포인트 많은 순 → 소요 시간 짧은 순 → 먼저 끝낸 순, 상위 50명 + 내 순위.
   소요 시간은 서버 시각(`place_progress`의 첫 `verified_at` ~ 마지막 `clue_at`)으로 계산하고 기기가 보낸 시각은 안 씀. 6분 미만은 실제로 걸어서 풀었다고 볼 수 없어 "시간 기록 없음", 같은 점수에서 맨 뒤 (`api/ranking.ts`의 `MIN_TRUSTED_SECONDS`에 계산 근거)
+
+- 랭킹 탭을 Figma 새 시안(714:5794)대로 바꿈 (`design/ranking-podium`): 위쪽 숲 배경 + 시상대에 1~3위 카드(닉네임 · 포인트 · 시간), 그 아래 내 순위 카드, 4위부터 목록, 아래 노란 물결. 1~3위가 나면 시상대 카드에 주황 테두리. 그림 3장(`ranking-stage` · `ranking-podium` · `ranking-wave`)은 Figma MCP 화면 캡처라 1x → 선명한 원본으로 교체하면 좋음
 
 ## 다음 할 일
 

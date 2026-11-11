@@ -12,7 +12,7 @@ const time = (entry: RankingEntry) => (entry.durationMs === null ? "시간 기�
 
 /**
  * 랭킹 탭 (/ranking) — 포인트 많은 순 → 소요 시간 짧은 순.
- * Figma "최종"에 이 화면 프레임이 없어서 수집물 탭과 같은 색 · 글꼴로 구성.
+ * Figma "최종" 714:5794: 위쪽 시상대에 1~3위, 그 아래 내 순위 카드, 4위부터는 목록.
  */
 export default function Ranking() {
   // 지금은 에피소드가 하나뿐이라 EP.01만 보여 준다
@@ -36,9 +36,16 @@ export default function Ranking() {
     setAttempt((n) => n + 1);
   };
 
+  const entries = !failed && data ? data.entries : [];
+  /** 시상대에 올라가는 1~3위. 나머지는 아래 목록 */
+  const top = entries.slice(0, 3);
+  const rest = entries.slice(3);
+
   return (
     <MobileFrame>
       <Stage footer={<TabBar />} background="var(--color-detail-bg)">
+        <img className={styles.wave} src="/assets/ranking-wave.webp" alt="" draggable={false} />
+        <img className={styles.stageBg} src="/assets/ranking-stage.webp" alt="" draggable={false} />
         <h1 className={styles.header}>랭킹</h1>
         <p className={styles.episode}>
           <span className={styles.badge}>{episode.badge}</span>
@@ -49,6 +56,19 @@ export default function Ranking() {
             </span>
           )}
         </p>
+
+        <img className={styles.podium} src="/assets/ranking-podium.webp" alt="" draggable={false} />
+        {top.map((entry, i) => (
+          <p
+            key={entry.rank}
+            className={`${[styles.first, styles.second, styles.third][i]} ${entry.isMe ? styles.podiumMe : ""}`}
+            aria-label={`${entry.rank}위 ${entry.nickname}`}
+          >
+            <b>{entry.nickname}</b>
+            <span>{entry.points} point</span>
+            <small>{time(entry)}</small>
+          </p>
+        ))}
 
         <div className={styles.mine}>
           <img src="/assets/quiz-mascot.webp" alt="" draggable={false} />
@@ -80,7 +100,7 @@ export default function Ranking() {
             <p className={styles.message}>{"아직 완주한 사람이 없어요.\n첫 번째 주인공이 되어보세요!"}</p>
           ) : (
             <ol className={styles.list}>
-              {data.entries.map((entry) => (
+              {rest.map((entry) => (
                 <li key={entry.rank} className={entry.isMe ? styles.me : styles.row}>
                   <span className={styles.rank} data-top={entry.rank <= 3 ? entry.rank : undefined}>
                     {entry.rank}
