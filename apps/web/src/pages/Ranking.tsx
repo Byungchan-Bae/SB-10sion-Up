@@ -57,7 +57,15 @@ export default function Ranking() {
           )}
         </p>
 
-        <img className={styles.podium} src="/assets/ranking-podium.webp" alt="" draggable={false} />
+        {/* 시상대: 바닥 그림 위에 번쩍 선 · 반짝이 · 캐릭터 3마리를 따로 얹어 움직인다 (자리값은 Ranking.module.css) */}
+        <div className={styles.podium} aria-hidden="true">
+          <img src="/assets/ranking-podium.webp" alt="" draggable={false} />
+          <img className={styles.burst} src="/assets/ranking-burst.webp" alt="" draggable={false} />
+          <img className={styles.sparkles} src="/assets/ranking-sparkles.webp" alt="" draggable={false} />
+          <img className={styles.mascot2} src="/assets/ranking-mascot-2.webp" alt="" draggable={false} />
+          <img className={styles.mascot3} src="/assets/ranking-mascot-3.webp" alt="" draggable={false} />
+          <img className={styles.mascot1} src="/assets/ranking-mascot-1.webp" alt="" draggable={false} />
+        </div>
         {top.map((entry, i) => (
           <p
             key={entry.rank}

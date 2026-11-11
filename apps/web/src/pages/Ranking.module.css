@@ -25,6 +25,54 @@
   height: 207px;
   pointer-events: none;
 }
+.podium img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 370px;
+  height: 207px;
+}
+/*
+ * 캐릭터는 시상대 윗면 뒤쪽 모서리(이음선)에서 위쪽만 잘라 낸 그림이다. 발은 바닥 그림에 남아 있다.
+ * 아래 가운데(이음선)를 기준으로 세로로 늘이고 기울이기만 해서 이음선이 어긋나지 않는다.
+ * 가로로 늘이거나(scaleX) 위로 옮기면(translateY) 발과 몸이 어긋나니 쓰지 말 것.
+ */
+.podium .mascot1,
+.podium .mascot2,
+.podium .mascot3 {
+  transform-origin: 50% 100%;
+}
+.podium .mascot1 {
+  left: 153px;
+  top: 24px;
+  width: 72px;
+  height: 70.33px;
+}
+.podium .mascot2 {
+  left: 67px;
+  top: 61px;
+  width: 57px;
+  height: 54.67px;
+}
+.podium .mascot3 {
+  left: 254px;
+  top: 75px;
+  width: 59px;
+  height: 48.33px;
+}
+.podium .burst {
+  left: 122px;
+  top: 3px;
+  width: 131px;
+  height: 46px;
+  transform-origin: 50% 130%;
+}
+.podium .sparkles {
+  left: 50px;
+  top: 48px;
+  width: 271px;
+  height: 42px;
+}
 /*
  * 카드는 Figma 자리의 가운데(left)를 기준으로 놓고, 닉네임이 길면 양옆으로 넓어진다.
  * 짧은 닉네임은 Figma 크기(65 · 76px) 그대로. 가운데 정렬은 translate로 해서 등장 애니메이션(transform)과 안 겹친다.
@@ -348,6 +396,71 @@
   transform: scale(1.1);
   animation: waveSway 7s ease-in-out infinite alternate;
 }
+/* 캐릭터: 시상대가 다 올라온 뒤부터 제자리에서 통통 (1위는 만세하듯 크게, 2 · 3위는 엇박으로 살랑) */
+.podium .mascot1 {
+  animation: cheer 1.5s ease-in-out 1s infinite;
+}
+.podium .mascot2 {
+  animation: sway 2.6s ease-in-out 1.2s infinite;
+}
+.podium .mascot3 {
+  animation: sway 3s ease-in-out 1.6s infinite reverse;
+}
+.podium .burst {
+  animation: burst 1.5s ease-in-out 1s infinite;
+}
+.podium .sparkles {
+  animation: twinkle 1.8s ease-in-out 1s infinite alternate;
+}
+@keyframes cheer {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  30% {
+    transform: scaleY(0.95);
+  }
+  60% {
+    transform: scaleY(1.07) skewX(-1.5deg);
+  }
+  80% {
+    transform: scaleY(1.03) skewX(1.5deg);
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: scaleY(1) skewX(0);
+  }
+  25% {
+    transform: scaleY(1.04) skewX(-3deg);
+  }
+  50% {
+    transform: scaleY(0.97) skewX(0);
+  }
+  75% {
+    transform: scaleY(1.04) skewX(3deg);
+  }
+}
+@keyframes burst {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.7;
+  }
+  60% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes twinkle {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
 @keyframes podiumUp {
   from {
     opacity: 0;
@@ -431,6 +544,11 @@
 @media (prefers-reduced-motion: reduce) {
   .list li,
   .podium,
+  .podium .mascot1,
+  .podium .mascot2,
+  .podium .mascot3,
+  .podium .burst,
+  .podium .sparkles,
   .wave,
   .first,
   .second,
