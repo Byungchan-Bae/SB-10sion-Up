@@ -7,7 +7,12 @@ import { PrimaryButton, SecondaryButton } from "../components/Button";
 import { getEpisode } from "../data/episodes";
 import { formatDuration } from "../lib/duration";
 import { useProgress } from "../lib/progress";
+import { playEffect } from "../components/Bgm";
 import styles from "./EpisodeComplete.module.css";
+
+const COIN_SOUND = "/audio/coin.mp3";
+/** 조각이 모여 배지가 튀어나오는 시점 (EpisodeComplete.module.css .badge의 badgeIn 1.22s) */
+const BADGE_IN_MS = 1220;
 
 /** 움직임 줄이기 설정이면 효과 없이 끝난 모습만 */
 const reduceMotion = () => {
@@ -78,6 +83,14 @@ export default function EpisodeComplete() {
   const episode = getEpisode(episodeId);
   const progress = useProgress(episode?.id ?? "");
   const points = useCountUp(episode?.points ?? 0, 1600, 850);
+  const completed = !!progress.completedAt;
+
+  // 단서 조각이 모여 배지로 바뀌는 순간 동전 소리 (움직임 줄이기 설정이면 화면이 뜨자마자)
+  useEffect(() => {
+    if (!completed) return;
+    const t = window.setTimeout(() => void playEffect(COIN_SOUND), reduceMotion() ? 0 : BADGE_IN_MS);
+    return () => window.clearTimeout(t);
+  }, [completed]);
 
   if (!episode) return <Navigate to="/home" replace />;
   // 밝혀진 비밀에서 완료를 눌러야 들어온다

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
@@ -8,8 +9,12 @@ import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
 import { hasAllClues, useProgress } from "../lib/progress";
 import { particle } from "../lib/korean";
+import { playEffect } from "../components/Bgm";
 import styles from "./PlaceClue.module.css";
 
+const CLUE_SOUND = "/audio/clue-chime.mp3";
+/** 편지 조각이 뒤집히며 나타나는 시점 (PlaceClue.module.css .fragment의 --d: 0.45s) */
+const CLUE_REVEAL_MS = 450;
 
 /** 단서 발견 (/place/:id/clue) — Figma 136:4524 (길상사), 4538, 4553, 4568 */
 export default function PlaceClue() {
@@ -19,6 +24,14 @@ export default function PlaceClue() {
   const fromCollection = (useLocation().state as { from?: string } | null)?.from === "collection";
   const found = findPlace(placeId);
   const progress = useProgress(found?.episode.id ?? "");
+  const solved = !!found && progress.clues.includes(found.place.id);
+
+  // 단서를 막 찾았을 때만 (수집물에서 다시 볼 땐 조용히) 조각이 나타나는 순간 효과음
+  useEffect(() => {
+    if (fromCollection || !solved) return;
+    const t = window.setTimeout(() => void playEffect(CLUE_SOUND), CLUE_REVEAL_MS);
+    return () => window.clearTimeout(t);
+  }, [fromCollection, solved, placeId]);
 
   if (!found) return <Navigate to="/map" replace />;
   const { episode, place, index } = found;
