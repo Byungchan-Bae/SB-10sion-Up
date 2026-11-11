@@ -5,12 +5,15 @@ import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { PrimaryButton } from "../components/Button";
 import { Stamp, STAMP_MS } from "../components/Stamp";
+import { playEffect } from "../components/Bgm";
 import type { Rect } from "@sb/types";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
 import { checkQuiz } from "../lib/api";
 import { applyServerProgress, getProgress, useProgress } from "../lib/progress";
 import styles from "./PlaceQuiz.module.css";
+
+const CORRECT_SOUND = "/audio/correct.mp3";
 
 const MAX_NOTE = 30;
 
@@ -63,6 +66,7 @@ export default function PlaceQuiz() {
     try {
       const { correct } = await checkQuiz(place.id, selected);
       if (correct) {
+        void playEffect(CORRECT_SOUND);
         setSolved(selected);
         setCelebrating(true);
       } else {
@@ -85,6 +89,7 @@ export default function PlaceQuiz() {
       const res = await checkQuiz(place.id, solved, text);
       applyServerProgress(res.episodeId, res.progress);
       if (res.correct) {
+        void playEffect(CORRECT_SOUND);
         navigate(`/place/${place.id}/clue`, { replace: true });
         return;
       }

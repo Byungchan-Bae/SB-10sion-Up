@@ -7,7 +7,36 @@ import { PrimaryButton } from "../components/Button";
 import { COMING_SOON_EPISODES, EPISODES } from "../data/episodes";
 import { useProgress } from "../lib/progress";
 import { clearSelectedEpisode } from "../lib/selection";
+import { playEffect } from "../components/Bgm";
 import styles from "./Home.module.css";
+
+const STAMP_SOUND = "/audio/stamp.mp3";
+/** 완료 도장이 카드에 닿는 시점 (Home.module.css .stampIn의 지연 0.45s + 0.4s 동작 중 착지 순간) */
+const STAMP_LAND_MS = 700;
+const stampShownKey = (episodeId: string) => `sb-treasure:clear-stamp-shown:${episodeId}`;
+
+/** 완료 도장은 완주 후 홈에 처음 왔을 때 한 번만 쾅 찍는다. 그 뒤로는 찍힌 채로 보인다 */
+function useStampOnce(episodeId: string, cleared: boolean) {
+  const [animate] = useState(() => {
+    if (!cleared) return false;
+    try {
+      return localStorage.getItem(stampShownKey(episodeId)) !== "1";
+    } catch {
+      return false;
+    }
+  });
+  useEffect(() => {
+    if (!animate) return;
+    try {
+      localStorage.setItem(stampShownKey(episodeId), "1");
+    } catch {
+      /* 사생활 보호 모드 등 */
+    }
+    const t = window.setTimeout(() => void playEffect(STAMP_SOUND), STAMP_LAND_MS);
+    return () => window.clearTimeout(t);
+  }, [animate, episodeId]);
+  return animate;
+}
 
 /** 카드 간격: 카드 폭 326 + 사이 11 (Figma 다음 카드 위치 기준) */
 const SLIDE_STEP = 337;
@@ -20,6 +49,7 @@ export default function Home() {
   const total = 1 + COMING_SOON_EPISODES.length;
   // 최종 클리어 = 밝혀진 비밀에서 "완료"를 눌러 남긴 completedAt (이 기기 기록 + 서버 기록을 합친 값)
   const cleared = Boolean(useProgress(episode.id).completedAt);
+  const stampIn = useStampOnce(episode.id, cleared);
 
   // 폰이나 브라우저의 뒤로가기로 홈에 오면 에피소드에서 나온 것으로 본다 (처음 연 주소는 빼고)
   const navigationType = useNavigationType();
@@ -83,7 +113,12 @@ export default function Home() {
               {cleared && (
                 <>
                   <span className={styles.clearDim} aria-hidden="true" />
-                  <img className={styles.clearStamp} src="/assets/home-complete-stamp.webp" alt="" draggable={false} />
+                  <img
+                    className={[styles.clearStamp, stampIn && styles.stampIn].filter(Boolean).join(" ")}
+                    src="/assets/home-complete-stamp.webp"
+                    alt=""
+                    draggable={false}
+                  />
                 </>
               )}
             </Link>
