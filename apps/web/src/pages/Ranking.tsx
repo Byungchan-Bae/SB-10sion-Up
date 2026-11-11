@@ -5,10 +5,10 @@ import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
 import { EPISODES } from "../data/episodes";
 import { getRanking } from "../lib/api";
-import { formatDuration } from "../lib/duration";
+import { formatDurationSeconds } from "../lib/duration";
 import styles from "./Ranking.module.css";
 
-const time = (entry: RankingEntry) => (entry.durationMs === null ? "시간 기록 없음" : formatDuration(entry.durationMs));
+const time = (entry: RankingEntry) => (entry.durationMs === null ? "시간 기록 없음" : formatDurationSeconds(entry.durationMs));
 
 /**
  * 랭킹 탭 (/ranking) — 포인트 많은 순 → 소요 시간 짧은 순.
