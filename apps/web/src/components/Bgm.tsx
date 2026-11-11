@@ -39,6 +39,20 @@ function saveMuted(muted: boolean) {
   }
 }
 
+/**
+ * 짧은 효과음. 배경음악을 꺼 둔 사람에게는 내지 않는다.
+ * 터치 전이라 브라우저가 막으면 false로 끝난다 (Promise<boolean>: 재생됐는지)
+ */
+export function playEffect(src: string, volume = 0.6): Promise<boolean> {
+  if (readMuted()) return Promise.resolve(true);
+  const sfx = new Audio(src);
+  sfx.volume = volume;
+  return sfx.play().then(
+    () => true,
+    () => false,
+  );
+}
+
 // 화면이 바뀌어도 소리가 끊기지 않게 오디오는 하나만 둔다
 let audio: HTMLAudioElement | null = null;
 let current: Track | null = null;
