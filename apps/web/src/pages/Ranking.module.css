@@ -25,12 +25,20 @@
   height: 207px;
   pointer-events: none;
 }
+/*
+ * 카드는 Figma 자리의 가운데(left)를 기준으로 놓고, 닉네임이 길면 양옆으로 넓어진다.
+ * 짧은 닉네임은 Figma 크기(65 · 76px) 그대로. 가운데 정렬은 translate로 해서 등장 애니메이션(transform)과 안 겹친다.
+ */
 .first,
 .second,
 .third {
+  translate: -50% 0;
+  width: max-content;
+  min-width: 65px;
+  max-width: 90px;
   height: 50px;
   margin: 0;
-  padding: 5px 3px 0;
+  padding: 5px 4px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -42,25 +50,25 @@
   line-height: 13px;
   text-align: center;
   white-space: nowrap;
-  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
 }
 .first {
-  left: 155px;
+  left: 193px;
   top: 267px;
-  width: 76px;
-  animation-delay: 0.45s;
+  min-width: 76px;
 }
 .second {
-  left: 69px;
+  left: 101.5px;
   top: 279px;
-  width: 65px;
-  animation-delay: 0.3s;
 }
 .third {
-  left: 256px;
+  left: 288.5px;
   top: 282px;
-  width: 65px;
-  animation-delay: 0.15s;
+}
+.first[data-long] b,
+.second[data-long] b,
+.third[data-long] b {
+  font-size: 9px;
+  letter-spacing: -0.2px;
 }
 .podiumMe {
   background: #fff1cd;
@@ -91,12 +99,7 @@
   font-weight: 800;
   color: var(--color-gray2);
 }
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-}
+
 
 .header {
   left: 0;
@@ -320,9 +323,59 @@
   composes: fade from "../styles/motion.module.css";
   --d: 0.05s;
 }
-.stageBg,
-.podium {
+.stageBg {
   composes: fade from "../styles/motion.module.css";
+}
+/* 시상대가 아래에서 솟아오르고 → 3위, 2위, 1위 순서로 이름 카드가 튀어나온다 */
+.podium {
+  transform-origin: 50% 100%;
+  animation: podiumUp 0.7s cubic-bezier(0.3, 1.4, 0.5, 1) 0.1s backwards;
+}
+.third {
+  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.6s backwards;
+}
+.second {
+  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.78s backwards;
+}
+/* 1위 카드는 나온 뒤에도 주황빛이 은은하게 퍼진다 */
+.first {
+  animation:
+    pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.96s backwards,
+    winnerGlow 2.4s ease-out 1.6s infinite;
+}
+/* 아래 물결이 천천히 좌우로 일렁인다 (양옆이 비지 않게 조금 키워 둠) */
+.wave {
+  transform: scale(1.1);
+  animation: waveSway 7s ease-in-out infinite alternate;
+}
+@keyframes podiumUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.86);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes winnerGlow {
+  0% {
+    filter: drop-shadow(0 0 0 rgb(255 162 62 / 0.7));
+  }
+  60%,
+  100% {
+    filter: drop-shadow(0 0 7px rgb(255 162 62 / 0));
+  }
+}
+@keyframes waveSway {
+  from {
+    transform: scale(1.1) translateX(-10px);
+  }
+  to {
+    transform: scale(1.1) translateX(10px);
+  }
 }
 .mine {
   composes: pop from "../styles/motion.module.css";
@@ -335,31 +388,31 @@
 
 /* 순위가 위에서부터 차례로 들어온다 */
 .list li {
-  animation: rowIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation: rowIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s backwards;
 }
 .list li:nth-child(2) {
-  animation-delay: 0.07s;
+  animation-delay: 0.37s;
 }
 .list li:nth-child(3) {
-  animation-delay: 0.14s;
+  animation-delay: 0.44s;
 }
 .list li:nth-child(4) {
-  animation-delay: 0.21s;
+  animation-delay: 0.51s;
 }
 .list li:nth-child(5) {
-  animation-delay: 0.28s;
+  animation-delay: 0.58s;
 }
 .list li:nth-child(6) {
-  animation-delay: 0.35s;
+  animation-delay: 0.65s;
 }
 .list li:nth-child(7) {
-  animation-delay: 0.42s;
+  animation-delay: 0.72s;
 }
 .list li:nth-child(8) {
-  animation-delay: 0.49s;
+  animation-delay: 0.79s;
 }
 .list li:nth-child(9) {
-  animation-delay: 0.56s;
+  animation-delay: 0.86s;
 }
 .rank[data-top] {
   animation: medalPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.25s backwards;
@@ -377,6 +430,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .list li,
+  .podium,
+  .wave,
   .first,
   .second,
   .third,

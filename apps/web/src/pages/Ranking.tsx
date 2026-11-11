@@ -62,6 +62,8 @@ export default function Ranking() {
           <p
             key={entry.rank}
             className={`${[styles.first, styles.second, styles.third][i]} ${entry.isMe ? styles.podiumMe : ""}`}
+            // 긴 닉네임(9~10자)은 글자를 조금 줄여 카드 안에 다 들어가게 한다
+            data-long={[...entry.nickname].length >= 9 || undefined}
             aria-label={`${entry.rank}위 ${entry.nickname}`}
           >
             <b>{entry.nickname}</b>
