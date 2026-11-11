@@ -3,21 +3,25 @@ import { useLocation } from "react-router";
 import styles from "./Bgm.module.css";
 
 /*
- * 배경음악. 기본은 Carefree, 에피소드를 시작하면(인트로 · 탐방 지도 · 장소 · 비밀 · 완료) Sneaky Snitch.
+ * 배경음악. 기본은 Carefree, 에피소드를 시작하면(인트로 · 탐방 지도 · 장소) Sneaky Snitch,
+ * 마무리(밝혀진 비밀 · 수집 완료)는 Easy Lemon.
  * Music: Kevin MacLeod (incompetech.com), Licensed under CC BY 4.0
  * 브라우저는 소리 나는 자동재생을 막으므로, 사용자가 화면을 처음 누를 때 재생을 시작한다.
  */
 const TRACKS = {
   base: "/audio/carefree.mp3",
   episode: "/audio/sneaky-snitch.mp3",
+  ending: "/audio/easy-lemon.mp3",
 } as const;
 type Track = keyof typeof TRACKS;
 
 const VOLUME = 0.35;
 const MUTED_KEY = "sb-treasure:bgm-muted";
-const EPISODE_PATH = /^\/(episode\/[^/]+\/(intro|map|secret|complete)|place\/)/;
+const EPISODE_PATH = /^\/(episode\/[^/]+\/(intro|map)|place\/)/;
+const ENDING_PATH = /^\/episode\/[^/]+\/(secret|complete)/;
 
-const trackFor = (pathname: string): Track => (EPISODE_PATH.test(pathname) ? "episode" : "base");
+const trackFor = (pathname: string): Track =>
+  ENDING_PATH.test(pathname) ? "ending" : EPISODE_PATH.test(pathname) ? "episode" : "base";
 
 function readMuted() {
   try {
