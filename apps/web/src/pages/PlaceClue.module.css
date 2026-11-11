@@ -81,22 +81,10 @@
   color: #fd6f03;
 }
 
-.next,
-.collection {
-  left: 60px;
-  width: 270px;
-}
 .next {
+  left: 60px;
   top: 663px;
-}
-.collection {
-  top: 732px;
-  border: none;
-  background: #fefefe;
-}
-/* 수집물에서 열었을 때: 다음 버튼 자리로 올림 */
-.collectionOnly {
-  top: 663px;
+  width: 270px;
 }
 
 /* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
@@ -134,8 +122,4 @@
 .next {
   composes: riseGlow from "../styles/motion.module.css";
   --d: 0.9s;
-}
-.collection {
-  composes: rise from "../styles/motion.module.css";
-  --d: 0.95s;
 }

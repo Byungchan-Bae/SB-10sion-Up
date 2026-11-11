@@ -1,4 +1,153 @@
-/* 랭킹 탭 — 390 × 764 Stage(탭바 위) 좌표. 색 · 글꼴은 수집물 탭과 맞춤 */
+/* 랭킹 탭 — 390 × 764 Stage(탭바 위) 좌표. Figma 714:5794 */
+
+/* 아래 노란 물결 (목록 뒤, 탭바 둥근 모서리 뒤까지 이어짐) */
+.wave {
+  left: 0;
+  top: 653px;
+  width: 390px;
+  height: 130px;
+  pointer-events: none;
+}
+/* 위쪽 숲 · 한옥 배경 */
+.stageBg {
+  left: 0;
+  top: 0;
+  width: 390px;
+  height: 326px;
+  pointer-events: none;
+}
+
+/* 시상대 그림 + 1~3위 카드 */
+.podium {
+  left: 5px;
+  top: 125px;
+  width: 370px;
+  height: 207px;
+  pointer-events: none;
+}
+.podium img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 370px;
+  height: 207px;
+}
+/*
+ * 캐릭터는 시상대 윗면 뒤쪽 모서리(이음선)에서 위쪽만 잘라 낸 그림이다. 발은 바닥 그림에 남아 있다.
+ * 아래 가운데(이음선)를 기준으로 세로로 늘이고 기울이기만 해서 이음선이 어긋나지 않는다.
+ * 가로로 늘이거나(scaleX) 위로 옮기면(translateY) 발과 몸이 어긋나니 쓰지 말 것.
+ */
+.podium .mascot1,
+.podium .mascot2,
+.podium .mascot3 {
+  transform-origin: 50% 100%;
+}
+.podium .mascot1 {
+  left: 153px;
+  top: 24px;
+  width: 72px;
+  height: 70.33px;
+}
+.podium .mascot2 {
+  left: 67px;
+  top: 61px;
+  width: 57px;
+  height: 54.67px;
+}
+.podium .mascot3 {
+  left: 254px;
+  top: 75px;
+  width: 59px;
+  height: 48.33px;
+}
+.podium .burst {
+  left: 122px;
+  top: 3px;
+  width: 131px;
+  height: 46px;
+  transform-origin: 50% 130%;
+}
+.podium .sparkles {
+  left: 50px;
+  top: 48px;
+  width: 271px;
+  height: 42px;
+}
+/*
+ * 카드는 Figma 자리의 가운데(left)를 기준으로 놓고, 닉네임이 길면 양옆으로 넓어진다.
+ * 짧은 닉네임은 Figma 크기(65 · 76px) 그대로. 가운데 정렬은 translate로 해서 등장 애니메이션(transform)과 안 겹친다.
+ */
+.first,
+.second,
+.third {
+  translate: -50% 0;
+  width: max-content;
+  min-width: 65px;
+  max-width: 90px;
+  height: 50px;
+  margin: 0;
+  padding: 5px 4px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--color-card-border);
+  font-size: 10px;
+  line-height: 13px;
+  text-align: center;
+  white-space: nowrap;
+}
+.first {
+  left: 193px;
+  top: 267px;
+  min-width: 76px;
+}
+.second {
+  left: 101.5px;
+  top: 279px;
+}
+.third {
+  left: 288.5px;
+  top: 282px;
+}
+.first[data-long] b,
+.second[data-long] b,
+.third[data-long] b {
+  font-size: 9px;
+  letter-spacing: -0.2px;
+}
+.podiumMe {
+  background: #fff1cd;
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+}
+.first b,
+.second b,
+.third b {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 900;
+  color: var(--color-brown);
+}
+.first span,
+.second span,
+.third span {
+  font-weight: 900;
+  color: var(--color-main);
+}
+.first small,
+.second small,
+.third small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--color-gray2);
+}
+
 
 .header {
   left: 0;
@@ -13,8 +162,9 @@
 }
 
 .episode {
-  left: 24px;
-  top: 108px;
+  left: 21px;
+  top: 99px;
+  height: 22px;
   width: 342px;
   margin: 0;
   display: flex;
@@ -44,7 +194,7 @@
 
 .mine {
   left: 24px;
-  top: 158px;
+  top: 343px;
   width: 342px;
   height: 64px;
   display: flex;
@@ -88,15 +238,15 @@
 }
 
 .body {
-  left: 24px;
-  top: 234px;
+  left: 20px;
+  top: 424px;
   width: 342px;
-  height: 518px;
+  height: 326px;
 }
 
 .message {
   margin: 0;
-  padding-top: 120px;
+  padding-top: 90px;
   text-align: center;
   white-space: pre-line;
   font-size: 15px;
@@ -221,6 +371,125 @@
   composes: fade from "../styles/motion.module.css";
   --d: 0.05s;
 }
+.stageBg {
+  composes: fade from "../styles/motion.module.css";
+}
+/* 시상대가 아래에서 솟아오르고 → 3위, 2위, 1위 순서로 이름 카드가 튀어나온다 */
+.podium {
+  transform-origin: 50% 100%;
+  animation: podiumUp 0.7s cubic-bezier(0.3, 1.4, 0.5, 1) 0.1s backwards;
+}
+.third {
+  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.6s backwards;
+}
+.second {
+  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.78s backwards;
+}
+/* 1위 카드는 나온 뒤에도 주황빛이 은은하게 퍼진다 */
+.first {
+  animation:
+    pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.96s backwards,
+    winnerGlow 2.4s ease-out 1.6s infinite;
+}
+/* 아래 물결이 천천히 좌우로 일렁인다 (양옆이 비지 않게 조금 키워 둠) */
+.wave {
+  transform: scale(1.1);
+  animation: waveSway 7s ease-in-out infinite alternate;
+}
+/* 캐릭터: 시상대가 다 올라온 뒤부터 제자리에서 통통 (1위는 만세하듯 크게, 2 · 3위는 엇박으로 살랑) */
+.podium .mascot1 {
+  animation: cheer 1.5s ease-in-out 1s infinite;
+}
+.podium .mascot2 {
+  animation: sway 2.6s ease-in-out 1.2s infinite;
+}
+.podium .mascot3 {
+  animation: sway 3s ease-in-out 1.6s infinite reverse;
+}
+.podium .burst {
+  animation: burst 1.5s ease-in-out 1s infinite;
+}
+.podium .sparkles {
+  animation: twinkle 1.8s ease-in-out 1s infinite alternate;
+}
+@keyframes cheer {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  30% {
+    transform: scaleY(0.95);
+  }
+  60% {
+    transform: scaleY(1.07) skewX(-1.5deg);
+  }
+  80% {
+    transform: scaleY(1.03) skewX(1.5deg);
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: scaleY(1) skewX(0);
+  }
+  25% {
+    transform: scaleY(1.04) skewX(-3deg);
+  }
+  50% {
+    transform: scaleY(0.97) skewX(0);
+  }
+  75% {
+    transform: scaleY(1.04) skewX(3deg);
+  }
+}
+@keyframes burst {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.7;
+  }
+  60% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes twinkle {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes podiumUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.86);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes winnerGlow {
+  0% {
+    filter: drop-shadow(0 0 0 rgb(255 162 62 / 0.7));
+  }
+  60%,
+  100% {
+    filter: drop-shadow(0 0 7px rgb(255 162 62 / 0));
+  }
+}
+@keyframes waveSway {
+  from {
+    transform: scale(1.1) translateX(-10px);
+  }
+  to {
+    transform: scale(1.1) translateX(10px);
+  }
+}
 .mine {
   composes: pop from "../styles/motion.module.css";
   --d: 0.1s;
@@ -232,31 +501,31 @@
 
 /* 순위가 위에서부터 차례로 들어온다 */
 .list li {
-  animation: rowIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation: rowIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s backwards;
 }
 .list li:nth-child(2) {
-  animation-delay: 0.07s;
+  animation-delay: 0.37s;
 }
 .list li:nth-child(3) {
-  animation-delay: 0.14s;
+  animation-delay: 0.44s;
 }
 .list li:nth-child(4) {
-  animation-delay: 0.21s;
+  animation-delay: 0.51s;
 }
 .list li:nth-child(5) {
-  animation-delay: 0.28s;
+  animation-delay: 0.58s;
 }
 .list li:nth-child(6) {
-  animation-delay: 0.35s;
+  animation-delay: 0.65s;
 }
 .list li:nth-child(7) {
-  animation-delay: 0.42s;
+  animation-delay: 0.72s;
 }
 .list li:nth-child(8) {
-  animation-delay: 0.49s;
+  animation-delay: 0.79s;
 }
 .list li:nth-child(9) {
-  animation-delay: 0.56s;
+  animation-delay: 0.86s;
 }
 .rank[data-top] {
   animation: medalPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.25s backwards;
@@ -274,6 +543,16 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .list li,
+  .podium,
+  .podium .mascot1,
+  .podium .mascot2,
+  .podium .mascot3,
+  .podium .burst,
+  .podium .sparkles,
+  .wave,
+  .first,
+  .second,
+  .third,
   .rank[data-top] {
     animation: none;
   }

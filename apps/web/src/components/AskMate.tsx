@@ -22,7 +22,7 @@ function Mate({ children, error = false }: { children: ReactNode; error?: boolea
 }
 
 /**
- * AI 트레저 메이트 (Figma 390:10618). 장소 이야기 화면의 "트레저 메이트 부르기"에서 전체 화면으로 열린다.
+ * AI 트레저 메이트 (Figma 390:10618). 장소 이야기 화면의 "AI 트레저 메이트 부르기"에서 전체 화면으로 열린다.
  * 자주 묻는 질문(place.faq)은 AI를 쓰지 않고 바로 답한다.
  */
 export function AskMate({ place, onClose }: { place: Place; onClose: () => void }) {

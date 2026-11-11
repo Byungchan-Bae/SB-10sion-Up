@@ -3,7 +3,7 @@ import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { BackButton } from "../components/BackButton";
 import { LeafBurst } from "../components/LeafBurst";
-import { PrimaryButton, SecondaryButton } from "../components/Button";
+import { PrimaryButton } from "../components/Button";
 import { findPlace } from "../data/episodes";
 import { rectStyle } from "../lib/rect";
 import { hasAllClues, useProgress } from "../lib/progress";
@@ -15,7 +15,7 @@ import styles from "./PlaceClue.module.css";
 export default function PlaceClue() {
   const { placeId } = useParams();
   const navigate = useNavigate();
-  // 수집물 탭에서 다시 보러 왔으면 게임 흐름용 "다음" 버튼은 숨기고, 뒤로 가기도 수집물로
+  // 수집물 탭에서 다시 보러 왔으면 게임 흐름용 "다음" 버튼은 숨기고, 뒤로 가기(왼쪽 위)로 수집물에 돌아간다
   const fromCollection = (useLocation().state as { from?: string } | null)?.from === "collection";
   const found = findPlace(placeId);
   const progress = useProgress(found?.episode.id ?? "");
@@ -76,13 +76,6 @@ export default function PlaceClue() {
         {/* 문제를 맞히고 단서를 막 찾았을 때만 단풍이 터짐 (수집물에서 다시 볼 땐 없음). 터지는 곳은 편지 조각 가운데 */}
         {!fromCollection && <LeafBurst x={clue.image[0] + clue.image[2] / 2} y={clue.image[1] + clue.image[3] / 2} />}
 
-        <SecondaryButton
-          size="md"
-          className={fromCollection ? `${styles.collection} ${styles.collectionOnly}` : styles.collection}
-          onClick={() => navigate("/collection")}
-        >
-          수집물 보기
-        </SecondaryButton>
       </Stage>
     </MobileFrame>
   );
