@@ -50,11 +50,10 @@ export default function Ranking() {
         <p className={styles.episode}>
           <span className={styles.badge}>{episode.badge}</span>
           {episode.title}
-          {data && (
-            <span className={styles.count}>
-              완주 <b>{data.total}</b>명
-            </span>
-          )}
+          {/* 불러오는 중이거나 실패해도 자리는 늘 보이게 (숫자만 "-") */}
+          <span className={styles.count}>
+            완주 <b>{data && !failed ? data.total : "-"}</b>명
+          </span>
         </p>
 
         {/* 시상대: 바닥 그림 위에 번쩍 선 · 반짝이 · 캐릭터 3마리를 따로 얹어 움직인다 (자리값은 Ranking.module.css) */}
