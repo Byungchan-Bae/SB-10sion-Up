@@ -75,7 +75,7 @@ export default function PlaceStory() {
             {place.ordinal} 단서 찾기
           </PrimaryButton>
           <SecondaryButton size="md" className={styles.ask} onClick={() => setAsking(true)}>
-            트레저 메이트 부르기
+            AI 트레저 메이트 부르기
           </SecondaryButton>
         </div>
 
