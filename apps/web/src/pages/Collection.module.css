@@ -39,40 +39,15 @@
   width: 10.5px;
   height: 13.9px;
 }
-/* "사라진 편지 ⌄" 18px */
-.episodePicker {
+/* 에피소드 제목 "사라진 편지" 18px (고르기 메뉴 · 화살표 없이 제목만) */
+.episodeTitle {
   left: 32px;
   top: 211px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  border: none;
-  background: none;
-  font-family: var(--font-sans);
+  margin: 0;
   font-size: 18px;
   font-weight: 700;
   line-height: normal;
   color: var(--color-brown);
-  cursor: pointer;
-}
-/* 아래 화살표 (글꼴에 없을 수 있어 그린다) */
-.chevron {
-  width: 9px;
-  height: 9px;
-  margin-top: -4px;
-  box-sizing: border-box;
-  border-right: 2.5px solid #fd6f03;
-  border-bottom: 2.5px solid #fd6f03;
-  transform: rotate(45deg);
-}
-.badge {
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: var(--color-primary);
-  font-size: 13px;
-  font-weight: 800;
-  color: #fff;
 }
 /* 돋보기 든 감 (덤불 포함) 143 × 78 */
 .mascot {
@@ -298,60 +273,6 @@
   pointer-events: auto;
 }
 
-/* 에피소드 고르기 */
-.episodeBack {
-  left: 0;
-  top: 0;
-  width: 390px;
-  height: 764px;
-  z-index: 8;
-  padding: 0;
-  border: none;
-  background: none;
-}
-.episodeMenu {
-  left: 27px;
-  top: 240px;
-  width: 230px;
-  z-index: 9;
-  margin: 0;
-  padding: 6px;
-  box-sizing: border-box;
-  list-style: none;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgb(105 44 0 / 0.25);
-}
-.episodeItem,
-.episodeOn,
-.episodeSoon {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 8px;
-  background: none;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 800;
-  text-align: left;
-  color: var(--color-brown);
-  cursor: pointer;
-}
-.episodeOn {
-  background: #fde6c6;
-}
-.episodeSoon {
-  color: var(--color-gray2);
-  cursor: default;
-}
-.episodeSoon .badge {
-  background: var(--color-gray2);
-}
-
 /* ---- 등장 애니메이션 (styles/motion.module.css) ---- */
 .header {
   composes: fade from "../styles/motion.module.css";
@@ -363,7 +284,7 @@
   composes: rise from "../styles/motion.module.css";
   --d: 0.05s;
 }
-.episodePicker {
+.episodeTitle {
   composes: rise from "../styles/motion.module.css";
   --d: 0.05s;
 }
@@ -392,25 +313,14 @@
 .grid li:nth-child(4) {
   animation-delay: 0.24s;
 }
-.episodeMenu {
-  transform-origin: 0 0;
-  animation: menuIn 0.2s ease-out;
-}
 @keyframes cardIn {
   from {
     opacity: 0;
     transform: perspective(600px) rotateY(70deg);
   }
 }
-@keyframes menuIn {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
-  .grid li,
-  .episodeMenu {
+  .grid li {
     animation: none;
   }
 }
