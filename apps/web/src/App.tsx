@@ -18,30 +18,34 @@ import EpisodeSecret from "./pages/EpisodeSecret";
 import EpisodeComplete from "./pages/EpisodeComplete";
 import Reset from "./pages/Reset";
 import Demo from "./pages/Demo";
+import { Bgm } from "./components/Bgm";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Splash />} />
-      <Route path="/onboarding" element={<Onboarding />} />
-      <Route path="/nickname" element={<Nickname />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/episode/:episodeId" element={<EpisodeDetail />} />
-      <Route path="/episode/:episodeId/intro" element={<EpisodeIntro />} />
-      <Route path="/episode/:episodeId/map" element={<ExploreMap />} />
-      <Route path="/episode/:episodeId/secret" element={<EpisodeSecret />} />
-      <Route path="/episode/:episodeId/complete" element={<EpisodeComplete />} />
-      <Route path="/map" element={<MapHome />} />
-      <Route path="/place/:placeId" element={<PlaceCheckIn />} />
-      <Route path="/place/:placeId/story" element={<PlaceStory />} />
-      <Route path="/place/:placeId/quiz" element={<PlaceQuiz />} />
-      <Route path="/place/:placeId/clue" element={<PlaceClue />} />
-      <Route path="/place/:placeId/note" element={<PlaceNote />} />
-      <Route path="/collection" element={<Collection />} />
-      <Route path="/ranking" element={<Ranking />} />
-      <Route path="/reset" element={<Reset />} />
-      <Route path="/demo" element={<Demo />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <Bgm />
+      <Routes>
+        <Route path="/" element={<Splash />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/nickname" element={<Nickname />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/episode/:episodeId" element={<EpisodeDetail />} />
+        <Route path="/episode/:episodeId/intro" element={<EpisodeIntro />} />
+        <Route path="/episode/:episodeId/map" element={<ExploreMap />} />
+        <Route path="/episode/:episodeId/secret" element={<EpisodeSecret />} />
+        <Route path="/episode/:episodeId/complete" element={<EpisodeComplete />} />
+        <Route path="/map" element={<MapHome />} />
+        <Route path="/place/:placeId" element={<PlaceCheckIn />} />
+        <Route path="/place/:placeId/story" element={<PlaceStory />} />
+        <Route path="/place/:placeId/quiz" element={<PlaceQuiz />} />
+        <Route path="/place/:placeId/clue" element={<PlaceClue />} />
+        <Route path="/place/:placeId/note" element={<PlaceNote />} />
+        <Route path="/collection" element={<Collection />} />
+        <Route path="/ranking" element={<Ranking />} />
+        <Route path="/reset" element={<Reset />} />
+        <Route path="/demo" element={<Demo />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
