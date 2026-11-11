@@ -39,25 +39,20 @@ function saveMuted(muted: boolean) {
   }
 }
 
-/**
- * 짧은 효과음. 배경음악을 꺼 둔 사람에게는 내지 않는다.
- * 터치 전이라 브라우저가 막으면 false로 끝난다 (Promise<boolean>: 재생됐는지)
- */
-export function playEffect(src: string, volume = 0.6): Promise<boolean> {
-  if (readMuted()) return Promise.resolve(true);
-  const sfx = new Audio(src);
-  sfx.volume = volume;
-  return sfx.play().then(
-    () => true,
-    () => false,
-  );
-}
-
 // 화면이 바뀌어도 소리가 끊기지 않게 오디오는 하나만 둔다
 let audio: HTMLAudioElement | null = null;
 let current: Track | null = null;
 let unlocked = false;
+
+/*
+ * 실제 음량 = level(곡 전환 페이드, 0 ~ VOLUME) × duck(효과음 동안 0, 평소 1).
+ * 둘을 따로 움직여서, 곡이 바뀌는 중에 효과음이 나와도 서로의 페이드를 끊지 않는다.
+ */
+let level = VOLUME;
+let duck = 1;
 let fadeTimer: number | undefined;
+let duckTimer: number | undefined;
+let activeEffects = 0;
 
 function getAudio() {
   if (!audio) {
@@ -69,19 +64,87 @@ function getAudio() {
   return audio;
 }
 
-function fadeTo(target: number, done?: () => void) {
-  const a = getAudio();
-  window.clearInterval(fadeTimer);
-  fadeTimer = window.setInterval(() => {
-    const next = a.volume + Math.sign(target - a.volume) * 0.05;
-    if (Math.abs(target - a.volume) <= 0.05) {
-      a.volume = target;
-      window.clearInterval(fadeTimer);
+const applyVolume = () => {
+  getAudio().volume = Math.min(1, Math.max(0, level * duck));
+};
+
+/** 일정 간격으로 value를 target까지 옮긴다 */
+function animate(
+  timer: number | undefined,
+  get: () => number,
+  set: (v: number) => void,
+  target: number,
+  step: number,
+  done?: () => void,
+) {
+  window.clearInterval(timer);
+  const id = window.setInterval(() => {
+    const v = get();
+    if (Math.abs(target - v) <= step) {
+      set(target);
+      window.clearInterval(id);
       done?.();
     } else {
-      a.volume = Math.min(1, Math.max(0, next));
+      set(v + Math.sign(target - v) * step);
     }
-  }, 40);
+  }, 30);
+  return id;
+}
+
+function fadeTo(target: number, done?: () => void) {
+  fadeTimer = animate(
+    fadeTimer,
+    () => level,
+    (v) => {
+      level = v;
+      applyVolume();
+    },
+    target,
+    0.04,
+    done,
+  );
+}
+
+function duckTo(target: number) {
+  duckTimer = animate(
+    duckTimer,
+    () => duck,
+    (v) => {
+      duck = v;
+      applyVolume();
+    },
+    target,
+    target < duck ? 0.34 : 0.08, // 줄일 때는 0.1초 안에, 돌아올 때는 0.4초쯤 천천히
+  );
+}
+
+/**
+ * 짧은 효과음. 배경음악을 꺼 둔 사람에게는 내지 않는다.
+ * 효과음이 나는 동안 배경음악을 잠깐 줄였다가, 끝나면 다시 올린다.
+ * 터치 전이라 브라우저가 막으면 false로 끝난다 (Promise<boolean>: 재생됐는지)
+ */
+export function playEffect(src: string, volume = 0.6): Promise<boolean> {
+  if (readMuted()) return Promise.resolve(true);
+  const sfx = new Audio(src);
+  sfx.volume = volume;
+  activeEffects += 1;
+  duckTo(0);
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    activeEffects = Math.max(0, activeEffects - 1);
+    if (activeEffects === 0) duckTo(1);
+  };
+  sfx.addEventListener("ended", finish);
+  sfx.addEventListener("error", finish);
+  return sfx.play().then(
+    () => true,
+    () => {
+      finish();
+      return false;
+    },
+  );
 }
 
 function play(track: Track) {
@@ -91,7 +154,8 @@ function play(track: Track) {
       a.src = TRACKS[track];
       current = track;
     }
-    a.volume = 0;
+    level = 0;
+    applyVolume();
     a.play().then(() => fadeTo(VOLUME)).catch(() => {});
   };
   if (current && current !== track && !a.paused) fadeTo(0, start);
