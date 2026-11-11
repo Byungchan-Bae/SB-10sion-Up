@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { MobileFrame } from "../components/MobileFrame";
 import { Stage } from "../components/Stage";
 import { TabBar } from "../components/TabBar";
-import { COMING_SOON_EPISODES, EPISODES, placeName } from "../data/episodes";
+import { EPISODES, placeName } from "../data/episodes";
 import { hasAllClues, useProgress } from "../lib/progress";
 import { CollectionCoupons } from "./CollectionCoupons";
 import styles from "./Collection.module.css";
@@ -15,10 +15,9 @@ import styles from "./Collection.module.css";
 export default function Collection() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
-  // 에피소드가 늘어나면 고르는 목록에 자동으로 나온다 (?ep=에피소드 id). 없으면 첫 에피소드
+  // 에피소드 고르기 메뉴는 없앰: 지금은 EP.01을 바로 보여 준다 (?ep=에피소드 id 링크는 그대로 받음)
   const episode = EPISODES.find((e) => e.id === params.get("ep")) ?? EPISODES[0];
   const progress = useProgress(episode.id);
-  const [picking, setPicking] = useState(false);
   // 쿠폰 창은 탭바까지 덮도록 Stage overlay 안의 이 칸에 그린다
   const [overlayHost, setOverlayHost] = useState<HTMLDivElement | null>(null);
   const showCoupons = params.get("tab") === "coupons";
@@ -27,7 +26,6 @@ export default function Collection() {
       { ...(coupons ? { tab: "coupons" } : {}), ...(episodeId !== EPISODES[0].id ? { ep: episodeId } : {}) },
       { replace: true },
     );
-  const count = episode.places.filter((p) => progress.clues.includes(p.id)).length;
 
   const tab = (label: string, coupons: boolean) => (
     <button
@@ -68,17 +66,7 @@ export default function Collection() {
               </svg>
               에피소드
             </p>
-            <button
-              type="button"
-              className={styles.episodePicker}
-              aria-haspopup="listbox"
-              aria-expanded={picking}
-              aria-label={`에피소드: ${episode.title} (단서 ${count} / ${episode.places.length})`}
-              onClick={() => setPicking((open) => !open)}
-            >
-              {episode.title}
-              <span className={styles.chevron} aria-hidden="true" />
-            </button>
+            <h2 className={styles.episodeTitle}>{episode.title}</h2>
             <img className={styles.mascot} src="/assets/collection-mascot.webp" alt="" draggable={false} />
 
             <ul className={styles.grid}>
@@ -122,36 +110,6 @@ export default function Collection() {
           </>
         )}
 
-        {picking && !showCoupons && (
-          <>
-            <button type="button" className={styles.episodeBack} aria-label="닫기" onClick={() => setPicking(false)} />
-            <ul className={styles.episodeMenu} role="listbox" aria-label="에피소드">
-              {EPISODES.map((e) => (
-                <li key={e.id} role="option" aria-selected={e.id === episode.id}>
-                  <button
-                    type="button"
-                    className={e.id === episode.id ? styles.episodeOn : styles.episodeItem}
-                    onClick={() => {
-                      go(showCoupons, e.id);
-                      setPicking(false);
-                    }}
-                  >
-                    <span className={styles.badge}>{e.badge}</span>
-                    {e.title}
-                  </button>
-                </li>
-              ))}
-              {COMING_SOON_EPISODES.map((e) => (
-                <li key={e.badge} role="option" aria-selected={false} aria-disabled={true}>
-                  <span className={styles.episodeSoon}>
-                    <span className={styles.badge}>{e.badge}</span>
-                    공개 예정
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
       </Stage>
     </MobileFrame>
   );
