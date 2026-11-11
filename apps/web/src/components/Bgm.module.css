@@ -1,0 +1,27 @@
+/* 배경음악 켜기/끄기. 앱 틀 오른쪽 위, BackButton(위 61)과 같은 높이 */
+.toggle {
+  position: fixed;
+  top: calc(59px + env(safe-area-inset-top, 0px));
+  right: max(16px, calc((100vw - var(--app-max-width)) / 2 + 16px));
+  z-index: 40;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 16px;
+  color: #ff9019;
+  background: rgb(255 255 255 / 0.8);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  cursor: pointer;
+}
+.toggle[aria-pressed="false"] {
+  color: #a0a0a0;
+}
+/* 손가락으로 누르기 쉽게 터치 영역만 넓힘 */
+.toggle::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
