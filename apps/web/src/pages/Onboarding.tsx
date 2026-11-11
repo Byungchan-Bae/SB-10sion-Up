@@ -10,10 +10,11 @@ const LEAVE_MS = 250;
 
 const DESCRIPTION = "성북동의 유서 깊은 장소를 직접 걸으며\n미스터리를 해결하는 야외 방탈출게임이에요";
 
+// 가족과를 맨 앞에 둔다 (각 장의 문구 · 그림 · 색은 그대로)
 const SLIDES = [
+  { title: "가족과", subtitle: "성북의 역사 속\n이야기를 온 가족이 함께!", image: "onboarding-family.webp", tone: "blue" },
   { title: "친구와", subtitle: "성북의 역사 속\n이야기를 탐험해요!", image: "onboarding-friends.webp", tone: "orange" },
   { title: "연인과", subtitle: "성북의 역사 속\n이야기를 특별한 데이트로!", image: "onboarding-couple.webp", tone: "green" },
-  { title: "가족과", subtitle: "성북의 역사 속\n이야기를 온 가족이 함께!", image: "onboarding-family.webp", tone: "blue" },
 ] as const;
 
 export default function Onboarding() {
