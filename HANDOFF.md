@@ -4,12 +4,13 @@
 
 ## 현재 작업
 
-- 브랜치: `feat/splash-bubble` (스플래시 비눗방울 효과음). 남은 일은 아래 "다음 할 일"
+- 브랜치: `feat/sfx-stamp-quiz` (도장 · 정답 효과음). 남은 일은 아래 "다음 할 일"
 - 작업자: Byungchan-Bae, 양원우 + Claude Code
 - 마지막 갱신: 2026-11-11 (배경음악, Byungchan-Bae + Claude)
 
 ## 끝난 것
 
+- 효과음: 홈 완료 도장(`stamp.mp3`) — 완주 후 홈에 처음 왔을 때만 도장이 위에서 쾅 찍히는 애니메이션과 함께 재생(localStorage `sb-treasure:clear-stamp-shown:<에피소드>`). 퀴즈 정답(`correct.mp3`) — 문제 1 · 2 정답 시 재생. 남은 효과음: 단서 발견, 수집 완료 뱃지(동전)
 - 스플래시 효과음(`public/audio/bubble-pop.mp3`, `Bgm.tsx`의 `playEffect`): 화면이 뜨자마자 재생 시도. 터치 전 소리를 브라우저가 막으면(대부분의 첫 방문) 스플래시 첫 터치 때 재생. 배경음악을 꺼 둔 사람에게는 안 남
 - 배경음악(`components/Bgm.tsx`, `public/audio/`): 기본은 Carefree, 에피소드 시작 후(인트로 · 탐방 지도 · 장소)는 Sneaky Snitch, 마무리(밝혀진 비밀 · 수집 완료)는 Easy Lemon. 브라우저 자동재생 제한 때문에 첫 터치에 재생 시작, 곡 바뀔 때 페이드, 앱을 벗어나면 멈춤. 오른쪽 위 🔊 버튼으로 끄기(localStorage `sb-treasure:bgm-muted`). 곡: Kevin MacLeod (incompetech.com), CC BY 4.0 — 출처 표기 필요(현재는 버튼 title에만 있음). mp3가 각 5~6MB라 압축하면 좋음
 - Turborepo + React + TypeScript + Vite 기본 구조, Vercel 자동 배포 (https://sb-10sion-up.vercel.app)
