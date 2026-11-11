@@ -278,10 +278,16 @@
   margin: 0;
   padding: 0 0 4px;
   overflow-y: auto;
+  /* 스크롤은 되지만 스크롤 막대는 숨김 (PC · 일부 안드로이드에서 막대가 카드 옆에 보였음) */
+  scrollbar-width: none;
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
 }
 
 .row,
